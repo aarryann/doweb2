@@ -1,0 +1,70 @@
+{
+  "name": "doweb2",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "apollo-boost": "^0.1.20",
+    "apollo-link-schema": "^1.1.1",
+    "apollo-link-ws": "^1.0.9",
+    "bcryptjs": "^2.4.3",
+    "bootstrap": "^4.1.3",
+    "classnames": "^2.2.6",
+    "font-awesome": "^4.7.0",
+    "graphql": "^14.0.2",
+    "graphql-tools": "^4.0.3",
+    "jwt-decode": "^2.2.0",
+    "node-sass-chokidar": "^1.3.3",
+    "npm-run-all": "^4.1.3",
+    "phoenix": "^1.3.4",
+    "prop-types": "^15.6.2",
+    "react": "^16.7.0-alpha.0",
+    "react-apollo": "^2.1.11",
+    "react-dom": "^16.7.0-alpha.0",
+    "react-page-click": "^4.0.2",
+    "react-router-dom": "^4.3.1",
+    "subscriptions-transport-ws": "^0.9.14"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.1",
+    "@types/classnames": "^2.2.6",
+    "@types/graphql": "^14.0.3",
+    "@types/isomorphic-fetch": "^0.0.34",
+    "@types/jest": "^23.3.9",
+    "@types/jwt-decode": "^2.2.1",
+    "@types/lodash": "^4.14.118",
+    "@types/node": "^10.12.5",
+    "@types/phoenix": "^0.0.4",
+    "@types/react": "^16.7.2",
+    "@types/react-dom": "^16.0.9",
+    "@types/react-router-dom": "^4.3.0",
+    "@types/ws": "^6.0.0",
+    "chai": "^4.2.0",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.5.0",
+    "enzyme-to-json": "^3.3.4",
+    "eslint-plugin-react": "^7.11.1",
+    "json-loader": "^0.5.7",
+    "node-sass": "^4.10.0",
+    "react-addons-test-utils": "^15.6.2",
+    "react-scripts": "2.1.1",
+    "react-test-renderer": "^16.7.0-alpha.0",
+    "sinon": "^7.1.1",
+    "typescript": "^3.1.6",
+    "yaml-loader": "^0.5.0"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

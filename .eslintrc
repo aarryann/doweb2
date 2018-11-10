@@ -1,0 +1,58 @@
+{
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true,
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "env": {
+    "es6": true,
+    "jest": true
+  },
+  "plugins": ["react"],
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "rules": {
+    "strict": [2, "never"],
+    "react/jsx-uses-react": 2,
+    "react/jsx-uses-vars": 2,
+    "react/react-in-jsx-scope": 2,
+    "no-var": "error",
+    "no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "args": "after-used",
+        "argsIgnorePattern": "^_",
+        "ignoreRestSiblings": true
+      }
+    ],
+    "no-console": "off",
+    "no-debugger": "off",
+    "no-unexpected-multiline": "warn",
+    "no-alert": "off",
+    "comma-spacing": [2, { "before": false, "after": true }],
+    "jsx-a11y/href-no-hash": "off"
+  },
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "15.6.1"
+    }
+  },
+  "globals": {
+    "Promise": true,
+    "alert": true,
+    "global": true,
+    "window": true,
+    "document": true,
+    "process": true,
+    "module": true,
+    "console": true,
+    "sessionStorage": true,
+    "localStorage": true
+  }
+}
