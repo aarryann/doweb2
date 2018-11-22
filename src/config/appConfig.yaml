@@ -4,21 +4,20 @@
 
 # Views
 ListCases: &list_cases
-  scheme: SingleFrame
+  scheme: Waterfall
   children:
     '0000':
       component: ListComponent
-      width: col12
       props:
         title: My Lists
       data:
     '0100':
       component: ListComponent
-      width: col12
       props:
         title: My Lists
       data:
 
 # Landing
 '00': *list_cases
+'/': *list_cases
 ... # document end

@@ -121,14 +121,7 @@ class App extends React.Component<any, any> {
       return false;
     }
 
-    return (
-      <Header
-        handleSignOut={this._handleSignOut}
-        handleSearchTermChange={this._handleSearchTermChange}
-        searchTerm=""
-        {...this.props}
-      />
-    );
+    return <Header handleSignOut={this._handleSignOut} {...this.props} />;
   }
 }
 

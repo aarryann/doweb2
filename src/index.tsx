@@ -16,7 +16,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import * as serviceWorker from './serviceWorker';
 
-import App from './app/Entry';
+import App from './app/App';
 
 import './assets/css/index.css';
 declare const process: IProcess;
