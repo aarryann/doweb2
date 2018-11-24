@@ -7,12 +7,12 @@ ListCases: &list_cases
   scheme: Waterfall
   children:
     '0000':
-      component: ListComponent
+      component: ExampleFunctionComponent
       props:
         title: My Lists
       data:
     '0100':
-      component: ListComponent
+      component: TextField
       props:
         title: My Lists
       data:
