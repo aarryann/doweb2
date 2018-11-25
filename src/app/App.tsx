@@ -5,12 +5,12 @@ import React, { Suspense, lazy } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import { routePaths } from '../config/paths';
-import Header from '../components/framework/Header';
+import Header from './Header';
 
 declare const process: IProcess;
 
 const Loading = <div>...loading</div>;
-const AsyncContainer = lazy(() => import('./Container'));
+const AsyncContainer = lazy(() => import('./ContainerLoader'));
 const AsyncRegister = lazy(() => import('../scenes/session/SignIn.manager'));
 const AsyncLogin = lazy(() => import('../scenes/session/SignIn.manager'));
 

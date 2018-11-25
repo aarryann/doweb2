@@ -5,7 +5,7 @@ import React, { lazy } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { routePaths } from '../../config/paths';
-import Header from '../../components/framework/Header';
+import Header from '../../app/Header';
 
 declare const process: IProcess;
 const isAuthenticated = () => {

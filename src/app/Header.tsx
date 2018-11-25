@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import labels from '../../config/labels.en';
-import { routePaths } from '../../config/paths';
+import labels from '../config/labels.en';
+import { routePaths } from '../config/paths';
 
-import './Header.css';
+import './Header.scss';
 
 interface IHeaderProps {
   handleSignOut(): void;
