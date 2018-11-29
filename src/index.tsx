@@ -18,7 +18,7 @@ import * as serviceWorker from './serviceWorker';
 
 import App from './app/App';
 
-import './assets/css/index.css';
+import './assets/css/index.scss';
 declare const process: IProcess;
 
 if (process.env.NODE_ENV !== 'production') {
