@@ -1,0 +1,34 @@
+@import "../../assets/css/global/mixin";
+@import "../../assets/css/global/settings";
+
+.boards-wrapper{ 
+  $margin: 1em ;
+
+  @include flexbox;
+  @include flex-flow (row wrap);
+  margin: 0 $margin/2.5 $margin $margin/2.5;
+
+  .board{
+    @include flex (0 0 24.4%);
+    margin: 0 $margin/5 $margin/2.5 $margin/5;
+    cursor: pointer;
+
+    .inner{
+      background: rgba($light-gray, .9);
+      animation-duration: .3s;
+      animation-name: fadeIn;
+    }
+  }
+
+    .add-new{
+      .inner{
+        background: rgba(#000, .1);
+        cursor: pointer;
+        color: $gray;
+
+        :hover{
+          background: rgba(#000, .2);
+        }
+      }
+    }
+}

@@ -9,15 +9,23 @@ ListCases: &list_cases
     '0000':
       component: ExampleFunctionComponent
       props:
-        title: My Lists
-      data:
+        title: My cases
+      dataSource:
     '0100':
       component: TextField
       props:
-        title: My Lists
-      data:
+        title: My text
+      dataSource:
+ListBoards: &list_boards
+  scheme: Waterfall
+  children:
+    '0000':
+      componentSource: List.component
+      props:
+        title: My Boards
+      dataSource: useSubscriptionBoard
 
 # Landing
-'00': *list_cases
-'/': *list_cases
+'00': *list_boards
+'/cases': *list_cases
 ... # document end
