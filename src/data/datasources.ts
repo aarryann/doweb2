@@ -3,6 +3,7 @@ import { queries, subscriptions } from './queries.board';
 
 export const useSubscriptionBoard = (client: any) => {
   const [boards, setBoards] = useState([]);
+  const [fetching, setFetch] = useState(true);
 
   useEffect(() => {
     const unsub = client
@@ -19,6 +20,7 @@ export const useSubscriptionBoard = (client: any) => {
             query: queries.fetchBoards,
             data
           });
+          setFetch(false);
         }
       });
 
@@ -35,9 +37,10 @@ export const useSubscriptionBoard = (client: any) => {
       .subscribe({
         next({ data }: { data: any }) {
           setBoards(data);
+          setFetch(false);
         }
       });
   }, []);
 
-  return boards;
+  return [boards, fetching];
 };

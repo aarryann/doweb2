@@ -10,7 +10,7 @@ import Header from './Header';
 declare const process: IProcess;
 
 const Loading = <div>...loading</div>;
-const AsyncContainer = lazy(() => import('./ContainerLoader'));
+const AsyncContainer = lazy(() => import('./ViewLoader'));
 const AsyncRegister = lazy(() => import('../scenes/session/SignIn.manager'));
 const AsyncLogin = lazy(() => import('../scenes/session/SignIn.manager'));
 

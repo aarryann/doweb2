@@ -4,7 +4,7 @@ import ListComponent from './List.component';
 import CardComponent from './Card.component';
 import CardFormComponent from './CardForm.component';
 
-const Controls = {
+const Controlled = {
   TextField,
   ExampleFunctionComponent,
   ListComponent,
@@ -12,4 +12,4 @@ const Controls = {
   CardFormComponent
 };
 
-export default Controls;
+export default Controlled;

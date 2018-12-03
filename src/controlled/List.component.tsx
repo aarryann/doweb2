@@ -2,7 +2,6 @@ import classnames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
 import labels from '../config/labels.en';
-import { IBoard } from '../pipes/boards/interfaces.board';
 import BoardCard from './Card.component';
 import BoardForm from './CardForm.component';
 
@@ -10,12 +9,14 @@ import './List.component.scss';
 
 interface IListComponentProps {
   dataSource: any;
+  fetching: any;
 }
 
 export default function ListComponent(props: IListComponentProps) {
   const [showForm, setShowForm] = useState(false);
-  const { dataSource } = props;
-  const fetching = false;
+  let { fetching, dataSource } = props;
+  if (dataSource.currentUser)
+    dataSource = dataSource.currentUser.user.ownedBoards;
   useDocumentTitle(labels.boards.title);
 
   let content = null;
@@ -49,8 +50,8 @@ export default function ListComponent(props: IListComponentProps) {
     </div>
   );
 
-  function renderBoards(boards: IBoard[]) {
-    return boards.map((board: IBoard) => {
+  function renderBoards(boards: any[]) {
+    return boards.map((board: any) => {
       return (
         <BoardCard
           key={board.id}

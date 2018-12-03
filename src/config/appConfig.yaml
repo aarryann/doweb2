@@ -5,6 +5,7 @@
 # Views
 ListCases: &list_cases
   scheme: Waterfall
+  mode: Generated
   children:
     '0000':
       component: ExampleFunctionComponent
@@ -17,10 +18,11 @@ ListCases: &list_cases
         title: My text
       dataSource:
 ListBoards: &list_boards
+  generator: ListBoards
   scheme: Waterfall
   children:
     '0000':
-      componentSource: List.component
+      component: ListComponent
       props:
         title: My Boards
       dataSource: useSubscriptionBoard
@@ -28,4 +30,5 @@ ListBoards: &list_boards
 # Landing
 '00': *list_boards
 '/cases': *list_cases
+'/': *list_boards
 ... # document end
