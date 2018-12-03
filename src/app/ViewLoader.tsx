@@ -17,8 +17,11 @@ function ViewLoader(props: any) {
     ];
   else
     LoadedComponent = (Controlled as any).default[
-      matchedConfig.component + 'Component'
+      matchedConfig.controller + 'Component'
     ];
+
+  console.log(props);
+  console.log(matchedConfig);
   return <LoadedComponent {...props} {...matchedConfig} />;
 }
 

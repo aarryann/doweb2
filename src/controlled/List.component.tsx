@@ -9,10 +9,12 @@ import './List.component.scss';
 
 interface IListComponentProps {
   dataSource: any;
-  fetching: any;
+  fetching: boolean;
+  title: string;
 }
 
 export default function ListComponent(props: IListComponentProps) {
+  console.log(props);
   const [showForm, setShowForm] = useState(false);
   let { fetching, dataSource } = props;
   if (dataSource.currentUser)
@@ -42,7 +44,7 @@ export default function ListComponent(props: IListComponentProps) {
       <section id="myBoards">
         <header className="view-header">
           <h3>
-            <i className={iconClasses} /> My lists
+            <i className={iconClasses} /> {props.title}
           </h3>
         </header>
         {content}

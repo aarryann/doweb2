@@ -4,6 +4,7 @@
 
 # Views
 ListCases: &list_cases
+  controller: ListCases
   scheme: Waterfall
   mode: Generated
   children:

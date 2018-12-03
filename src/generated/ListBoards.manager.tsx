@@ -7,13 +7,21 @@ import { IManagerProps } from '../controlled/interfaces';
 import ListComponent from '../controlled/List.component';
 
 export default function ListBoardsManager(props: IManagerProps) {
-  const [data, fetching] = DataSources.useSubscriptionBoard(props.client);
-  console.log(data);
-  console.log(fetching);
+  const [data0000, fetching0000] = DataSources.useSubscriptionBoard(
+    props.client
+  );
+  console.log(data0000);
+  console.log(fetching0000);
+  const props0000 = props.children['0000'].props;
+  console.log(props0000);
 
   return (
     <>
-      <ListComponent fetching={fetching} dataSource={data} />
+      <ListComponent
+        fetching={fetching0000}
+        dataSource={data0000}
+        {...props0000}
+      />
     </>
   );
 }
