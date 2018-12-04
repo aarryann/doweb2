@@ -2,7 +2,7 @@ import React from 'react';
 import { IBoard } from '../pipes/boards/interfaces.board';
 
 interface IBoardCardProps extends IBoard {
-  handleViewBoard(boardId: number): void;
+  dispatch(action: string, payload: any): void;
 }
 
 export default class BoardCard extends React.Component<IBoardCardProps, any> {
@@ -27,6 +27,6 @@ export default class BoardCard extends React.Component<IBoardCardProps, any> {
   }
 
   public _handleViewBoard() {
-    this.props.handleViewBoard(this.props.id);
+    this.props.dispatch('viewBoard', this.props.id);
   }
 }

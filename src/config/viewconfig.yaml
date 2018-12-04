@@ -27,12 +27,15 @@ ListBoards: &list_boards
       props:
         title: My Boards
         addNew: true
-      dataSource: useSubscriptionOwnBoard
+      dataSource: useSubOwnBoard
+      dispatch:
+        createBoard: createBoard
+        viewBoard: viewBoard
     '0100':
       component: ListComponent
       props:
         title: Other Boards
-      dataSource: useSubscriptionOtherBoard
+      dataSource: useSubOtherBoard
 
 # Landing
 '00': *list_boards

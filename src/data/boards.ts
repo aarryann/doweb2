@@ -5,7 +5,7 @@ import { queries, subscriptions } from './queries.board';
 /*
  ** Subscribe to Own Boards
  */
-export const useSubscriptionOwnBoard = (client: any) => {
+export const useSubOwnBoard = (client: any) => {
   const [boards, setBoards]: [any, any] = useState([]);
   const [fetching, setFetching] = useState(true);
 
@@ -65,9 +65,19 @@ export const useSubscriptionOwnBoard = (client: any) => {
 };
 
 /*
+ ** Create Board
+ */
+export const createBoard = (payload: any) => {};
+
+/*
+ ** View Board
+ */
+export const viewBoard = (payload: any) => {};
+
+/*
  ** Subscribe to Other Boards
  */
-export const useSubscriptionOtherBoard = (client: any) => {
+export const useSubOtherBoard = (client: any) => {
   const [boards, setBoards]: [any, any] = useState([]);
   const [fetching, setFetching] = useState(true);
 

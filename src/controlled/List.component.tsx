@@ -10,6 +10,7 @@ import './List.component.scss';
 interface IListComponentProps {
   dataSource: any;
   fetching: boolean;
+  dispatch(action: string, payload: any): void;
   title: string;
   addNew: boolean;
 }
@@ -52,13 +53,7 @@ export default function ListComponent(props: IListComponentProps) {
 
   function renderBoards(boards: any[]) {
     return boards.map((board: any) => {
-      return (
-        <BoardCard
-          key={board.id}
-          handleViewBoard={handleViewBoard}
-          {...board}
-        />
-      );
+      return <BoardCard key={board.id} dispatch={props.dispatch} {...board} />;
     });
   }
 
@@ -73,7 +68,7 @@ export default function ListComponent(props: IListComponentProps) {
 
     return (
       <BoardForm
-        handleCreateBoard={handleCreateBoard}
+        dispatch={props.dispatch}
         errors={errors}
         handleFormCancel={handleFormCancel}
       />

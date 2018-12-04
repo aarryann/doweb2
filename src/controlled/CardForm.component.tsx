@@ -6,7 +6,7 @@ import { renderErrorsFor } from '../services/utils/component.helpers';
 interface IBoardFormProps {
   errors: any;
   handleFormCancel(): void;
-  handleCreateBoard(data: Partial<IBoard>): void;
+  dispatch(action: string, payload: any): void;
 }
 
 export default class BoardForm extends React.Component<IBoardFormProps, any> {
@@ -71,7 +71,7 @@ export default class BoardForm extends React.Component<IBoardFormProps, any> {
       name: boardName
     };
 
-    this.props.handleCreateBoard(data);
+    this.props.dispatch('createBoard', data);
   }
 
   public _handleFormCancel(e: any) {
