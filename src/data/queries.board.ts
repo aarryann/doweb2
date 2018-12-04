@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const queries = {
-  fetchBoards: gql`
+  getOwnBoards: gql`
     query {
       currentUser {
         user {
@@ -9,6 +9,14 @@ export const queries = {
             id
             name
           }
+        }
+      }
+    }
+  `,
+  getOtherBoards: gql`
+    query {
+      currentUser {
+        user {
           otherBoards {
             id
             name

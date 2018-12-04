@@ -11,14 +11,13 @@ interface IListComponentProps {
   dataSource: any;
   fetching: boolean;
   title: string;
+  addNew: boolean;
 }
 
 export default function ListComponent(props: IListComponentProps) {
   console.log(props);
   const [showForm, setShowForm] = useState(false);
   let { fetching, dataSource } = props;
-  if (dataSource.currentUser)
-    dataSource = dataSource.currentUser.user.ownedBoards;
   useDocumentTitle(labels.boards.title);
 
   let content = null;
@@ -34,7 +33,7 @@ export default function ListComponent(props: IListComponentProps) {
     content = (
       <div className="boards-wrapper">
         {renderBoards(dataSource)}
-        {renderAddNewBoard()}
+        {renderAddNewBoard(props.addNew)}
       </div>
     );
   }
@@ -64,7 +63,8 @@ export default function ListComponent(props: IListComponentProps) {
     });
   }
 
-  function renderAddNewBoard() {
+  function renderAddNewBoard(add: boolean) {
+    if (!add) return;
     // const { errors } = props;
     const errors = null;
 
