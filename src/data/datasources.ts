@@ -1,47 +1,62 @@
+// tslint:disable
 import { useEffect, useState } from 'react';
 import { queries, subscriptions } from './queries.board';
 
+/*
+ ** Subscribe to Own Boards
+ */
 export const useSubscriptionOwnBoard = (client: any) => {
   const [boards, setBoards]: [any, any] = useState([]);
   const [fetching, setFetching] = useState(true);
 
+  // Subscribe to new boards
   useEffect(() => {
-    const unsub = client
+    const sub = client
       .subscribe({
         query: subscriptions.createBoard
       })
       .subscribe({
         next(boardData: any) {
-          // tslint:disable-next-line
+          // Write new boards to Apollo client cache
           const data = client.readQuery({ query: queries.getOwnBoards });
           data.currentUser.user.ownedBoards.push(boardData.data.boardCreated);
           client.writeQuery({
             query: queries.getOwnBoards,
             data
           });
-          setFetching(false);
         }
       });
 
     return () => {
-      unsub.unsubscribe();
+      sub.unsubscribe();
     };
   }, []);
 
+  // Watch for updates to Apollo client cache. Uses the default cache-first
+  // client policy, to check Apollo client cache for any data followed by
+  // network/database.
   useEffect(() => {
-    client
+    const sub = client
       .watchQuery({
         query: queries.getOwnBoards
       })
       .subscribe({
         next({ data }: { data: any }) {
+          console.log(data);
+          // Set state data on updates to board data
           setBoards(data);
+          // Set fetching to false, applicable for first time load
           setFetching(false);
         }
       });
+
+    return () => {
+      sub.unsubscribe();
+    };
   }, []);
 
   let data: any = boards;
+  // Extract and pass only owned boards
   if (data.currentUser) {
     data = data.currentUser.user.ownedBoards;
   }
@@ -49,47 +64,60 @@ export const useSubscriptionOwnBoard = (client: any) => {
   return [data, fetching];
 };
 
+/*
+ ** Subscribe to Other Boards
+ */
 export const useSubscriptionOtherBoard = (client: any) => {
   const [boards, setBoards]: [any, any] = useState([]);
   const [fetching, setFetching] = useState(true);
 
+  // Subscribe to new boards
   useEffect(() => {
-    const unsub = client
+    const sub = client
       .subscribe({
         query: subscriptions.createBoard
       })
       .subscribe({
         next(boardData: any) {
-          // tslint:disable-next-line
+          // Write new boards to Apollo client cache
           const data = client.readQuery({ query: queries.getOtherBoards });
           data.currentUser.user.otherBoards.push(boardData.data.boardCreated);
           client.writeQuery({
             query: queries.getOtherBoards,
             data
           });
-          setFetching(false);
         }
       });
 
     return () => {
-      unsub.unsubscribe();
+      sub.unsubscribe();
     };
   }, []);
 
+  // Watch for updates to Apollo client cache. Uses the default cache-first
+  // client policy, to check Apollo client cache for any data followed by
+  // network/database.
   useEffect(() => {
-    client
+    const sub = client
       .watchQuery({
         query: queries.getOtherBoards
       })
       .subscribe({
         next({ data }: { data: any }) {
+          // Set state data on updates to board data
           setBoards(data);
+          // Set fetching to false, applicable for first time load
           setFetching(false);
         }
       });
+
+    return () => {
+      sub.unsubscribe();
+    };
   }, []);
 
   let data: any = boards;
+  // Extract and pass only owned boards
   if (data.currentUser) {
     data = data.currentUser.user.otherBoards;
   }

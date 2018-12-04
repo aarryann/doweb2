@@ -15,7 +15,6 @@ interface IListComponentProps {
 }
 
 export default function ListComponent(props: IListComponentProps) {
-  console.log(props);
   const [showForm, setShowForm] = useState(false);
   let { fetching, dataSource } = props;
   useDocumentTitle(labels.boards.title);

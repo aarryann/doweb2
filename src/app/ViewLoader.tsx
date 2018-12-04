@@ -3,7 +3,7 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 
-import appConfig from '../config/appconfig.yaml';
+import appConfig from '../config/viewconfig.yaml';
 import * as Controlled from '../controlled';
 import * as Generated from '../generated';
 
@@ -20,8 +20,8 @@ function ViewLoader(props: any) {
       matchedConfig.controller + 'Component'
     ];
 
-  console.log(props);
-  console.log(matchedConfig);
+  // console.log(props);
+  // console.log(matchedConfig);
   return <LoadedComponent {...props} {...matchedConfig} />;
 }
 
