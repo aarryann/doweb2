@@ -6,8 +6,10 @@ import { queries, subscriptions } from './queries.board';
  ** Subscribe to Own Boards
  */
 export const useSubOwnBoard = (client: any) => {
-  const [boards, setBoards]: [any, any] = useState([]);
-  const [fetching, setFetching] = useState(true);
+  const [results, setResults]: [any, any] = useState({
+    fetching: true,
+    data: []
+  });
 
   // Subscribe to new boards
   useEffect(() => {
@@ -42,11 +44,9 @@ export const useSubOwnBoard = (client: any) => {
       })
       .subscribe({
         next({ data }: { data: any }) {
-          console.log(data);
           // Set state data on updates to board data
-          setBoards(data);
           // Set fetching to false, applicable for first time load
-          setFetching(false);
+          setResults({ data, fetching: false });
         }
       });
 
@@ -55,31 +55,35 @@ export const useSubOwnBoard = (client: any) => {
     };
   }, []);
 
-  let data: any = boards;
+  let filteredResults: any = results;
   // Extract and pass only owned boards
-  if (data.currentUser) {
-    data = data.currentUser.user.ownedBoards;
+  if (results.data.currentUser) {
+    filteredResults.data = results.data.currentUser.user.ownedBoards;
   }
 
-  return [data, fetching];
+  return [filteredResults, setResults];
 };
 
 /*
  ** Create Board
  */
-export const createBoard = (payload: any) => {};
+export const createBoard = (payload: any, results: any, setResults: any) => {};
 
 /*
  ** View Board
  */
-export const viewBoard = (payload: any) => {};
+export const viewBoard = (payload: any, results: any, setResults: any) => {
+  console.log('View clicked ' + payload);
+};
 
 /*
  ** Subscribe to Other Boards
  */
 export const useSubOtherBoard = (client: any) => {
-  const [boards, setBoards]: [any, any] = useState([]);
-  const [fetching, setFetching] = useState(true);
+  const [results, setResults]: [any, any] = useState({
+    fetching: true,
+    data: []
+  });
 
   // Subscribe to new boards
   useEffect(() => {
@@ -115,9 +119,8 @@ export const useSubOtherBoard = (client: any) => {
       .subscribe({
         next({ data }: { data: any }) {
           // Set state data on updates to board data
-          setBoards(data);
           // Set fetching to false, applicable for first time load
-          setFetching(false);
+          setResults({ data, fetching: false });
         }
       });
 
@@ -126,11 +129,11 @@ export const useSubOtherBoard = (client: any) => {
     };
   }, []);
 
-  let data: any = boards;
+  let filteredResults: any = results;
   // Extract and pass only owned boards
-  if (data.currentUser) {
-    data = data.currentUser.user.otherBoards;
+  if (results.data.currentUser) {
+    filteredResults.data = results.data.currentUser.user.otherBoards;
   }
 
-  return [data, fetching];
+  return [filteredResults, setResults];
 };

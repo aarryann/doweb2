@@ -28,14 +28,13 @@ ListBoards: &list_boards
         title: My Boards
         addNew: true
       dataSource: useSubOwnBoard
-      dispatch:
-        createBoard: createBoard
-        viewBoard: viewBoard
+      actions: [createBoard, viewBoard]
     '0100':
       component: ListComponent
       props:
         title: Other Boards
       dataSource: useSubOtherBoard
+      actions: [viewBoard]
 
 # Landing
 '00': *list_boards

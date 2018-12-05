@@ -9,7 +9,6 @@ import './List.component.scss';
 
 interface IListComponentProps {
   dataSource: any;
-  fetching: boolean;
   dispatch(action: string, payload: any): void;
   title: string;
   addNew: boolean;
@@ -17,7 +16,7 @@ interface IListComponentProps {
 
 export default function ListComponent(props: IListComponentProps) {
   const [showForm, setShowForm] = useState(false);
-  let { fetching, dataSource } = props;
+  let { fetching, data } = props.dataSource;
   useDocumentTitle(labels.boards.title);
 
   let content = null;
@@ -32,7 +31,7 @@ export default function ListComponent(props: IListComponentProps) {
   if (!fetching) {
     content = (
       <div className="boards-wrapper">
-        {renderBoards(dataSource)}
+        {renderBoards(data)}
         {renderAddNewBoard(props.addNew)}
       </div>
     );
