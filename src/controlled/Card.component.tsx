@@ -14,11 +14,13 @@ export default class BoardCard extends React.Component<IBoardCardProps, any> {
 
   public render() {
     return (
-      <Link to={`/boards/${this.props.id}`}>
-        <div id={`${this.props.id}`} className="card board">
-          <div className="card-body inner">
-            <h4>{this.props.name}</h4>
-          </div>
+      <Link
+        id={`${this.props.id}`}
+        to={`/boards/${this.props.id}`}
+        className="card board"
+      >
+        <div className="card-body inner">
+          <h4>{this.props.name}</h4>
         </div>
       </Link>
     );
