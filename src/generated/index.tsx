@@ -1,7 +1,9 @@
-import ListBoardsManager from './ListBoards.manager';
+import BoardDetailsMgen from './BoardDetails.mgen';
+import ListBoardsMgen from './ListBoards.mgen';
 
 const Generated = {
-  ListBoardsManager
+  BoardDetailsMgen,
+  ListBoardsMgen
 };
 
 export default Generated;

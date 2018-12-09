@@ -1,7 +1,6 @@
-// tslint:disable
 // tslint:disable:jsx-no-lambda
 import decode from 'jwt-decode';
-import React, { Suspense, lazy } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import { routePaths } from '../config/paths';

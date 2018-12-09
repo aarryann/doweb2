@@ -9,14 +9,14 @@ import './List.component.scss';
 
 interface IListComponentProps {
   dataSource: any;
-  dispatch(action: string, payload: any): void;
   title: string;
   addNew: boolean;
+  dispatch(action: string, payload: any): void;
 }
 
 export default function ListComponent(props: IListComponentProps) {
   const [showForm, setShowForm] = useState(false);
-  let { fetching, data } = props.dataSource;
+  const { fetching, data } = props.dataSource;
   useDocumentTitle(labels.boards.title);
 
   let content = null;
@@ -57,7 +57,9 @@ export default function ListComponent(props: IListComponentProps) {
   }
 
   function renderAddNewBoard(add: boolean) {
-    if (!add) return;
+    if (!add) {
+      return;
+    }
     // const { errors } = props;
     const errors = null;
 
@@ -73,10 +75,6 @@ export default function ListComponent(props: IListComponentProps) {
       />
     );
   }
-
-  function handleViewBoard() {}
-
-  function handleCreateBoard() {}
 
   function renderAddButton() {
     return (

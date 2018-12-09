@@ -1,15 +1,18 @@
-import TextField from './Unit.TextField';
-import ExampleFunctionComponent from './ExampleFunctionComponent';
-import ListComponent from './List.component';
 import CardComponent from './Card.component';
 import CardFormComponent from './CardForm.component';
+import ExampleFunctionComponent from './ExampleFunctionComponent';
+import ListComponent from './List.component';
+import TextField from './Unit.TextField';
+
+import * as Generated from '../generated';
 
 const Controlled = {
-  TextField,
+  CardComponent,
+  CardFormComponent,
   ExampleFunctionComponent,
   ListComponent,
-  CardComponent,
-  CardFormComponent
+  TextField,
+  ...Generated.default
 };
 
 export default Controlled;

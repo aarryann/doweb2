@@ -3,41 +3,52 @@
 # Comments in YAML look like this.
 
 # Views
-ListCases: &list_cases
-  controller: ListCases
-  scheme: Waterfall
-  mode: Generated
-  children:
-    '0000':
-      component: ExampleFunctionComponent
-      props:
-        title: My cases
-      dataSource:
-    '0100':
-      component: TextField
-      props:
-        title: My text
-      dataSource:
-ListBoards: &list_boards
-  generator: ListBoards
-  scheme: Waterfall
-  children:
-    '0000':
-      component: ListComponent
-      props:
-        title: My Boards
-        addNew: true
-      dataSource: useSubOwnBoard
-      actions: [createBoard, viewBoard]
-    '0100':
-      component: ListComponent
-      props:
-        title: Other Boards
-      dataSource: useSubOtherBoard
-      actions: [viewBoard]
+Views:
+  ListCases: &list_cases
+    entity: ListCases
+    category: Component
+    children:
+      '0000':
+        component: ExampleFunctionComponent
+        props:
+          title: My cases
+        dataSource:
+      '0100':
+        component: TextField
+        props:
+          title: My text
+        dataSource:
+  ListBoards: &list_boards
+    entity: ListBoards
+    category: Mgen
+    children:
+      '0000':
+        component: ListComponent
+        props:
+          title: My Boards
+          addNew: true
+        dataSource: useSubOwnBoard
+        actions: [createBoard, viewBoard]
+      '0100':
+        component: ListComponent
+        props:
+          title: Other Boards
+        dataSource: useSubOtherBoard
+        actions: [viewBoard]
+  BoardDetails: &board_details
+    entity: BoardDetails
+    category: Mgen
+    children:
+      '0000':
+        component: ExampleFunctionComponent
+        props:
+          title: Board Details
+        dataSource: useSubBoardDetails
+        actions: [viewBoard]
 
 # Landing
-'00': *list_boards
-'/cases': *list_cases
-'/': *list_boards
+Routes:
+  '/': *list_boards
+  '/cases': *list_cases
+  '/boards/:bid': *board_details
 ... # document end
