@@ -4,15 +4,13 @@ import ExampleFunctionComponent from './ExampleFunctionComponent';
 import ListComponent from './List.component';
 import TextField from './Unit.TextField';
 
-import * as Generated from '../generated';
+import { Generated } from '../generated';
 
-const Controlled = {
+export const Components = {
   CardComponent,
   CardFormComponent,
   ExampleFunctionComponent,
   ListComponent,
   TextField,
-  ...Generated.default
+  ...Generated
 };
-
-export default Controlled;

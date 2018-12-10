@@ -1,9 +1,7 @@
 import BoardDetailsMgen from './BoardDetails.mgen';
 import ListBoardsMgen from './ListBoards.mgen';
 
-const Generated = {
+export const Generated = {
   BoardDetailsMgen,
   ListBoardsMgen
 };
-
-export default Generated;

@@ -1,56 +1,19 @@
-// tslint:disable
 import React from 'react';
 
-import * as Boards from '../data/boards';
+import { Components } from '../controlled';
 import { IManagerProps } from '../controlled/interfaces';
+import { Datasources } from '../data';
 
-import ListComponent from '../controlled/List.component';
-
-export default function ListBoardsManager(props: IManagerProps) {
-  const props0000 = props.children['0000'].props;
-  const props0100 = props.children['0100'].props;
+export default function ListBoardsMgen(props: IManagerProps) {
+  #DECLARE_PROPS#
   // Combine data and fetch into single state
-  const [results0000, setResults0000] = Boards.useSubOwnBoard(props.client);
-  const [results0100, setResults0100] = Boards.useSubOtherBoard(props.client);
+  #DECLARE_DATASOURCE#
 
-  const dispatch0000 = (action: string, payload: any) => {
-    switch (action) {
-      case 'createBoard': {
-        Boards.createBoard(payload, results0000, setResults0000);
-        break;
-      }
-      case 'viewBoard': {
-        Boards.viewBoard(payload, results0000, setResults0000);
-        break;
-      }
-      default: {
-      }
-    }
-  };
-
-  const dispatch0100 = (action: string, payload: any) => {
-    switch (action) {
-      case 'viewBoard': {
-        Boards.viewBoard(payload, results0100, setResults0100);
-        break;
-      }
-      default: {
-      }
-    }
-  };
+  #DECLARE_ACTIONS#
 
   return (
     <>
-      <ListComponent
-        dataSource={results0000}
-        dispatch={dispatch0000}
-        {...props0000}
-      />
-      <ListComponent
-        dataSource={results0100}
-        dispatch={dispatch0100}
-        {...props0100}
-      />
+      #LIST_COMPONENTS#
     </>
   );
 }

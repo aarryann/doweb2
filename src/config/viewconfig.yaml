@@ -27,7 +27,7 @@ Views:
         props:
           title: My Boards
           addNew: true
-        dataSource: useSubOwnBoard
+        dataSource: Boards.useSubOwnBoard
         actions: [createBoard, viewBoard]
       '0100':
         component: ListComponent

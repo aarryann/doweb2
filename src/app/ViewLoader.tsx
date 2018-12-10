@@ -5,7 +5,7 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 
 import appConfig from '../config/viewconfig.yaml';
-import * as Controlled from '../controlled';
+import { Components } from '../controlled';
 
 function ViewLoader(props: any) {
   const path = props.location.pathname;
@@ -48,7 +48,7 @@ function ViewLoader(props: any) {
   const matchedView = appConfig.Routes[template];
   console.log(matchedView);
 
-  const LoadedComponent = (Controlled as any).default[
+  const LoadedComponent = (Components as any)[
     matchedView.entity + matchedView.category
   ];
 

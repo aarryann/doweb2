@@ -2,15 +2,21 @@
 
 const fs = require('fs');
 const readline = require('readline');
+const yaml = require('js-yaml');
 
-import appConfig from './src/config/viewconfig.yaml';
 const readStream = fs.createReadStream('./src/templates/mgen.tpl');
 const writeStream = fs.createWriteStream('./src/out/out.tsx', {
   encoding: 'utf8'
 });
 
-for (let view of appConfig.Views) {
-  console.log(view);
+const appConfig = yaml.safeLoad(
+  fs.readFileSync('./src/config/viewconfig.yaml', 'utf8')
+);
+
+const viewKeys = Object.keys(appConfig.Views);
+
+for (let view of viewKeys) {
+  // console.log(JSON.stringify(appConfig.Views[view], null, 4));
 }
 
 const rl = readline.createInterface({
@@ -19,8 +25,6 @@ const rl = readline.createInterface({
   terminal: false,
   historySize: 0
 });
-
-// console.log(rl);
 
 rl.on('line', line => {
   // console.log(line);
