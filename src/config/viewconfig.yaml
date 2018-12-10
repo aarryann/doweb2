@@ -28,12 +28,12 @@ Views:
           title: My Boards
           addNew: true
         dataSource: Boards.useSubOwnBoard
-        actions: [createBoard, viewBoard]
+        actions: [Boards.createBoard, Boards.viewBoard]
       '0100':
         component: ListComponent
         props:
           title: Other Boards
-        dataSource: useSubOtherBoard
+        dataSource: Boards.useSubOtherBoard
         actions: [viewBoard]
   BoardDetails: &board_details
     entity: BoardDetails
