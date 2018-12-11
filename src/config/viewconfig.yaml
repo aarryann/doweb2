@@ -28,13 +28,16 @@ Views:
           title: My Boards
           addNew: true
         dataSource: Boards.useSubOwnBoard
-        actions: [Boards.createBoard, Boards.viewBoard]
+        actions:
+          createBoard: Boards.createBoard
+          viewBoard: Boards.viewBoard
       '0100':
         component: ListComponent
         props:
           title: Other Boards
         dataSource: Boards.useSubOtherBoard
-        actions: [viewBoard]
+        actions:
+          viewBoard: Boards.viewBoard
   BoardDetails: &board_details
     entity: BoardDetails
     category: Mgen
@@ -43,8 +46,9 @@ Views:
         component: ExampleFunctionComponent
         props:
           title: Board Details
-        dataSource: useSubBoardDetails
-        actions: [viewBoard]
+        dataSource: Boards.useBoardDetails
+        actions:
+          viewBoard: Boards.viewBoard
 
 # Landing
 Routes:

@@ -20,19 +20,34 @@ const parseSyntax = (category, appConfig) => {
     const childrenKeys = Object.keys(viewConfig.children);
     for (let index of childrenKeys) {
       let componentConfig = viewConfig.children[index];
-      parsedSyntax[view][
-        '#DECLARE_PROPS#'
-      ] += `const props${index} = props.children['${index}'].props;\r\n`;
-      parsedSyntax[view][
-        '#DECLARE_DATASOURCE#'
-      ] += `const [results${index}, setResults${index}] = Datasources.${
-        componentConfig.dataSource
-      }(props.client);\r\n`;
+      parsedSyntax[view]['#DECLARE_PROPS#'] += getSyntax(
+        '#DECLARE_PROPS#',
+        index,
+        componentConfig
+      );
+      parsedSyntax[view]['#DECLARE_DATASOURCE#'] += getSyntax(
+        '#DECLARE_DATASOURCE#',
+        index,
+        componentConfig
+      );
     }
   }
 
   console.log(JSON.stringify(parsedSyntax, null, 4));
   return parsedSyntax;
+};
+
+const getSyntax = (syntax, index, componentConfig) => {
+  switch (syntax) {
+    case '#DECLARE_PROPS#': {
+      return `const props${index} = props.children['${index}'].props;\r\n`;
+    }
+    case '#DECLARE_DATASOURCE#': {
+      return `const [results${index}, setResults${index}] = Datasources.${
+        componentConfig.dataSource
+      }(props.client);\r\n`;
+    }
+  }
 };
 
 const transformSyntax = (line, syntax, parsedSyntaxView) => {
