@@ -147,7 +147,17 @@ const tokenize = (cat, line, lexMap) => {
   return [line, lexMap, true];
 };
 
-const extractTokens = 
+const extractTokens = (cat, line, lexMap) => {
+    const startIndex = line.indexOf('<$REPEAT');
+    const lastIndex = line.lastIndexOf('<$ENDREPEAT>') + 12;
+    const extracted = line.substring(startIndex, lastIndex);
+    const idx = lexMap[cat]['counter']++;
+    lexMap[cat][`$TAG_${idx}`] = line.replace(extracted, `$TAG_${idx}`);
+    if (extracted.indexOf('<$') >= 0) {
+      extractTokens(cat, extracted, lexMap);
+    }
+
+}
 
 const lexer = (cat, viewConfig, lexMap) => {
   const readStream = fs.createReadStream(
