@@ -149,38 +149,42 @@ const tokenize = (cat, line, lexMap) => {
 };
 
 const extractValueTokens = (cat, line, lexMap) => {
-    const tokens = line.match(/<=.+?=>/g);
-    let idx;
-    for(let token of tokens){
-      if(lexMap[cat][vtok][<=VTOK_${}=>])
-      idx = lexMap[cat][vtok]['counter']++;
-
+  const tokens = line.match(/<=.+?=>/g);
+  let idx;
+  for (let token of tokens) {
+    if (!lexMap[cat]['vtok'][token.replace('.', '$') + '$index']) {
+      idx = lexMap[cat]['vtok']['counter']++;
+      lexMap[cat]['vtok'][token.replace('.', '$') + '$index'] = `$VTOK_${idx}`;
+      lexMap[cat]['vtok']['counter'] = idx;
+      line = line.replace(token);
     }
-    const lastIndex = line.lastIndexOf('<$ENDREPEAT$>') + 13;
-    const extracted = line.substring(startIndex, lastIndex);
+  }
+  const lastIndex = line.lastIndexOf('<$ENDREPEAT$>') + 13;
+  const extracted = line.substring(startIndex, lastIndex);
+  const idx = lexMap[cat][ftok]['counter']++;
+  lexMap[cat]['ftok'][`$TAG_${idx}`] = line.replace(extracted, `$TAG_${idx}`);
+  if (extracted.indexOf('<$') >= 0) {
+    extractFunctionTokens(cat, extracted, lexMap);
+  } else {
     const idx = lexMap[cat][ftok]['counter']++;
-    lexMap[cat][ftok][`$TAG_${idx}`] = line.replace(extracted, `$TAG_${idx}`);
-    if (extracted.indexOf('<$') >= 0) {
-      extractTokens(cat, extracted, lexMap);
-    }else{
-      const idx = lexMap[cat][ftok]['counter']++;
-      lexMap[cat][ftok][`$TAG_${idx}`] = extracted;
-    }
-}
+    lexMap[cat][ftok][`$TAG_${idx}`] = extracted;
+    lexMap[cat]['ftok']['counter'] = idx;
+  }
+};
 
 const extractFunctionTokens = (cat, line, lexMap) => {
-    const startIndex = line.indexOf('<$REPEAT');
-    const lastIndex = line.lastIndexOf('<$ENDREPEAT$>') + 13;
-    const extracted = line.substring(startIndex, lastIndex);
+  const startIndex = line.indexOf('<$REPEAT');
+  const lastIndex = line.lastIndexOf('<$ENDREPEAT$>') + 13;
+  const extracted = line.substring(startIndex, lastIndex);
+  const idx = lexMap[cat][ftok]['counter']++;
+  lexMap[cat][ftok][`$TAG_${idx}`] = line.replace(extracted, `$TAG_${idx}`);
+  if (extracted.indexOf('<$') >= 0) {
+    extractTokens(cat, extracted, lexMap);
+  } else {
     const idx = lexMap[cat][ftok]['counter']++;
-    lexMap[cat][ftok][`$TAG_${idx}`] = line.replace(extracted, `$TAG_${idx}`);
-    if (extracted.indexOf('<$') >= 0) {
-      extractTokens(cat, extracted, lexMap);
-    }else{
-      const idx = lexMap[cat][ftok]['counter']++;
-      lexMap[cat][ftok][`$TAG_${idx}`] = extracted;
-    }
-}
+    lexMap[cat][ftok][`$TAG_${idx}`] = extracted;
+  }
+};
 
 const lexer = (cat, viewConfig, lexMap) => {
   const readStream = fs.createReadStream(
