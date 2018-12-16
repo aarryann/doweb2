@@ -4,8 +4,8 @@ import { Components } from '../controlled';
 import { IManagerProps } from '../controlled/interfaces';
 import { Datasources } from '../data';
 
-export default function <=ROOT.entity=><=ROOT.category>(props: IManagerProps) {
-  <$REPEAT=ROOT.children$>const props<=ROOT.children.ALL=> = props.children['<=ROOT.children.ALL=>'].props;<$ENDREPEAT$>
+export default function #VTOK_001##VTOK_002#(props: IManagerProps) {
+  #FTOK_001#
   // Combine data and fetch into single state
   const [results0000, setResults0000] = Datasources.Boards.useSubOwnBoard(
     props.client

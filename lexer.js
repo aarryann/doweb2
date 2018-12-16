@@ -119,74 +119,101 @@ const generateComponent = (cat, componentId, parsedSyntaxView) => {
   });
 };
 
-const tokenize = (cat, line, lexMap) => {
-  let wipLine = line;
-  const wip = lexMap[cat][ftok]['WIP'];
-  if (!lexMap[cat][ftok]['counter']) {
-    lexMap[cat][ftok]['counter'] = 0;
-  }
-  const match = true; //Placeholder
+const tokenize = (cat, line, lexDict) => {
+  let transformedLine = extractValueTokens(cat, line, lexDict);
+  let completeTag = transformedLine;
+  let transform = false;
+  const wip = lexDict[cat]['WIP'];
   if (wip.length > 0) {
-    wipLine += wip + line;
+    completeTag += wip + transformedLine + '\r\n';
   }
-  if (wipLine.indexOf('<$') >= 0) {
-    const openCount = wipLine.match(/<\$REPEAT/g);
-    const closeCount = wipLine.match(/<\$ENDREPEAT/g);
+  if (completeTag.indexOf('<$') >= 0) {
+    const openCount = (completeTag.match(/<\$REPEAT/g) || []).length;
+    const closeCount = (completeTag.match(/<\$ENDREPEAT/g) || []).length;
     if (openCount === closeCount) {
-      const idx = lexMap[cat][ftok]['counter']++;
-      lexMap[cat][ftok][`$TAG_${idx}`] = wipLine;
-      extractFunctionTokens(cat, wipLine, lexMap);
+      const startIndex = completeTag.indexOf('<$REPEAT');
+      const lastIndex = completeTag.lastIndexOf('<$ENDREPEAT>');
+      // Extract contents with enclosed Repeat-EndRepeat tag
+      const extracted = completeTag.substring(startIndex, lastIndex + 13);
+      let replacementTag = extractFunctionTokens(cat, extracted, lexDict);
+      transformedLine = completeTag.replace(extracted, replacementTag);
+      transform = true;
+    } else {
+      lexDict[cat]['WIP'] = completeTag;
     }
-  }
-  // Placeholder
-  if (match) {
-    lexMap[cat][ftok]['KEY'] = wipLine;
   } else {
-    lexMap[cat][ftok]['WIP'] = wipLine;
+    transform = true;
   }
 
-  return [line, lexMap, true];
+  return [transform, transformedLine, lexDict];
 };
 
-const extractValueTokens = (cat, line, lexMap) => {
-  const tokens = line.match(/<=.+?=>/g);
+const extractValueTokens = (cat, line, lexDict) => {
+  const tokens = line.match(/<=.+?>/g) || [];
   let idx;
+  let id;
   for (let token of tokens) {
-    if (!lexMap[cat]['vtok'][token.replace('.', '$') + '$index']) {
-      idx = lexMap[cat]['vtok']['counter']++;
-      lexMap[cat]['vtok'][token.replace('.', '$') + '$index'] = `$VTOK_${idx}`;
-      lexMap[cat]['vtok']['counter'] = idx;
-      line = line.replace(token);
+    if (!lexDict[cat]['vtok']['index'][token.replace('.', '$')]) {
+      idx = ++lexDict[cat]['vtok']['counter'];
+      id = `00${idx}`.slice(-3);
+      lexDict[cat]['vtok']['counter'] = idx;
+
+      lexDict[cat]['vtok']['index'][token.replace('.', '$')] = id;
+      const re = new RegExp(token, 'g');
+      line = line.replace(re, `#VTOK_${id}#`);
     }
   }
-  const lastIndex = line.lastIndexOf('<$ENDREPEAT$>') + 13;
-  const extracted = line.substring(startIndex, lastIndex);
-  const idx = lexMap[cat][ftok]['counter']++;
-  lexMap[cat]['ftok'][`$TAG_${idx}`] = line.replace(extracted, `$TAG_${idx}`);
-  if (extracted.indexOf('<$') >= 0) {
-    extractFunctionTokens(cat, extracted, lexMap);
+  return line;
+};
+
+const extractFunctionTokens = (cat, line, lexDict) => {
+  let transformedLine = line;
+  if (line.indexOf('<$') > 1) {
+    const startIndex = line.indexOf('<$REPEAT');
+    const lastIndex = line.lastIndexOf('<$ENDREPEAT>');
+    // Extract contents with enclosed Repeat-EndRepeat tag
+    const extracted = line.substring(startIndex, lastIndex + 13);
+    let replacementTag = extractFunctionTokens(cat, extracted, lexDict);
+    transformedLine = line.replace(extracted, replacementTag);
+  }
+  const idx = ++lexDict[cat]['ftok']['counter'];
+  let id = `00${idx}`.slice(-3);
+  lexDict[cat]['ftok']['counter'] = idx;
+  const tag = `#FTOK_${id}#`;
+  lexDict[cat]['ftok'][tag] = transformedLine;
+  console.log(JSON.stringify(lexDict[cat], null, 4));
+  return tag;
+};
+
+const extractMeanings = (oConfig, lexDict, flatKey) => {
+  const oKeys = Object.keys(oConfig) || [];
+  if (oKeys.length === 0) {
+    // Exit condition
   } else {
-    const idx = lexMap[cat][ftok]['counter']++;
-    lexMap[cat][ftok][`$TAG_${idx}`] = extracted;
-    lexMap[cat]['ftok']['counter'] = idx;
+    for (let oKey of oKeys) {
+      extractMeanings(oConfig[oKey], lexDict, `${flatKey}$${oKey}`);
+    }
   }
 };
 
-const extractFunctionTokens = (cat, line, lexMap) => {
-  const startIndex = line.indexOf('<$REPEAT');
-  const lastIndex = line.lastIndexOf('<$ENDREPEAT$>') + 13;
-  const extracted = line.substring(startIndex, lastIndex);
-  const idx = lexMap[cat][ftok]['counter']++;
-  lexMap[cat][ftok][`$TAG_${idx}`] = line.replace(extracted, `$TAG_${idx}`);
-  if (extracted.indexOf('<$') >= 0) {
-    extractTokens(cat, extracted, lexMap);
-  } else {
-    const idx = lexMap[cat][ftok]['counter']++;
-    lexMap[cat][ftok][`$TAG_${idx}`] = extracted;
+const parser = (cat, lexDict, appConfig) => {
+  let parsedSyntax = {};
+  const viewKeys = Object.keys(appConfig.Views);
+  for (let view of viewKeys) {
+    // console.log(JSON.stringify(appConfig.Views[view], null, 4));
+    let viewConfig = appConfig.Views[view];
+    if (viewConfig.category.toLowerCase() !== cat.toLowerCase()) {
+      continue;
+    }
+    lexDict[cat]['vtok'][view] = {};
+    extractMeanings(viewConfig, lexDict, 'ROOT');
   }
+
+  console.log(JSON.stringify(parsedSyntax, null, 4));
+  return parsedSyntax;
 };
 
-const lexer = (cat, viewConfig, lexMap) => {
+const lexer = (cat, viewConfig, lexDict) => {
   const readStream = fs.createReadStream(
     `./src/templates/${cat.toLowerCase()}.tpl`
   );
@@ -197,7 +224,13 @@ const lexer = (cat, viewConfig, lexMap) => {
     }
   );
 
-  lexMap[cat][ftok] = {};
+  lexDict[cat] = {};
+  lexDict[cat]['WIP'] = '';
+  lexDict[cat]['ftok'] = {};
+  lexDict[cat]['vtok'] = {};
+  lexDict[cat]['vtok']['index'] = {};
+  lexDict[cat]['ftok']['counter'] = 0;
+  lexDict[cat]['vtok']['counter'] = 0;
 
   const rl = readline.createInterface({
     input: readStream,
@@ -208,7 +241,7 @@ const lexer = (cat, viewConfig, lexMap) => {
 
   rl.on('line', line => {
     // Do your stuff ...
-    let [transformedLine, lexMap, transform] = tokenize(cat, line, lexMap);
+    let [transform, transformedLine, ...rest] = tokenize(cat, line, lexDict);
 
     // Then write to outstream
     if (transform) {
@@ -216,7 +249,7 @@ const lexer = (cat, viewConfig, lexMap) => {
     }
   });
 
-  return lexMap;
+  return lexDict;
 };
 
 const categories = ['Mgen'];
@@ -228,10 +261,12 @@ let lexMap = {};
 for (let category of categories) {
   lexMap = lexer(category, appConfig.Views, lexMap);
 
+  /*
   const viewKeys = Object.keys(parsedSyntax);
   for (let view of viewKeys) {
     // console.log(JSON.stringify(appConfig.Views[view], null, 4));
     let componentSyntax = parsedSyntax[view];
     generateComponent(category, view, componentSyntax);
   }
+  */
 }
