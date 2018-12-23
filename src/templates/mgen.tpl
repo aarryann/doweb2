@@ -5,7 +5,7 @@ import { IManagerProps } from '../controlled/interfaces';
 import { Datasources } from '../data';
 
 export default function <=ROOT.entity><=ROOT.category>(props: IManagerProps) {
-  <$REPEAT=ROOT.children>const props<=ROOT.children.ALL> = props.children['<=ROOT.children.ALL>'].props;<$ENDREPEAT>
+  1=1;<$REPEAT=$1 $1=ROOT><$REPEAT $2=$1.children>const props<=$2.NODE> = props.children['<=$2.NODE>'].props;<$ENDREPEAT><$ENDREPEAT>
   // Combine data and fetch into single state
   const [results0000, setResults0000] = Datasources.Boards.useSubOwnBoard(
     props.client

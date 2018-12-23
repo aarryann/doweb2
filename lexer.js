@@ -7,7 +7,6 @@ const parseSyntax = (category, appConfig) => {
   let parsedSyntax = {};
   const viewKeys = Object.keys(appConfig.Views);
   for (let view of viewKeys) {
-    // console.log(JSON.stringify(appConfig.Views[view], null, 4));
     let viewConfig = appConfig.Views[view];
     if (viewConfig.category.toLowerCase() !== category.toLowerCase()) {
       continue;
@@ -109,10 +108,8 @@ const generateComponent = (cat, componentId, parsedSyntaxView) => {
     if (line.indexOf('#') >= 0) {
       transformedLine = convertSyntax(line, parsedSyntaxView);
     }
-    // console.log(line);
     // Do your stuff ...
     // const transformedLine = line.toUpperCase();
-    // console.log(transformedLine);
 
     // Then write to outstream
     writeStream.write(transformedLine + '\r\n');
@@ -120,7 +117,8 @@ const generateComponent = (cat, componentId, parsedSyntaxView) => {
 };
 
 const tokenize = (cat, line, lexDict) => {
-  let transformedLine = extractValueTokens(cat, line, lexDict);
+  // let transformedLine = extractValueTokens(cat, line, lexDict);
+  let transformedLine = line;
   let completeTag = transformedLine;
   let transform = false;
   const wip = lexDict[cat]['WIP'];
@@ -166,51 +164,95 @@ const extractValueTokens = (cat, line, lexDict) => {
   return line;
 };
 
-const extractFunctionTokens = (cat, line, lexDict) => {
-  let transformedLine = line;
-  if (line.indexOf('<$') > 1) {
-    const startIndex = line.indexOf('<$REPEAT');
-    const lastIndex = line.lastIndexOf('<$ENDREPEAT>');
+const extractFunctionTokens = (cat, tag, lexDict) => {
+  if (tag.indexOf('<$REPEAT', 1) >= 0) {
+    let startIndex = tag.search(/<\$REPEAT.+?>/);
+    let startLen = tag.match(/<\$REPEAT.+?>/)[0].length;
+    let lastIndex = tag.lastIndexOf('<$ENDREPEAT>');
     // Extract contents with enclosed Repeat-EndRepeat tag
-    const extracted = line.substring(startIndex, lastIndex + 13);
-    let replacementTag = extractFunctionTokens(cat, extracted, lexDict);
-    transformedLine = line.replace(extracted, replacementTag);
+    let tagValue = tag.substring(startIndex + startLen, lastIndex);
+    const replacementkey = extractFunctionTokens(cat, tagValue, lexDict);
+    tag = tag.replace(tagValue, replacementkey);
   }
   const idx = ++lexDict[cat]['ftok']['counter'];
   let id = `00${idx}`.slice(-3);
   lexDict[cat]['ftok']['counter'] = idx;
-  const tag = `#FTOK_${id}#`;
-  lexDict[cat]['ftok'][tag] = transformedLine;
-  console.log(JSON.stringify(lexDict[cat], null, 4));
-  return tag;
+  const key = `#FTOK_${id}#`;
+  lexDict[cat]['ftok'][key] = tag;
+  return key;
 };
 
-const extractMeanings = (oConfig, lexDict, flatKey) => {
-  const oKeys = Object.keys(oConfig) || [];
-  if (oKeys.length === 0) {
-    // Exit condition
-  } else {
-    for (let oKey of oKeys) {
-      extractMeanings(oConfig[oKey], lexDict, `${flatKey}$${oKey}`);
+const getValues = (value, keyStore, oConfig) => {
+  const valuePairs = value.split('.');
+  let returnValue = null;
+  for (let i = 0; i < valuePairs.length; i++) {
+    const valuePair = valuePairs[i];
+    if (valuePair === 'ROOT') {
+      returnValue = oConfig;
+    } else if (keyStore[valuePair]) {
+      returnValue = keyStore[valuePair];
+    } else {
+      returnValue = returnValue[valuePair];
     }
   }
+  return returnValue;
 };
 
-const parser = (cat, lexDict, appConfig) => {
-  let parsedSyntax = {};
-  const viewKeys = Object.keys(appConfig.Views);
-  for (let view of viewKeys) {
-    // console.log(JSON.stringify(appConfig.Views[view], null, 4));
-    let viewConfig = appConfig.Views[view];
-    if (viewConfig.category.toLowerCase() !== cat.toLowerCase()) {
+const extractValueDict = (line, oConfig, lexDict) => {
+  const endIndex = line.indexOf('>');
+  let tagValue = line
+    .substring(0, endIndex)
+    .replace('<', '')
+    .replace('>', '')
+    .trim();
+  if (tagValue.length === 0) {
+    return;
+  }
+  const tagValuePairs = tagValue.split(' ');
+  //console.log(tagValuePairs);
+  for (let i = 0; i < tagValuePairs.length; i++) {
+    const keyValue = tagValuePairs[i];
+    if (
+      !keyValue ||
+      keyValue.indexOf('=') < 0 ||
+      keyValue.indexOf('$REPEAT') === 0
+    ) {
       continue;
     }
-    lexDict[cat]['vtok'][view] = {};
-    extractMeanings(viewConfig, lexDict, 'ROOT');
+    const keyValuePair = keyValue.split('=');
+    const key = keyValuePair[0].trim();
+    if (!lexDict[oConfig.entity]['keyStore'][key]) {
+      lexDict[oConfig.entity]['keyStore'][key] = keyValuePair[1].trim();
+      lexDict[oConfig.entity]['keyStore'][key] = getValues(
+        keyValuePair[1].trim(),
+        lexDict[oConfig.entity]['keyStore'],
+        oConfig
+      );
+    }
   }
+  // console.log(JSON.stringify(lexDict, null, 4));
+  console.log(lexDict);
+};
 
-  console.log(JSON.stringify(parsedSyntax, null, 4));
-  return parsedSyntax;
+const processMeanings = line => {
+  return line;
+};
+
+const expandSyntax = (line, oConfig, lexDict) => {
+  if (line.indexOf('#FTOK_') < 0) {
+    // Exit condition
+    // Process line
+    line = processMeanings(line);
+  } else {
+    const tokens = line.match(/#FTOK_\d+?#/g) || [];
+    for (let token of tokens) {
+      // console.log(lexDict);
+      extractValueDict(lexDict[token], oConfig, lexDict);
+      const fTok = expandSyntax(lexDict[token], oConfig, lexDict);
+      line = line.replace(token, fTok);
+    }
+  }
+  return line;
 };
 
 const lexer = (cat, viewConfig, lexDict) => {
@@ -248,25 +290,71 @@ const lexer = (cat, viewConfig, lexDict) => {
       writeStream.write(transformedLine + '\r\n');
     }
   });
-
-  return lexDict;
 };
 
-const categories = ['Mgen'];
-const appConfig = yaml.safeLoad(
-  fs.readFileSync('./src/config/viewconfig.yaml', 'utf8')
-);
+const parser = (viewConfig, lexDict) => {
+  const readStream = fs.createReadStream(
+    `./src/out/staged.${viewConfig.category.toLowerCase()}.tmp`
+  );
+  const writeStream = fs.createWriteStream(
+    `./src/out/${viewConfig.entity}.${viewConfig.category.toLowerCase()}.tsx`,
+    {
+      encoding: 'utf8'
+    }
+  );
 
-let lexMap = {};
-for (let category of categories) {
-  lexMap = lexer(category, appConfig.Views, lexMap);
+  lexDict[viewConfig.category]['vtok'][viewConfig.entity] = {};
+  lexDict[viewConfig.category]['ftok'][viewConfig.entity] = {};
 
-  /*
-  const viewKeys = Object.keys(parsedSyntax);
-  for (let view of viewKeys) {
-    // console.log(JSON.stringify(appConfig.Views[view], null, 4));
-    let componentSyntax = parsedSyntax[view];
-    generateComponent(category, view, componentSyntax);
+  const rl = readline.createInterface({
+    input: readStream,
+    //    output: writeStream,
+    terminal: false,
+    historySize: 0
+  });
+
+  rl.on('line', line => {
+    // Do your stuff ...
+    lexDict[viewConfig.category]['ftok'][viewConfig.entity].keyStore = {};
+    let transformedLine = expandSyntax(
+      line,
+      viewConfig,
+      lexDict[viewConfig.category]['ftok']
+    );
+
+    // Then write to outstream
+    writeStream.write(transformedLine + '\r\n');
+  });
+};
+
+const wait1Sec = async () => {
+  await new Promise(resolve =>
+    // eslint-disable-next-line
+    setTimeout(() => {
+      console.log('timeout');
+      resolve();
+    }, 1000)
+  );
+};
+
+(async function() {
+  const categories = ['Mgen'];
+  const appConfig = yaml.safeLoad(
+    fs.readFileSync('./src/config/viewconfig.yaml', 'utf8')
+  );
+  let lexMap = {};
+  lexMap.throttle = true;
+  for (let category of categories) {
+    lexer(category, appConfig.Views, lexMap);
+    await wait1Sec();
+
+    const viewKeys = Object.keys(appConfig.Views);
+    for (let view of viewKeys) {
+      let viewConfig = appConfig.Views[view];
+      if (viewConfig.category.toLowerCase() !== category.toLowerCase()) {
+        continue;
+      }
+      parser(viewConfig, lexMap);
+    }
   }
-  */
-}
+})();
