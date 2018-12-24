@@ -231,26 +231,63 @@ const extractValueDict = (line, oConfig, lexDict) => {
     }
   }
   // console.log(JSON.stringify(lexDict, null, 4));
-  console.log(lexDict);
+  // console.log(lexDict);
 };
 
-const processMeanings = line => {
-  return line;
+const processMeanings = (line, oConfig, lexDict) => {
+  // console.log(line);
+  let startIndex = line.search(/<\$REPEAT.+?>/);
+  let startLen = line.match(/<\$REPEAT.+?>/)[0].length;
+  let lastIndex = line.lastIndexOf('<$ENDREPEAT>');
+  // Extract contents with enclosed Repeat-EndRepeat tag
+  let tagValue = line.substring(startIndex + startLen, lastIndex);
+  let key = line
+    .substring(0, startLen)
+    .replace(/[<>]/, '')
+    .split(' ')[0]
+    .trim()
+    .split('=')[1]
+    .trim();
+
+  const loopDS = lexDict[oConfig.entity]['keyStore'][key];
+  let isArr = Array.isArray(loopDS);
+  let loopDSArr = isArr ? loopDS : Object.keys(loopDS);
+  let transformedLine = '';
+
+  for (let element of loopDSArr) {
+    let loopElement = isArr ? element : loopDSArr[element];
+    transformedLine += tagValue + '\r\n';
+  }
+
+  return transformedLine;
 };
 
 const expandSyntax = (line, oConfig, lexDict) => {
   if (line.indexOf('#FTOK_') < 0) {
     // Exit condition
     // Process line
-    line = processMeanings(line);
+    // line = processMeanings(line);
+    return line;
   } else {
     const tokens = line.match(/#FTOK_\d+?#/g) || [];
     for (let token of tokens) {
       // console.log(lexDict);
       extractValueDict(lexDict[token], oConfig, lexDict);
-      const fTok = expandSyntax(lexDict[token], oConfig, lexDict);
+      let fTok = expandSyntax(lexDict[token], oConfig, lexDict);
+      fTok = processMeanings(fTok, oConfig, lexDict);
+      console.log(token);
+      console.log(line);
+      console.log(fTok);
       line = line.replace(token, fTok);
+      console.log(line);
     }
+  }
+  return line;
+};
+
+const processSyntax = (line, oConfig, lexDict) => {
+  if (line.indexOf('#FTOK_') >= 0) {
+    line = expandSyntax(line, oConfig, lexDict);
   }
   return line;
 };
@@ -316,7 +353,7 @@ const parser = (viewConfig, lexDict) => {
   rl.on('line', line => {
     // Do your stuff ...
     lexDict[viewConfig.category]['ftok'][viewConfig.entity].keyStore = {};
-    let transformedLine = expandSyntax(
+    let transformedLine = processSyntax(
       line,
       viewConfig,
       lexDict[viewConfig.category]['ftok']
@@ -331,7 +368,7 @@ const wait1Sec = async () => {
   await new Promise(resolve =>
     // eslint-disable-next-line
     setTimeout(() => {
-      console.log('timeout');
+      // console.log('timeout');
       resolve();
     }, 1000)
   );
