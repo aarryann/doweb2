@@ -183,6 +183,10 @@ const extractFunctionTokens = (cat, tag, lexDict) => {
 };
 
 const getValues = (value, keyStore, oConfig) => {
+  //console.log(value);
+  if (keyStore[value]) {
+    return keyStore[value];
+  }
   const valuePairs = value.split('.');
   let returnValue = null;
   for (let i = 0; i < valuePairs.length; i++) {
@@ -240,7 +244,6 @@ const processMeanings = (line, oConfig, lexDict) => {
   let startLen = line.match(/<\$REPEAT.+?>/)[0].length;
   let lastIndex = line.lastIndexOf('<$ENDREPEAT>');
   // Extract contents with enclosed Repeat-EndRepeat tag
-  let tagValue = line.substring(startIndex + startLen, lastIndex);
   let key = line
     .substring(0, startLen)
     .replace(/[<>]/, '')
@@ -255,7 +258,22 @@ const processMeanings = (line, oConfig, lexDict) => {
   let transformedLine = '';
 
   for (let element of loopDSArr) {
-    let loopElement = isArr ? element : loopDSArr[element];
+    let tagValue = line.substring(startIndex + startLen, lastIndex);
+    let loopElement = isArr ? element : loopDS[element];
+    lexDict[oConfig.entity]['keyStore'][`${key}.CHILD`] = element;
+    const tokens = tagValue.match(/<=.+?>/g);
+    if (tokens) {
+      for (let token of tokens) {
+        tagValue = tagValue.replace(
+          token,
+          getValues(
+            token.replace(/[<=>]/g, ''),
+            lexDict[oConfig.entity]['keyStore'],
+            oConfig
+          )
+        );
+      }
+    }
     transformedLine += tagValue + '\r\n';
   }
 
@@ -275,11 +293,7 @@ const expandSyntax = (line, oConfig, lexDict) => {
       extractValueDict(lexDict[token], oConfig, lexDict);
       let fTok = expandSyntax(lexDict[token], oConfig, lexDict);
       fTok = processMeanings(fTok, oConfig, lexDict);
-      console.log(token);
-      console.log(line);
-      console.log(fTok);
       line = line.replace(token, fTok);
-      console.log(line);
     }
   }
   return line;
