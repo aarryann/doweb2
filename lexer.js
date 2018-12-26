@@ -3,167 +3,6 @@ const fs = require('fs');
 const readline = require('readline');
 const yaml = require('js-yaml');
 
-const parseSyntax = (category, appConfig) => {
-  let parsedSyntax = {};
-  const viewKeys = Object.keys(appConfig.Views);
-  for (let view of viewKeys) {
-    let viewConfig = appConfig.Views[view];
-    if (viewConfig.category.toLowerCase() !== category.toLowerCase()) {
-      continue;
-    }
-    parsedSyntax[view] = {};
-    parsedSyntax[view]['#COMPONENT_NAME#'] = view + category;
-    parsedSyntax[view]['#DECLARE_PROPS#'] = '';
-    parsedSyntax[view]['#DECLARE_DATASOURCE#'] = '';
-    const childrenKeys = Object.keys(viewConfig.children);
-    for (let index of childrenKeys) {
-      let componentConfig = viewConfig.children[index];
-      parsedSyntax[view]['#DECLARE_PROPS#'] += getSyntax(
-        '#DECLARE_PROPS#',
-        index,
-        componentConfig
-      );
-      parsedSyntax[view]['#DECLARE_DATASOURCE#'] += getSyntax(
-        '#DECLARE_DATASOURCE#',
-        index,
-        componentConfig
-      );
-    }
-  }
-
-  console.log(JSON.stringify(parsedSyntax, null, 4));
-  return parsedSyntax;
-};
-
-const getSyntax = (syntax, index, componentConfig) => {
-  switch (syntax) {
-    case '#DECLARE_PROPS#': {
-      return `const props${index} = props.children['${index}'].props;\r\n`;
-    }
-    case '#DECLARE_DATASOURCE#': {
-      return `const [results${index}, setResults${index}] = Datasources.${
-        componentConfig.dataSource
-      }(props.client);\r\n`;
-    }
-  }
-};
-
-const transformSyntax = (line, syntax, parsedSyntaxView) => {
-  if (line.indexOf(syntax) >= 0) {
-    return line.replace(syntax, parsedSyntaxView[syntax]);
-  } else {
-    return line;
-  }
-};
-
-const convertSyntax = (line, parsedSyntaxView) => {
-  let transformedLine = transformSyntax(
-    line,
-    '#COMPONENT_NAME#',
-    parsedSyntaxView
-  );
-  transformedLine = transformSyntax(
-    transformedLine,
-    '#DECLARE_PROPS#',
-    parsedSyntaxView
-  );
-  transformedLine = transformSyntax(
-    transformedLine,
-    '#DECLARE_DATASOURCE#',
-    parsedSyntaxView
-  );
-  transformedLine = transformSyntax(
-    transformedLine,
-    '#DECLARE_ACTIONS#',
-    parsedSyntaxView
-  );
-  transformedLine = transformSyntax(
-    transformedLine,
-    '#LIST_COMPONENTS#',
-    parsedSyntaxView
-  );
-  return transformedLine;
-};
-
-const generateComponent = (cat, componentId, parsedSyntaxView) => {
-  const readStream = fs.createReadStream(
-    `./src/templates/${cat.toLowerCase()}.tpl`
-  );
-  const writeStream = fs.createWriteStream(
-    `./src/out/${componentId}.${cat.toLowerCase()}.tsx`,
-    {
-      encoding: 'utf8'
-    }
-  );
-
-  const rl = readline.createInterface({
-    input: readStream,
-    //    output: writeStream,
-    terminal: false,
-    historySize: 0
-  });
-
-  rl.on('line', line => {
-    let transformedLine = line;
-    if (line.indexOf('#') >= 0) {
-      transformedLine = convertSyntax(line, parsedSyntaxView);
-    }
-    // Do your stuff ...
-    // const transformedLine = line.toUpperCase();
-
-    // Then write to outstream
-    writeStream.write(transformedLine + '\r\n');
-  });
-};
-
-const tokenize = (cat, line, lexDict) => {
-  // let transformedLine = extractValueTokens(cat, line, lexDict);
-  let transformedLine = line;
-  let completeTag = transformedLine;
-  let transform = false;
-  const wip = lexDict[cat]['WIP'];
-  if (wip.length > 0) {
-    completeTag += wip + transformedLine + '\r\n';
-  }
-  if (completeTag.indexOf('<$') >= 0) {
-    const openCount = (completeTag.match(/<\$REPEAT/g) || []).length;
-    const closeCount = (completeTag.match(/<\$ENDREPEAT/g) || []).length;
-    if (openCount === closeCount) {
-      const startIndex = completeTag.indexOf('<$REPEAT');
-      const lastIndex = completeTag.lastIndexOf('<$ENDREPEAT>');
-      // Extract contents with enclosed Repeat-EndRepeat tag
-      const extracted = completeTag.substring(startIndex, lastIndex + 13);
-      let replacementTag = extractFunctionTokens(cat, extracted, lexDict);
-      transformedLine = completeTag.replace(extracted, replacementTag);
-      transform = true;
-    } else {
-      lexDict[cat]['WIP'] = completeTag;
-    }
-  } else {
-    transform = true;
-  }
-
-  return [transform, transformedLine, lexDict];
-};
-
-const extractValueTokens = (cat, line, lexDict) => {
-  const tokens = line.match(/<=.+?>/g) || [];
-  let idx;
-  let id;
-  for (let token of tokens) {
-    if (!lexDict[cat]['vtok']['index'][token.replace('.', '$')]) {
-      idx = ++lexDict[cat]['vtok']['counter'];
-      id = `00${idx}`.slice(-3);
-      lexDict[cat]['vtok']['counter'] = idx;
-
-      lexDict[cat]['vtok']['index'][token.replace('.', '$')] = id;
-      const re = new RegExp(token, 'g');
-      line = line.replace(re, `#VTOK_${id}#`);
-    }
-  }
-  return line;
-};
-
 const extractFunctionTokens = (cat, tag, lexDict) => {
   if (tag.indexOf('<$REPEAT', 1) >= 0) {
     let startIndex = tag.search(/<\$REPEAT.+?>/);
@@ -182,15 +21,42 @@ const extractFunctionTokens = (cat, tag, lexDict) => {
   return key;
 };
 
-const getValues = (value, keyStore, oConfig) => {
-  //console.log(value);
-  if (keyStore[value]) {
-    return keyStore[value];
+const tokenize = (cat, line, lexDict) => {
+  let transformedLine = line;
+  let completeTag = transformedLine;
+  let transform = false;
+  const wip = lexDict[cat]['WIP'];
+  if (wip.length > 0) {
+    completeTag = wip + transformedLine + '\r\n';
   }
-  const valuePairs = value.split('.');
+  if (completeTag.indexOf('<$') >= 0) {
+    const openCount = (completeTag.match(/<\$REPEAT/g) || []).length;
+    const closeCount = (completeTag.match(/<\$ENDREPEAT/g) || []).length;
+    if (openCount === closeCount) {
+      const startIndex = completeTag.indexOf('<$REPEAT');
+      const lastIndex = completeTag.lastIndexOf('<$ENDREPEAT>');
+      // Extract contents with enclosed Repeat-EndRepeat tag
+      const extracted = completeTag.substring(startIndex, lastIndex + 13);
+      let replacementTag = extractFunctionTokens(cat, extracted, lexDict);
+      transformedLine = completeTag.replace(extracted, replacementTag);
+      transform = true;
+      lexDict[cat]['WIP'] = '';
+    } else {
+      lexDict[cat]['WIP'] = completeTag;
+    }
+  } else {
+    transform = true;
+    lexDict[cat]['WIP'] = '';
+  }
+
+  return [transform, transformedLine, lexDict];
+};
+
+const getValues = (value, keyStore, oConfig) => {
+  const valueTokens = value.split('.');
   let returnValue = null;
-  for (let i = 0; i < valuePairs.length; i++) {
-    const valuePair = valuePairs[i];
+  for (let i = 0; i < valueTokens.length; i++) {
+    const valuePair = valueTokens[i];
     if (valuePair === 'ROOT') {
       returnValue = oConfig;
     } else if (keyStore[valuePair]) {
@@ -202,8 +68,12 @@ const getValues = (value, keyStore, oConfig) => {
   return returnValue;
 };
 
-const extractValueDict = (line, oConfig, lexDict) => {
-  const endIndex = line.indexOf('>');
+const extractDataSource = (line, oConfig, lexDict) => {
+  const repIndex = line.indexOf('<$REPEAT');
+  if (repIndex < 0) {
+    return;
+  }
+  const endIndex = line.indexOf('>', repIndex);
   let tagValue = line
     .substring(0, endIndex)
     .replace('<', '')
@@ -213,7 +83,8 @@ const extractValueDict = (line, oConfig, lexDict) => {
     return;
   }
   const tagValuePairs = tagValue.split(' ');
-  //console.log(tagValuePairs);
+  console.log(`LINE: ${line}`);
+  console.log(tagValuePairs);
   for (let i = 0; i < tagValuePairs.length; i++) {
     const keyValue = tagValuePairs[i];
     if (
@@ -225,6 +96,7 @@ const extractValueDict = (line, oConfig, lexDict) => {
     }
     const keyValuePair = keyValue.split('=');
     const key = keyValuePair[0].trim();
+    console.log(`keyValuePair: ${keyValuePair}`);
     if (!lexDict[oConfig.entity]['keyStore'][key]) {
       lexDict[oConfig.entity]['keyStore'][key] = keyValuePair[1].trim();
       lexDict[oConfig.entity]['keyStore'][key] = getValues(
@@ -239,7 +111,7 @@ const extractValueDict = (line, oConfig, lexDict) => {
 };
 
 const processMeanings = (line, oConfig, lexDict) => {
-  // console.log(line);
+  console.log(line);
   let startIndex = line.search(/<\$REPEAT.+?>/);
   let startLen = line.match(/<\$REPEAT.+?>/)[0].length;
   let lastIndex = line.lastIndexOf('<$ENDREPEAT>');
@@ -256,14 +128,17 @@ const processMeanings = (line, oConfig, lexDict) => {
   let isArr = Array.isArray(loopDS);
   let loopDSArr = isArr ? loopDS : Object.keys(loopDS);
   let transformedLine = '';
+  console.log(loopDSArr);
 
   for (let element of loopDSArr) {
     let tagValue = line.substring(startIndex + startLen, lastIndex);
     let loopElement = isArr ? element : loopDS[element];
-    lexDict[oConfig.entity]['keyStore'][`${key}.CHILD`] = element;
+    lexDict[oConfig.entity]['keyStore'][`${key}:ITEMVALUE`] = element;
+    lexDict[oConfig.entity]['keyStore'][`${key}:ITEMNODE`] = loopElement;
     const tokens = tagValue.match(/<=.+?>/g);
     if (tokens) {
       for (let token of tokens) {
+        console.log(tagValue);
         tagValue = tagValue.replace(
           token,
           getValues(
@@ -289,8 +164,8 @@ const expandSyntax = (line, oConfig, lexDict) => {
   } else {
     const tokens = line.match(/#FTOK_\d+?#/g) || [];
     for (let token of tokens) {
-      // console.log(lexDict);
-      extractValueDict(lexDict[token], oConfig, lexDict);
+      console.log(lexDict);
+      extractDataSource(lexDict[token], oConfig, lexDict);
       let fTok = expandSyntax(lexDict[token], oConfig, lexDict);
       fTok = processMeanings(fTok, oConfig, lexDict);
       line = line.replace(token, fTok);
@@ -302,6 +177,20 @@ const expandSyntax = (line, oConfig, lexDict) => {
 const processSyntax = (line, oConfig, lexDict) => {
   if (line.indexOf('#FTOK_') >= 0) {
     line = expandSyntax(line, oConfig, lexDict);
+  } else {
+    const tokens = line.match(/<=.+?>/g);
+    if (tokens) {
+      for (let token of tokens) {
+        line = line.replace(
+          token,
+          getValues(
+            token.replace(/[<=>]/g, ''),
+            lexDict[oConfig.entity]['keyStore'],
+            oConfig
+          )
+        );
+      }
+    }
   }
   return line;
 };

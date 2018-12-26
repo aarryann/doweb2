@@ -5,42 +5,25 @@ import { IManagerProps } from '../controlled/interfaces';
 import { Datasources } from '../data';
 
 export default function <=ROOT.entity><=ROOT.category>(props: IManagerProps) {
-  1=1;<$REPEAT=$1 $1=ROOT.children>const props<=$1.CHILD> = props.children['<=$1.CHILD>'].props;<$ENDREPEAT>
+  <$REPEAT=$1 $1=ROOT.children>const props<=$1:ITEMVALUE> = props.children['<=$1:ITEMVALUE>'].props;<$ENDREPEAT>
   // Combine data and fetch into single state
-  const [results0000, setResults0000] = Datasources.Boards.useSubOwnBoard(
-    props.client
-  );
-  const [results0100, setResults0100] = Datasources.Boards.useSubOtherBoard(
-    props.client
-  );
+  <$REPEAT=$1 $1=ROOT.children>const [results<=$1:ITEMVALUE>, setResults<=$1:ITEMVALUE>] = Datasources.<=$1:ITEMNODE.dataSource>(props.client);<$ENDREPEAT>
 
-  const dispatch0000 = (action: string, payload: any) => {
-    switch (action) {
-      case 'createBoard': {
-        Datasources.Boards.createBoard(payload, results0000, setResults0000);
-        break;
+  <$REPEAT=$1 $1=ROOT.children>
+    const dispatch<=$1:ITEMVALUE> = (action: string, payload: any) => {
+      switch (action) {
+        <$REPEAT=$2 $2=$1:ITEMNODE.actions>
+          case '<=$2:ITEMVALUE>': {
+            Datasources.<=$2:ITEMNODE>(payload, results<=$1:ITEMVALUE>, setResults<=$1:ITEMVALUE>);
+            break;
+          }
+        <$ENDREPEAT>
+        default: {
+          break;
+        }
       }
-      case 'viewBoard': {
-        Datasources.Boards.viewBoard(payload, results0000, setResults0000);
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-  };
-
-  const dispatch0100 = (action: string, payload: any) => {
-    switch (action) {
-      case 'viewBoard': {
-        Datasources.Boards.viewBoard(payload, results0100, setResults0100);
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-  };
+    };
+  <$ENDREPEAT>
 
   return (
     <>

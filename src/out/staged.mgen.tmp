@@ -5,42 +5,12 @@ import { IManagerProps } from '../controlled/interfaces';
 import { Datasources } from '../data';
 
 export default function <=ROOT.entity><=ROOT.category>(props: IManagerProps) {
-  1=1;#FTOK_001#
+  #FTOK_001#
   // Combine data and fetch into single state
-  const [results0000, setResults0000] = Datasources.Boards.useSubOwnBoard(
-    props.client
-  );
-  const [results0100, setResults0100] = Datasources.Boards.useSubOtherBoard(
-    props.client
-  );
+  #FTOK_002#
 
-  const dispatch0000 = (action: string, payload: any) => {
-    switch (action) {
-      case 'createBoard': {
-        Datasources.Boards.createBoard(payload, results0000, setResults0000);
-        break;
-      }
-      case 'viewBoard': {
-        Datasources.Boards.viewBoard(payload, results0000, setResults0000);
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-  };
+  #FTOK_005#
 
-  const dispatch0100 = (action: string, payload: any) => {
-    switch (action) {
-      case 'viewBoard': {
-        Datasources.Boards.viewBoard(payload, results0100, setResults0100);
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-  };
 
   return (
     <>
