@@ -1,5 +1,5 @@
-import BoardDetailsMgen from './BoardDetails.mgen';
-import ListBoardsMgen from './ListBoards.mgen';
+import BoardDetailsMgen from './BoardDetails.mgen.gen';
+import ListBoardsMgen from './ListBoards.mgen.gen';
 
 export const Generated = {
   BoardDetailsMgen,

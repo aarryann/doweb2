@@ -76,17 +76,24 @@ const generateComponent = (viewConfig, lexDict) => {
 
 (async function() {
   const categories = ['Mgen'];
-  const appConfig = yaml.safeLoad(
+  let diffConfig = yaml.safeLoad(
     fs.readFileSync('./src/config/viewconfig.yaml', 'utf8')
   );
+  if (fs.existsSync('./src/generated/viewconfig.gen.yaml')) {
+    let oldConfig = yaml.safeLoad(
+      fs.readFileSync('./src/generated/viewconfig.gen.yaml', 'utf8')
+    );
+    diffConfig = lib.getDiffedConfig(diffConfig.Views, oldConfig.Views);
+  }
+
   let lexMap = {};
   for (let category of categories) {
     stageTemplate(category, lexMap);
     await lib.wait1Sec();
 
-    const viewKeys = Object.keys(appConfig.Views);
+    const viewKeys = Object.keys(diffConfig);
     for (let view of viewKeys) {
-      let viewConfig = appConfig.Views[view];
+      let viewConfig = diffConfig[view];
       if (viewConfig.category.toLowerCase() !== category.toLowerCase()) {
         continue;
       }

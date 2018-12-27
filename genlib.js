@@ -235,14 +235,73 @@ const wait1Sec = async () => {
   );
 };
 
+const getDiffedConfig = (newConfig, oldConfig) => {
+  const strNew = JSON.stringify(newConfig);
+  const strOld = JSON.stringify(oldConfig);
+  if (strNew === strOld) {
+    console.log('==================');
+    return {};
+  } else {
+    let diffConfig = diffJSON(newConfig, oldConfig, {});
+    console.log(JSON.stringify(diffConfig));
+    return newConfig;
+  }
+};
+
+const valueType = value => {
+  console.log(`=====+${value}+======`);
+  if (typeof value === 'object') {
+    if (Array.isArray(value)) {
+      return 'array';
+    } else {
+      return 'json';
+    }
+  } else {
+    return typeof value;
+  }
+};
+
+const diffJSON = (lhs, rhs, dlhs) => {
+  const lKeys = Object.keys(lhs);
+  for (let lKey of lKeys) {
+    if (!rhs[lKey]) {
+      dlhs[lKey] = lhs[lKey];
+      continue;
+    }
+    console.log(`=====+${lKey}+======`);
+    const lType = valueType(lhs[lKey]);
+    const rType = valueType(rhs[lKey]);
+    if (lType !== rType) {
+      dlhs[lKey] = lhs[lKey];
+      continue;
+    }
+    if (lType === 'array') {
+      lType.sort();
+      rType.sort();
+      if (lType.toString() !== rType.toString()) {
+        dlhs[lKey] = lhs[lKey];
+        continue;
+      }
+    } else if (lType === 'json') {
+      dlhs[lKey] = {};
+      diffJSON(lhs[lKey], rhs[lKey], dlhs[lKey]);
+      if (Object.keys(dlhs[lKey]).length === 0) {
+        delete dlhs[lKey];
+      }
+    }
+  }
+  return dlhs;
+};
+
 module.exports = {
-  extractFunctionTokens,
-  tokenize,
-  getValues,
-  extractDataSource,
-  processFnBlocks,
-  xecFunctions,
   detokenize,
+  extractDataSource,
+  extractFunctionTokens,
   getComponentSyntax,
+  getDiffedConfig,
+  getValues,
+  processFnBlocks,
+  tokenize,
+  xecFunctions,
   wait1Sec
 };
