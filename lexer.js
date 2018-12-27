@@ -10,7 +10,7 @@ const extractFunctionTokens = (cat, fnBlock, lexDict) => {
     let sIndex = fnBlock.indexOf('<$REPEAT', 1);
     let lIndex = fnBlock.lastIndexOf('<$ENDREPEAT>', fnBlock.length - 13);
     // Extract enclosed nested fn blocks
-    let innerFn = fnBlock.substring(sIndex, lIndex);
+    let innerFn = fnBlock.substring(sIndex, lIndex + 12);
     const replacementkey = extractFunctionTokens(cat, innerFn, lexDict);
     fnBlock = fnBlock.replace(innerFn, replacementkey);
   }
@@ -29,6 +29,7 @@ const tokenize = (cat, line, lexDict) => {
   const wip = lexDict[cat]['WIP'];
   if (wip.length > 0) {
     completeTag = wip + tLine + '\r\n';
+    // completeTag = wip + tLine;
   }
   if (completeTag.indexOf('<$') >= 0) {
     const openCount = (completeTag.match(/<\$REPEAT/g) || []).length;
@@ -37,7 +38,7 @@ const tokenize = (cat, line, lexDict) => {
       const startIndex = completeTag.indexOf('<$REPEAT');
       const lastIndex = completeTag.lastIndexOf('<$ENDREPEAT>');
       // Extract enclosed fn block
-      const extracted = completeTag.substring(startIndex, lastIndex + 13);
+      const extracted = completeTag.substring(startIndex, lastIndex + 12);
       let replacementTag = extractFunctionTokens(cat, extracted, lexDict);
       tLine = completeTag.replace(extracted, replacementTag);
       transform = true;
@@ -54,8 +55,6 @@ const tokenize = (cat, line, lexDict) => {
 };
 
 const getValues = (value, keyStore, oConfig) => {
-  console.log(`getValue-Value: ${value}`);
-  console.log(`GetValue-KeyStore: ${JSON.stringify(keyStore, null, 4)}`);
   const valueTokens = value.split('.');
   let returnValue = null;
   for (let i = 0; i < valueTokens.length; i++) {
@@ -75,11 +74,12 @@ const getValues = (value, keyStore, oConfig) => {
   return returnValue;
 };
 
-const extractDataSource = (fnBlock, oConfig, lexDict) => {
-  // This fn extracts the fn data source. Do not proceed if no fn tags in the line
+const extractDataSource = (fnDef, oConfig, lexDict) => {
+  // This fn extracts the fn data sources if any.
+  /*
   const tagIndex = fnBlock.indexOf('<$REPEAT');
   if (tagIndex < 0) {
-    return;
+    return null;
   }
   const endIndex = fnBlock.indexOf('>', tagIndex);
   // Extract fn definition
@@ -87,44 +87,36 @@ const extractDataSource = (fnBlock, oConfig, lexDict) => {
     .substring(0, endIndex)
     .replace(/[<>]/, '')
     .trim();
-
-  // TODO: Why this check? This will never hit.
-  if (fnDef.length === 0) {
-    return;
-  }
+  */
+  let referenceKey = '';
   // Extract all datasources and put it in a keystore for later access
-  const defKeywords = fnDef.split(' ');
+  const defKeywords = fnDef.replace(/[<>]/g, '').split(' ');
   for (let i = 0; i < defKeywords.length; i++) {
     const defKeyword = defKeywords[i];
     // Ignore all function definition keywords except datasource assignments
-    if (
-      !defKeyword ||
-      defKeyword.indexOf('=') < 0 ||
-      defKeyword.indexOf('$REPEAT') === 0
-    ) {
+    if (!defKeyword || defKeyword.indexOf('=') < 0) {
       continue;
     }
     // Get LHS (id symbol) and RHS (datasource object or value) of datasource assignments
-    // The datasource id key is the key for the keystore
     const dsAssigns = defKeyword.split('=');
-    const idKey = dsAssigns[0].trim();
-    // Remove existing datasource keystore key if present. At this point it belongs to the previously completed fn statement
-    if (lexDict[oConfig.entity]['keyStore'][idKey]) {
-      // delete lexDict[oConfig.entity]['keyStore'][idKey];
+    // Get datasource reference for the function
+    if (dsAssigns[0].indexOf('$REPEAT') >= 0) {
+      referenceKey = dsAssigns[1].trim();
+      continue;
     }
-
+    // The datasource id key is the key for the keystore
+    const idKey = dsAssigns[0].trim();
     // Get datasource object value and add it to keystore.
     const dsValue = getValues(
       dsAssigns[1].trim(),
       lexDict[oConfig.entity]['keyStore'],
       oConfig
     );
-    if (dsValue) {
-      lexDict[oConfig.entity]['keyStore'][idKey] = dsValue;
-    }
+    lexDict[oConfig.entity]['keyStore'][idKey] = dsValue;
   }
   // console.log(JSON.stringify(lexDict, null, 4));
   // console.log(lexDict);
+  return referenceKey;
 };
 
 const processFnBlocks = (line, oConfig, lexDict) => {
@@ -140,25 +132,16 @@ const processFnBlocks = (line, oConfig, lexDict) => {
 
   // Execute fn
   const tLine = xecFunctions(fnBlock, oConfig, lexDict);
-  // return ( (startIndex === 0 ? '' : line.substring(0, startIndex)) + tLine + (lastIndex === line.length - 13 ? '' : line.substring(lastIndex + 12)));
   return line.replace(fnBlock, tLine);
 };
 
 const xecFunctions = (fnBlock, oConfig, lexDict) => {
-  console.log(`xec-fnBlock-${fnBlock}`);
-  const sLen = fnBlock.match(/<\$REPEAT.+?>/)[0].length;
-  // Extract the fn definition, followed by fn verb
-  // and then the looping datasource reference
-  let idKey = fnBlock.substring(0, sLen).replace(/[<>]/, '');
-  console.log(`xec-idKey-${idKey}`);
-  idKey = idKey
-    .split(' ')[0]
-    .trim()
-    .split('=')[1]
-    .trim();
-  console.log(`xec-idKey-${idKey}`);
+  // Extract the fn definition
+  const fnDef = fnBlock.match(/<\$REPEAT.+?>/)[0];
+  // Extract datasources to keystores and get looping datasource reference
+  let idKey = extractDataSource(fnDef, oConfig, lexDict);
 
-  const fnStatement = fnBlock.substring(sLen - 1, fnBlock.length - 13);
+  const fnStatement = fnBlock.substring(fnDef.length, fnBlock.length - 12);
 
   // Get the datasource object for the datasource reference
   // If value is null, definition error - fail it
@@ -171,17 +154,14 @@ const xecFunctions = (fnBlock, oConfig, lexDict) => {
   let fnInner = '';
   if (sInnerIndex >= 0) {
     const lInnerIndex = fnStatement.lastIndexOf('<$ENDREPEAT>');
-    fnInner = fnStatement.substring(sInnerIndex, lInnerIndex);
+    fnInner = fnStatement.substring(sInnerIndex, lInnerIndex + 12);
   }
   let resolvedBlock = '';
   // Loop over the looping datasource
   for (let item of loopDSArr) {
     const loopItem = isArr ? item : loopDS[item];
-    lexDict[oConfig.entity]['keyStore'][`${idKey}:ITEMVALUE`] = item;
-    lexDict[oConfig.entity]['keyStore'][`${idKey}:ITEMNODE`] = loopItem;
-    console.log(
-      `xec-keystore-${JSON.stringify(lexDict[oConfig.entity]['keyStore'])}`
-    );
+    lexDict[oConfig.entity]['keyStore'][`${idKey}:KEY`] = item;
+    lexDict[oConfig.entity]['keyStore'][`${idKey}:CONTENTS`] = loopItem;
 
     let resolvedStatement = fnStatement;
     // Check for nested fn block. Exit recursion if none
@@ -217,7 +197,7 @@ const detokenize = (line, oConfig, lexDict) => {
     const tokens = tLine.match(/#FTOK_\d+?#/g) || [];
     for (let token of tokens) {
       // Extract the fn datasource and add it to keystore outside in.
-      extractDataSource(lexDict[token], oConfig, lexDict);
+      // extractDataSource(lexDict[token], oConfig, lexDict);
       // Recursion - Changes order at this line from outside in to inside out
       let fnBlock = detokenize(lexDict[token], oConfig, lexDict);
       // fnBlock = processMeanings(fnBlock, oConfig, lexDict);
@@ -252,7 +232,8 @@ const generateComponentSyntax = (line, oConfig, lexDict) => {
 
   // Function (fn) block syntax: <$REPEAT=$1 $1=DS1 $2=DS2>fn statements<$ENDREPEAT>
   // $REPEAT | $ENDREPEAT => fn verbs, ...=$1 => datasource reference key
-  // $1=.... => datasource variable key, ...=DS1 || ...=DS2 => datasource object formula assignments
+  // $1=.... => datasource variable key - defined once within any function in page
+  // ...=DS1 || ...=DS2 => datasource object assignments
   // $REPEAT=$1 $1=DS1 $2=DS2 => fn definition
   // <$REPEAT...> || <$ENDREPEAT> => fn open and close tags, <=...> => placeholder or variables
   // fn statements => statements within tags and executed per fn definition
@@ -319,9 +300,9 @@ const parser = (viewConfig, lexDict) => {
     historySize: 0
   });
 
+  lexDict[viewConfig.category]['ftok'][viewConfig.entity].keyStore = {};
   rl.on('line', line => {
     // Do your stuff ...
-    lexDict[viewConfig.category]['ftok'][viewConfig.entity].keyStore = {};
     let transformedLine = generateComponentSyntax(
       line,
       viewConfig,
