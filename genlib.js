@@ -1,8 +1,4 @@
 // tslint:disable:no-console
-const fs = require('fs');
-const readline = require('readline');
-const yaml = require('js-yaml');
-
 const extractFunctionTokens = (cat, fnBlock, lexDict) => {
   // Checking for an enclosed fn block within this block
   if (fnBlock.indexOf('<$REPEAT', 1) >= 0) {
@@ -51,7 +47,7 @@ const tokenize = (cat, line, lexDict) => {
     lexDict[cat]['WIP'] = '';
   }
 
-  return [transform, tLine, lexDict];
+  return [transform, tLine];
 };
 
 const getValues = (value, keyStore, oConfig) => {
@@ -76,18 +72,6 @@ const getValues = (value, keyStore, oConfig) => {
 
 const extractDataSource = (fnDef, oConfig, lexDict) => {
   // This fn extracts the fn data sources if any.
-  /*
-  const tagIndex = fnBlock.indexOf('<$REPEAT');
-  if (tagIndex < 0) {
-    return null;
-  }
-  const endIndex = fnBlock.indexOf('>', tagIndex);
-  // Extract fn definition
-  let fnDef = fnBlock
-    .substring(0, endIndex)
-    .replace(/[<>]/, '')
-    .trim();
-  */
   let referenceKey = '';
   // Extract all datasources and put it in a keystore for later access
   const defKeywords = fnDef.replace(/[<>]/g, '').split(' ');
@@ -207,7 +191,7 @@ const detokenize = (line, oConfig, lexDict) => {
   return tLine;
 };
 
-const generateComponentSyntax = (line, oConfig, lexDict) => {
+const getComponentSyntax = (line, oConfig, lexDict) => {
   let tLine = line;
   if (tLine.indexOf('#FTOK_') >= 0) {
     // Expands fn token from staging template into nested fn blocks going outside in.
@@ -242,80 +226,6 @@ const generateComponentSyntax = (line, oConfig, lexDict) => {
   return tLine;
 };
 
-const lexer = (cat, viewConfig, lexDict) => {
-  const readStream = fs.createReadStream(
-    `./src/templates/${cat.toLowerCase()}.tpl`
-  );
-  const writeStream = fs.createWriteStream(
-    `./src/generated/staged.${cat.toLowerCase()}.tmp`,
-    {
-      encoding: 'utf8'
-    }
-  );
-
-  lexDict[cat] = {};
-  lexDict[cat]['WIP'] = '';
-  lexDict[cat]['ftok'] = {};
-  lexDict[cat]['vtok'] = {};
-  lexDict[cat]['vtok']['index'] = {};
-  lexDict[cat]['ftok']['counter'] = 0;
-  lexDict[cat]['vtok']['counter'] = 0;
-
-  const rl = readline.createInterface({
-    input: readStream,
-    //    output: writeStream,
-    terminal: false,
-    historySize: 0
-  });
-
-  rl.on('line', line => {
-    // Do your stuff ...
-    let [transform, transformedLine, ...rest] = tokenize(cat, line, lexDict);
-
-    // Then write to outstream
-    if (transform) {
-      writeStream.write(transformedLine + '\r\n');
-    }
-  });
-};
-
-const parser = (viewConfig, lexDict) => {
-  const readStream = fs.createReadStream(
-    `./src/generated/staged.${viewConfig.category.toLowerCase()}.tmp`
-  );
-  const writeStream = fs.createWriteStream(
-    `./src/generated/${
-      viewConfig.entity
-    }.${viewConfig.category.toLowerCase()}.tsx`,
-    {
-      encoding: 'utf8'
-    }
-  );
-
-  lexDict[viewConfig.category]['vtok'][viewConfig.entity] = {};
-  lexDict[viewConfig.category]['ftok'][viewConfig.entity] = {};
-
-  const rl = readline.createInterface({
-    input: readStream,
-    //    output: writeStream,
-    terminal: false,
-    historySize: 0
-  });
-
-  lexDict[viewConfig.category]['ftok'][viewConfig.entity].keyStore = {};
-  rl.on('line', line => {
-    // Do your stuff ...
-    let transformedLine = generateComponentSyntax(
-      line,
-      viewConfig,
-      lexDict[viewConfig.category]['ftok']
-    );
-
-    // Then write to outstream
-    writeStream.write(transformedLine + '\r\n');
-  });
-};
-
 const wait1Sec = async () => {
   await new Promise(resolve =>
     // eslint-disable-next-line
@@ -325,24 +235,14 @@ const wait1Sec = async () => {
   );
 };
 
-(async function() {
-  const categories = ['Mgen'];
-  const appConfig = yaml.safeLoad(
-    fs.readFileSync('./src/config/viewconfig.yaml', 'utf8')
-  );
-  let lexMap = {};
-  lexMap.throttle = true;
-  for (let category of categories) {
-    lexer(category, appConfig.Views, lexMap);
-    await wait1Sec();
-
-    const viewKeys = Object.keys(appConfig.Views);
-    for (let view of viewKeys) {
-      let viewConfig = appConfig.Views[view];
-      if (viewConfig.category.toLowerCase() !== category.toLowerCase()) {
-        continue;
-      }
-      parser(viewConfig, lexMap);
-    }
-  }
-})();
+module.exports = {
+  extractFunctionTokens,
+  tokenize,
+  getValues,
+  extractDataSource,
+  processFnBlocks,
+  xecFunctions,
+  detokenize,
+  getComponentSyntax,
+  wait1Sec
+};
