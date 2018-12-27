@@ -10,6 +10,8 @@
 /src/**/*.css
 
 # Generated Code files
+!/src/generated/index.tsx
+/src/generated/*.mgen*
 /src/out/
 
 # testing

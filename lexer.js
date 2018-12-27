@@ -247,7 +247,7 @@ const lexer = (cat, viewConfig, lexDict) => {
     `./src/templates/${cat.toLowerCase()}.tpl`
   );
   const writeStream = fs.createWriteStream(
-    `./src/out/staged.${cat.toLowerCase()}.tmp`,
+    `./src/generated/staged.${cat.toLowerCase()}.tmp`,
     {
       encoding: 'utf8'
     }
@@ -281,10 +281,12 @@ const lexer = (cat, viewConfig, lexDict) => {
 
 const parser = (viewConfig, lexDict) => {
   const readStream = fs.createReadStream(
-    `./src/out/staged.${viewConfig.category.toLowerCase()}.tmp`
+    `./src/generated/staged.${viewConfig.category.toLowerCase()}.tmp`
   );
   const writeStream = fs.createWriteStream(
-    `./src/out/${viewConfig.entity}.${viewConfig.category.toLowerCase()}.tsx`,
+    `./src/generated/${
+      viewConfig.entity
+    }.${viewConfig.category.toLowerCase()}.tsx`,
     {
       encoding: 'utf8'
     }
