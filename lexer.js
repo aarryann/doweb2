@@ -54,8 +54,8 @@ const tokenize = (cat, line, lexDict) => {
 };
 
 const getValues = (value, keyStore, oConfig) => {
-  console.log(`Value: ${value}`);
-  console.log(`KeyStore: ${JSON.stringify(keyStore, null, 4)}`);
+  console.log(`getValue-Value: ${value}`);
+  console.log(`GetValue-KeyStore: ${JSON.stringify(keyStore, null, 4)}`);
   const valueTokens = value.split('.');
   let returnValue = null;
   for (let i = 0; i < valueTokens.length; i++) {
@@ -110,7 +110,7 @@ const extractDataSource = (fnBlock, oConfig, lexDict) => {
     const idKey = dsAssigns[0].trim();
     // Remove existing datasource keystore key if present. At this point it belongs to the previously completed fn statement
     if (lexDict[oConfig.entity]['keyStore'][idKey]) {
-      delete lexDict[oConfig.entity]['keyStore'][idKey];
+      // delete lexDict[oConfig.entity]['keyStore'][idKey];
     }
 
     // Get datasource object value and add it to keystore.
@@ -145,44 +145,52 @@ const processFnBlocks = (line, oConfig, lexDict) => {
 };
 
 const xecFunctions = (fnBlock, oConfig, lexDict) => {
-  // Check for nested fn block. Exit recursion if none
-  // Exclude the outer tags
-  const sInnerIndex = fnBlock.indexOf('<$REPEAT', 1);
-  if (sInnerIndex < 0) {
-    return fnBlock;
-  }
+  console.log(`xec-fnBlock-${fnBlock}`);
   const sLen = fnBlock.match(/<\$REPEAT.+?>/)[0].length;
   // Extract the fn definition, followed by fn verb
   // and then the looping datasource reference
-  const key = fnBlock
-    .substring(0, sLen)
-    .replace(/[<>]/, '')
+  let idKey = fnBlock.substring(0, sLen).replace(/[<>]/, '');
+  console.log(`xec-idKey-${idKey}`);
+  idKey = idKey
     .split(' ')[0]
     .trim()
     .split('=')[1]
     .trim();
+  console.log(`xec-idKey-${idKey}`);
 
-  const fnStatement = fnBlock.substring(0, fnBlock.length - 13);
-  // Exclude the outer tags
-  const lInnerIndex = fnStatement.lastIndexOf('<$ENDREPEAT>');
-  const innerFn = fnStatement.substring(sInnerIndex, lInnerIndex);
+  const fnStatement = fnBlock.substring(sLen - 1, fnBlock.length - 13);
 
   // Get the datasource object for the datasource reference
   // If value is null, definition error - fail it
-  const loopDS = lexDict[oConfig.entity]['keyStore'][key];
+  const loopDS = lexDict[oConfig.entity]['keyStore'][idKey];
   const isArr = Array.isArray(loopDS);
   const loopDSArr = isArr ? loopDS : Object.keys(loopDS);
 
-  let tLine = '';
+  // Exclude the outer tags
+  const sInnerIndex = fnStatement.indexOf('<$REPEAT');
+  let fnInner = '';
+  if (sInnerIndex >= 0) {
+    const lInnerIndex = fnStatement.lastIndexOf('<$ENDREPEAT>');
+    fnInner = fnStatement.substring(sInnerIndex, lInnerIndex);
+  }
+  let resolvedBlock = '';
   // Loop over the looping datasource
   for (let item of loopDSArr) {
     const loopItem = isArr ? item : loopDS[item];
-    lexDict[oConfig.entity]['keyStore'][`${key}:ITEMVALUE`] = item;
-    lexDict[oConfig.entity]['keyStore'][`${key}:ITEMNODE`] = loopItem;
+    lexDict[oConfig.entity]['keyStore'][`${idKey}:ITEMVALUE`] = item;
+    lexDict[oConfig.entity]['keyStore'][`${idKey}:ITEMNODE`] = loopItem;
+    console.log(
+      `xec-keystore-${JSON.stringify(lexDict[oConfig.entity]['keyStore'])}`
+    );
 
-    let tInnerFn = xecFunctions(innerFn, oConfig, lexDict);
+    let resolvedStatement = fnStatement;
+    // Check for nested fn block. Exit recursion if none
+    if (sInnerIndex >= 0) {
+      let resolvedInner = xecFunctions(fnInner, oConfig, lexDict);
+      resolvedStatement = fnStatement.replace(fnInner, resolvedInner);
+    }
 
-    const tokens = tInnerFn.match(/<=.+?>/g);
+    const tokens = resolvedStatement.match(/<=.+?>/g);
     if (tokens) {
       for (let token of tokens) {
         const placeholderValue = getValues(
@@ -190,15 +198,13 @@ const xecFunctions = (fnBlock, oConfig, lexDict) => {
           lexDict[oConfig.entity]['keyStore'],
           oConfig
         );
-        if (placeholderValue) {
-          tInnerFn = tInnerFn.replace(token, placeholderValue);
-        }
+        resolvedStatement = resolvedStatement.replace(token, placeholderValue);
       }
     }
-    tLine += tInnerFn + '\r\n';
+    resolvedBlock += resolvedStatement + '\r\n';
   }
 
-  return tLine;
+  return resolvedBlock;
 };
 
 // Expands fn token from staging template into nested fn blocks going outside in.
