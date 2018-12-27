@@ -11,7 +11,7 @@
 
 # Generated Code files
 !/src/generated/index.tsx
-/src/generated/*.mgen*
+/src/generated/*.gen.*
 /src/out/
 
 # testing

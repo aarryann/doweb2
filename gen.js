@@ -9,7 +9,7 @@ const stageTemplate = (cat, lexDict) => {
     `./src/templates/${cat.toLowerCase()}.tpl`
   );
   const writeStream = fs.createWriteStream(
-    `./src/generated/staged.${cat.toLowerCase()}.tmp`,
+    `./src/generated/${cat.toLowerCase()}.gen.stg`,
     {
       encoding: 'utf8'
     }
@@ -18,10 +18,7 @@ const stageTemplate = (cat, lexDict) => {
   lexDict[cat] = {};
   lexDict[cat]['WIP'] = '';
   lexDict[cat]['ftok'] = {};
-  lexDict[cat]['vtok'] = {};
-  lexDict[cat]['vtok']['index'] = {};
   lexDict[cat]['ftok']['counter'] = 0;
-  lexDict[cat]['vtok']['counter'] = 0;
 
   const rl = readline.createInterface({
     input: readStream,
@@ -43,18 +40,17 @@ const stageTemplate = (cat, lexDict) => {
 
 const generateComponent = (viewConfig, lexDict) => {
   const readStream = fs.createReadStream(
-    `./src/generated/staged.${viewConfig.category.toLowerCase()}.tmp`
+    `./src/generated/${viewConfig.category.toLowerCase()}.gen.stg`
   );
   const writeStream = fs.createWriteStream(
     `./src/generated/${
       viewConfig.entity
-    }.${viewConfig.category.toLowerCase()}.tsx`,
+    }.${viewConfig.category.toLowerCase()}.gen.tsx`,
     {
       encoding: 'utf8'
     }
   );
 
-  lexDict[viewConfig.category]['vtok'][viewConfig.entity] = {};
   lexDict[viewConfig.category]['ftok'][viewConfig.entity] = {};
 
   const rl = readline.createInterface({
@@ -97,4 +93,11 @@ const generateComponent = (viewConfig, lexDict) => {
       generateComponent(viewConfig, lexMap);
     }
   }
+  fs.copyFile(
+    './src/config/viewconfig.yaml',
+    './src/generated/viewconfig.gen.yaml',
+    err => {
+      if (err) throw err;
+    }
+  );
 })();
