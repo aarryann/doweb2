@@ -46,7 +46,7 @@ Views:
         component: ExampleFunctionComponent
         props:
           title: Board Details
-        dataSource: Boards.useBoardDetails
+        dataSource: Boards.useSubOwnBoard
         actions:
           viewBoard: Boards.viewBoard
 

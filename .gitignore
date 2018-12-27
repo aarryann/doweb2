@@ -9,6 +9,9 @@
 /src/*.css
 /src/**/*.css
 
+# Generated Code files
+/src/out/
+
 # testing
 /coverage
 /**/*__snapshots__

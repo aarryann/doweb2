@@ -22,21 +22,25 @@ export default function ListBoardsMgen(props: IManagerProps) {
         Datasources.Boards.createBoard(payload, results0000, setResults0000);
         break;
       }
+
       case "viewBoard": {
         Datasources.Boards.viewBoard(payload, results0000, setResults0000);
         break;
       }
+
       default: {
         break;
       }
     }
   };
+
   const dispatch0100 = (action: string, payload: any) => {
     switch (action) {
       case "viewBoard": {
         Datasources.Boards.viewBoard(payload, results0100, setResults0100);
         break;
       }
+
       default: {
         break;
       }
@@ -50,6 +54,7 @@ export default function ListBoardsMgen(props: IManagerProps) {
         dispatch={dispatch0000}
         {...props0000}
       />
+
       <Components.ListComponent
         dataSource={results0100}
         dispatch={dispatch0100}

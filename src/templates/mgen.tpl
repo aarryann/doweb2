@@ -27,16 +27,13 @@ export default function <=ROOT.entity><=ROOT.category>(props: IManagerProps) {
 
   return (
     <>
-      <Components.ListComponent
-        dataSource={results0000}
-        dispatch={dispatch0000}
-        {...props0000}
-      />
-      <Components.ListComponent
-        dataSource={results0100}
-        dispatch={dispatch0100}
-        {...props0100}
-      />
+      <$REPEAT=$1>
+        <Components.<=$1:CONTENTS.component>
+          dataSource={results<=$1:KEY>}
+          dispatch={dispatch<=$1:KEY>}
+          {...props<=$1:KEY>}
+        />
+      <$ENDREPEAT>
     </>
   );
 }
