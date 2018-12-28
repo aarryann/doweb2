@@ -25,7 +25,6 @@ const tokenize = (cat, line, lexDict) => {
   const wip = lexDict[cat]['WIP'];
   if (wip.length > 0) {
     completeTag = wip + tLine + '\r\n';
-    // completeTag = wip + tLine;
   }
   if (completeTag.indexOf('<$') >= 0) {
     const openCount = (completeTag.match(/<\$REPEAT/g) || []).length;
@@ -73,24 +72,24 @@ const getValues = (value, keyStore, oConfig) => {
 const extractDataSource = (fnDef, oConfig, lexDict) => {
   // This fn extracts the fn data sources if any.
   let referenceKey = '';
-  // Extract all datasources and put it in a keystore for later access
+  // Extract all ds and put it in a keystore for later access
   const defKeywords = fnDef.replace(/[<>]/g, '').split(' ');
   for (let i = 0; i < defKeywords.length; i++) {
     const defKeyword = defKeywords[i];
-    // Ignore all function definition keywords except datasource assignments
+    // Ignore all fn definition keywords except verbs and assignments
     if (!defKeyword || defKeyword.indexOf('=') < 0) {
       continue;
     }
-    // Get LHS (id symbol) and RHS (datasource object or value) of datasource assignments
+    // Get LHS (id symbol) and RHS (ds object or value) of ds assignments
     const dsAssigns = defKeyword.split('=');
-    // Get datasource reference for the function
+    // Get ds reference for the function
     if (dsAssigns[0].indexOf('$REPEAT') >= 0) {
       referenceKey = dsAssigns[1].trim();
       continue;
     }
-    // The datasource id key is the key for the keystore
+    // The ds id key is the key for the keystore
     const idKey = dsAssigns[0].trim();
-    // Get datasource object value and add it to keystore.
+    // Get ds object value and add it to keystore.
     const dsValue = getValues(
       dsAssigns[1].trim(),
       lexDict[oConfig.entity]['keyStore'],
@@ -105,7 +104,7 @@ const extractDataSource = (fnDef, oConfig, lexDict) => {
 
 const processFnBlocks = (line, oConfig, lexDict) => {
   // Do not proceed if no enclosed fn blocks
-  // Expect complete entire nested fn blocks within the line with newline characters.
+  // Expect complete nested fn blocks within the line with newline characters.
   // The line may or may not start with fn block / definitions
   const sIndex = line.indexOf('<$REPEAT');
   if (sIndex < 0) {
@@ -122,12 +121,12 @@ const processFnBlocks = (line, oConfig, lexDict) => {
 const xecFunctions = (fnBlock, oConfig, lexDict) => {
   // Extract the fn definition
   const fnDef = fnBlock.match(/<\$REPEAT.+?>/)[0];
-  // Extract datasources to keystores and get looping datasource reference
+  // Extract ds to keystores and get looping ds reference
   let idKey = extractDataSource(fnDef, oConfig, lexDict);
 
   const fnStatement = fnBlock.substring(fnDef.length, fnBlock.length - 12);
 
-  // Get the datasource object for the datasource reference
+  // Get the ds object for the ds reference
   // If value is null, definition error - fail it
   const loopDS = lexDict[oConfig.entity]['keyStore'][idKey];
   const isArr = Array.isArray(loopDS);
@@ -171,7 +170,7 @@ const xecFunctions = (fnBlock, oConfig, lexDict) => {
   return resolvedBlock;
 };
 
-// Expands fn token from staging template into nested fn blocks going outside in.
+// Expands fn token from staging template into nested fn blocks
 const detokenize = (line, oConfig, lexDict) => {
   let tLine = line;
   if (tLine.indexOf('#FTOK_') < 0) {
@@ -180,11 +179,7 @@ const detokenize = (line, oConfig, lexDict) => {
   } else {
     const tokens = tLine.match(/#FTOK_\d+?#/g) || [];
     for (let token of tokens) {
-      // Extract the fn datasource and add it to keystore outside in.
-      // extractDataSource(lexDict[token], oConfig, lexDict);
-      // Recursion - Changes order at this line from outside in to inside out
       let fnBlock = detokenize(lexDict[token], oConfig, lexDict);
-      // fnBlock = processMeanings(fnBlock, oConfig, lexDict);
       tLine = tLine.replace(token, fnBlock);
     }
   }
@@ -194,10 +189,10 @@ const detokenize = (line, oConfig, lexDict) => {
 const getComponentSyntax = (line, oConfig, lexDict) => {
   let tLine = line;
   if (tLine.indexOf('#FTOK_') >= 0) {
-    // Expands fn token from staging template into nested fn blocks going outside in.
+    // Expands fn token from staging template into nested fn blocks outside in.
     tLine = detokenize(tLine, oConfig, lexDict);
   } else {
-    // Realize placeholder variable values from datasource for non fn statements
+    // Realize placeholder variable values from ds for non fn statements
     const tokens = tLine.match(/<=.+?>/g);
     if (tokens) {
       for (let token of tokens) {
@@ -212,18 +207,56 @@ const getComponentSyntax = (line, oConfig, lexDict) => {
       }
     }
   }
-  // Execute fn, generate output and realize placeholder variable values for fn statements
+  // Execute function (fn), generate output and realize placeholder...
+  // ...variable values for fn statements
 
-  // Function (fn) block syntax: <$REPEAT=$1 $1=DS1 $2=DS2>fn statements<$ENDREPEAT>
-  // $REPEAT | $ENDREPEAT => fn verbs, ...=$1 => datasource reference key
-  // $1=.... => datasource variable key - defined once within any function in page
-  // ...=DS1 || ...=DS2 => datasource object assignments
+  // fn block syntax: <$REPEAT=$1 $1=DS1 $2=DS2>fn statements<$ENDREPEAT>
+  // $REPEAT | $ENDREPEAT => fn verbs, ...=$1 => datasource (ds) reference key
+  // $1=.... => ds variable key - defined once within any fn in page
+  // ...=DS1 || ...=DS2 => ds object assignments
   // $REPEAT=$1 $1=DS1 $2=DS2 => fn definition
-  // <$REPEAT...> || <$ENDREPEAT> => fn open and close tags, <=...> => placeholder or variables
+  // <$REPEAT...> || <$ENDREPEAT> => fn open and close tags,
+  // <=...> => placeholder or variables
   // fn statements => statements within tags and executed per fn definition
   // non fn statements => statements outside fn tags
   tLine = processFnBlocks(tLine, oConfig, lexDict);
   return tLine;
+};
+
+const getDiffedConfig = (newConfigView, oldConfigView) => {
+  const strNew = JSON.stringify(newConfigView);
+  const strOld = JSON.stringify(oldConfigView);
+  if (strNew === strOld) {
+    return [{}, []];
+  } else {
+    let newDiffView = diffJSON(newConfigView, oldConfigView, {});
+    let newDiffKeys = Object.keys(newDiffView);
+    for (let key of newDiffKeys) {
+      newDiffView[key] = newConfigView[key];
+    }
+    // Diff for keys existing in staged config but not new config
+    // Includes two scenarios - (1). few inner properties removed from new...
+    // ...view config (2). entire view deleted from new config.
+    let oldDiffView = diffJSON(oldConfigView, newConfigView, {});
+    let oldDiffKeys = Object.keys(oldDiffView);
+    // filter out cases where entire view is removed from new config
+    let delViews = oldDiffKeys.filter(x => !newDiffKeys.includes(x));
+    for (let key of oldDiffKeys) {
+      // filter out, don't bother me for any future changes
+      if (delViews.includes(key)) {
+        delete oldDiffKeys[key];
+      } else {
+        // Get entire view property for cases where few inner properties...
+        // ...removed from new view config
+        // If key present, entire property already assigned. Don't reassign
+        if (!newDiffView[key]) {
+          newDiffView[key] = newConfigView[key];
+        }
+      }
+    }
+
+    return [newDiffView, delViews];
+  }
 };
 
 const wait1Sec = async () => {
@@ -235,31 +268,7 @@ const wait1Sec = async () => {
   );
 };
 
-const getDiffedConfig = (newConfigView, oldConfigView) => {
-  const strNew = JSON.stringify(newConfigView);
-  const strOld = JSON.stringify(oldConfigView);
-  if (strNew === strOld) {
-    return {};
-  } else {
-    let newDiffView = diffJSON(newConfigView, oldConfigView, {});
-    let diffKeys = Object.keys(newDiffView);
-    for (let key of diffKeys) {
-      delete newDiffView[key];
-      newDiffView[key] = newConfigView[key];
-    }
-    let oldDiffView = diffJSON(oldConfigView, newConfigView, {});
-    diffKeys = Object.keys(oldDiffView);
-    for (let key of diffKeys) {
-      if (!newDiffView[key]) {
-        newDiffView[key] = newConfigView[key];
-      }
-    }
-
-    return newDiffView;
-  }
-};
-
-const valueType = value => {
+const getTypeOf = value => {
   if (typeof value === 'object') {
     if (Array.isArray(value)) {
       return 'array';
@@ -281,8 +290,8 @@ const diffJSON = (lhs, rhs, dlhs) => {
       dlhs[lKey] = lhs[lKey];
       continue;
     }
-    const lType = valueType(lhs[lKey]);
-    const rType = valueType(rhs[lKey]);
+    const lType = getTypeOf(lhs[lKey]);
+    const rType = getTypeOf(rhs[lKey]);
     if (lType !== rType) {
       dlhs[lKey] = lhs[lKey];
       continue;
@@ -305,15 +314,49 @@ const diffJSON = (lhs, rhs, dlhs) => {
   return dlhs;
 };
 
+const getComponentIndexList = (line, importList, removeList) => {
+  if (line.indexOf('import') >= 0) {
+    // eslint-disable-next-line
+    const com = line.match(/[\w\.]+\.gen/)[0];
+    console.log(com);
+    const comArr = com.split('.');
+    if (!removeList.includes(comArr[0])) {
+      let cat = comArr[1];
+      importList.push(
+        `${comArr[0]}.${cat.charAt(0).toUpperCase()}${cat.slice(1)}`
+      );
+    }
+  }
+  return importList;
+};
+
+const getIndexScript = componentList => {
+  let importScript = '';
+  let exportScript = '';
+  for (let com of componentList) {
+    let comArr = com.split('.');
+    importScript += `import ${comArr[0]}${comArr[1]} from './${
+      comArr[0]
+    }.${comArr[1].toLowerCase()}.gen'\r\n`;
+
+    exportScript += `${comArr[0]}${comArr[1]},\r\n`;
+  }
+  return (
+    importScript +
+    '\r\n' +
+    `export const Generated = {\r\n` +
+    (exportScript + ',').replace(',\r\n,', '\r\n') +
+    `};\r\n`
+  );
+};
+
 module.exports = {
-  detokenize,
-  extractDataSource,
-  extractFunctionTokens,
+  diffJSON,
+  getComponentIndexList,
   getComponentSyntax,
   getDiffedConfig,
-  getValues,
-  processFnBlocks,
+  getIndexScript,
+  getTypeOf,
   tokenize,
-  xecFunctions,
   wait1Sec
 };

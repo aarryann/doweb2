@@ -55,7 +55,7 @@ const generateComponent = (viewConfig, lexDict) => {
 
   const rl = readline.createInterface({
     input: readStream,
-    //    output: writeStream,
+    // output: writeStream,
     terminal: false,
     historySize: 0
   });
@@ -74,16 +74,51 @@ const generateComponent = (viewConfig, lexDict) => {
   });
 };
 
+const generateIndex = (changeList, removeList) => {
+  fs.copyFileSync(
+    './src/generated/index.tsx',
+    './src/generated/index.old.gen.tsx'
+  );
+  const readStream = fs.createReadStream(`./src/generated/index.old.gen.tsx`);
+  const writeStream = fs.createWriteStream(`./src/generated/index.tsx`, {
+    encoding: 'utf8'
+  });
+
+  const rl = readline.createInterface({
+    input: readStream,
+    // output: writeStream,
+    terminal: false,
+    historySize: 0
+  });
+
+  let importList = [];
+  rl.on('line', line => {
+    // Do your stuff ...
+    importList = lib.getComponentIndexList(line, importList, removeList);
+  }).on('close', () => {
+    console.log('Have a great day!');
+    console.log(importList);
+    changeList = [...new Set(changeList.concat(importList))];
+    if (changeList.length === 0) {
+      return;
+    }
+    console.log(changeList);
+    let script = lib.getIndexScript(changeList.sort());
+    writeStream.write(script + '\r\n');
+  });
+};
+
 (async function() {
   const categories = ['Mgen'];
+  let removeList = [];
   let diffConfig = yaml.safeLoad(
     fs.readFileSync('./src/config/viewconfig.yaml', 'utf8')
   );
-  if (fs.existsSync('./src/generated/viewconfig.gen.yaml')) {
+  if (fs.existsSync('./src/generated/viewconfig.old.gen.yaml')) {
     let oldConfig = yaml.safeLoad(
-      fs.readFileSync('./src/generated/viewconfig.gen.yaml', 'utf8')
+      fs.readFileSync('./src/generated/viewconfig.old.gen.yaml', 'utf8')
     );
-    diffConfig['Views'] = lib.getDiffedConfig(
+    [diffConfig['Views'], removeList] = lib.getDiffedConfig(
       diffConfig.Views,
       oldConfig.Views
     );
@@ -94,6 +129,7 @@ const generateComponent = (viewConfig, lexDict) => {
   }
 
   let lexMap = {};
+  let changeList = [];
   for (let category of categories) {
     stageTemplate(category, lexMap);
     await lib.wait1Sec();
@@ -104,11 +140,15 @@ const generateComponent = (viewConfig, lexDict) => {
         continue;
       }
       generateComponent(viewConfig, lexMap);
+      changeList.push(`${viewConfig.entity}.${viewConfig.category}`);
     }
   }
+
+  generateIndex(changeList, removeList);
+
   fs.copyFile(
     './src/config/viewconfig.yaml',
-    './src/generated/viewconfig.gen.yaml',
+    './src/generated/viewconfig.old.gen.yaml',
     err => {
       if (err) throw err;
     }
