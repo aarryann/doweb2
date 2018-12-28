@@ -83,7 +83,14 @@ const generateComponent = (viewConfig, lexDict) => {
     let oldConfig = yaml.safeLoad(
       fs.readFileSync('./src/generated/viewconfig.gen.yaml', 'utf8')
     );
-    diffConfig = lib.getDiffedConfig(diffConfig.Views, oldConfig.Views);
+    diffConfig['Views'] = lib.getDiffedConfig(
+      diffConfig.Views,
+      oldConfig.Views
+    );
+  }
+  const viewKeys = Object.keys(diffConfig.Views);
+  if (viewKeys.length === 0) {
+    return;
   }
 
   let lexMap = {};
@@ -91,9 +98,8 @@ const generateComponent = (viewConfig, lexDict) => {
     stageTemplate(category, lexMap);
     await lib.wait1Sec();
 
-    const viewKeys = Object.keys(diffConfig);
     for (let view of viewKeys) {
-      let viewConfig = diffConfig[view];
+      let viewConfig = diffConfig.Views[view];
       if (viewConfig.category.toLowerCase() !== category.toLowerCase()) {
         continue;
       }

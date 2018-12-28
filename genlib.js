@@ -235,21 +235,31 @@ const wait1Sec = async () => {
   );
 };
 
-const getDiffedConfig = (newConfig, oldConfig) => {
-  const strNew = JSON.stringify(newConfig);
-  const strOld = JSON.stringify(oldConfig);
+const getDiffedConfig = (newConfigView, oldConfigView) => {
+  const strNew = JSON.stringify(newConfigView);
+  const strOld = JSON.stringify(oldConfigView);
   if (strNew === strOld) {
-    console.log('==================');
     return {};
   } else {
-    let diffConfig = diffJSON(newConfig, oldConfig, {});
-    console.log(JSON.stringify(diffConfig));
-    return newConfig;
+    let newDiffView = diffJSON(newConfigView, oldConfigView, {});
+    let diffKeys = Object.keys(newDiffView);
+    for (let key of diffKeys) {
+      delete newDiffView[key];
+      newDiffView[key] = newConfigView[key];
+    }
+    let oldDiffView = diffJSON(oldConfigView, newConfigView, {});
+    diffKeys = Object.keys(oldDiffView);
+    for (let key of diffKeys) {
+      if (!newDiffView[key]) {
+        newDiffView[key] = newConfigView[key];
+      }
+    }
+
+    return newDiffView;
   }
 };
 
 const valueType = value => {
-  console.log(`=====+${value}+======`);
   if (typeof value === 'object') {
     if (Array.isArray(value)) {
       return 'array';
@@ -264,11 +274,13 @@ const valueType = value => {
 const diffJSON = (lhs, rhs, dlhs) => {
   const lKeys = Object.keys(lhs);
   for (let lKey of lKeys) {
+    if (!lhs[lKey] && !rhs[lKey]) {
+      continue;
+    }
     if (!rhs[lKey]) {
       dlhs[lKey] = lhs[lKey];
       continue;
     }
-    console.log(`=====+${lKey}+======`);
     const lType = valueType(lhs[lKey]);
     const rType = valueType(rhs[lKey]);
     if (lType !== rType) {
