@@ -238,12 +238,19 @@ const getDiffedConfig = (newConfigView, oldConfigView) => {
     // Includes two scenarios - (1). few inner properties removed from new...
     // ...view config (2). entire view deleted from new config.
     let oldDiffView = diffJSON(oldConfigView, newConfigView, {});
+    // console.log(JSON.stringify(oldDiffView, null, 4));
     let oldDiffKeys = Object.keys(oldDiffView);
     // filter out cases where entire view is removed from new config
     let delViews = oldDiffKeys.filter(x => !newDiffKeys.includes(x));
+    let removeList = [];
     for (let key of oldDiffKeys) {
       // filter out, don't bother me for any future changes
       if (delViews.includes(key)) {
+        removeList.push(
+          `${oldDiffView[key].entity}.${oldDiffView[
+            key
+          ].category.toLowerCase()}`
+        );
         delete oldDiffKeys[key];
       } else {
         // Get entire view property for cases where few inner properties...
@@ -255,7 +262,7 @@ const getDiffedConfig = (newConfigView, oldConfigView) => {
       }
     }
 
-    return [newDiffView, delViews];
+    return [newDiffView, removeList];
   }
 };
 
@@ -314,17 +321,17 @@ const diffJSON = (lhs, rhs, dlhs) => {
   return dlhs;
 };
 
+const titleCase = word => {
+  return `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
+};
+
 const getComponentIndexList = (line, importList, removeList) => {
   if (line.indexOf('import') >= 0) {
     // eslint-disable-next-line
     const com = line.match(/[\w\.]+\.gen/)[0];
-    console.log(com);
     const comArr = com.split('.');
-    if (!removeList.includes(comArr[0])) {
-      let cat = comArr[1];
-      importList.push(
-        `${comArr[0]}.${cat.charAt(0).toUpperCase()}${cat.slice(1)}`
-      );
+    if (!removeList.includes(`${comArr[0]}.${comArr[1]}`)) {
+      importList.push(`${comArr[0]}.${titleCase(comArr[1])}`);
     }
   }
   return importList;
@@ -335,11 +342,12 @@ const getIndexScript = componentList => {
   let exportScript = '';
   for (let com of componentList) {
     let comArr = com.split('.');
-    importScript += `import ${comArr[0]}${comArr[1]} from './${
+    let comName = comArr.join('');
+    importScript += `import ${comName} from './${
       comArr[0]
     }.${comArr[1].toLowerCase()}.gen'\r\n`;
 
-    exportScript += `${comArr[0]}${comArr[1]},\r\n`;
+    exportScript += `${comName},\r\n`;
   }
   return (
     importScript +

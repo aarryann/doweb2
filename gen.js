@@ -96,16 +96,14 @@ const generateIndex = (changeList, removeList) => {
     // Do your stuff ...
     importList = lib.getComponentIndexList(line, importList, removeList);
   }).on('close', () => {
-    console.log('Have a great day!');
-    console.log(importList);
     changeList = [...new Set(changeList.concat(importList))];
     if (changeList.length === 0) {
       return;
     }
-    console.log(changeList);
     let script = lib.getIndexScript(changeList.sort());
     writeStream.write(script + '\r\n');
   });
+  fs.unlinkSync(`./src/generated/index.old.gen.tsx`);
 };
 
 (async function() {
@@ -123,34 +121,37 @@ const generateIndex = (changeList, removeList) => {
       oldConfig.Views
     );
   }
+
   const viewKeys = Object.keys(diffConfig.Views);
-  if (viewKeys.length === 0) {
-    return;
-  }
+  if (viewKeys.length > 0 || removeList.length > 0) {
+    let lexMap = {};
+    let changeList = [];
+    for (let category of categories) {
+      stageTemplate(category, lexMap);
+      await lib.wait1Sec();
 
-  let lexMap = {};
-  let changeList = [];
-  for (let category of categories) {
-    stageTemplate(category, lexMap);
-    await lib.wait1Sec();
-
-    for (let view of viewKeys) {
-      let viewConfig = diffConfig.Views[view];
-      if (viewConfig.category.toLowerCase() !== category.toLowerCase()) {
-        continue;
+      for (let view of viewKeys) {
+        let viewConfig = diffConfig.Views[view];
+        if (viewConfig.category.toLowerCase() !== category.toLowerCase()) {
+          continue;
+        }
+        generateComponent(viewConfig, lexMap);
+        changeList.push(`${viewConfig.entity}.${viewConfig.category}`);
       }
-      generateComponent(viewConfig, lexMap);
-      changeList.push(`${viewConfig.entity}.${viewConfig.category}`);
     }
+
+    if (changeList.length > 0 || removeList.length > 0) {
+      generateIndex(changeList, removeList);
+    }
+    if (removeList.length > 0) {
+      for (let key of removeList) {
+        fs.unlinkSync(`./src/generated/${key}.gen.tsx`);
+      }
+    }
+
+    fs.copyFileSync(
+      './src/config/viewconfig.yaml',
+      './src/generated/viewconfig.old.gen.yaml'
+    );
   }
-
-  generateIndex(changeList, removeList);
-
-  fs.copyFile(
-    './src/config/viewconfig.yaml',
-    './src/generated/viewconfig.old.gen.yaml',
-    err => {
-      if (err) throw err;
-    }
-  );
 })();
