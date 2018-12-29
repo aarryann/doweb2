@@ -10,9 +10,8 @@
 /src/**/*.css
 
 # Generated Code files
-!/src/generated/index.tsx
 /src/generated/*.gen.*
-/src/out/
+!/src/generated/*.tsx
 
 # testing
 /coverage
