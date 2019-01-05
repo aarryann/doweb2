@@ -5,7 +5,7 @@ import React, { lazy } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { routePaths } from '../../config/paths';
-import Header from '../../components/framework/Header';
+import Header from '../../app/Header';
 
 declare const process: IProcess;
 const isAuthenticated = () => {
@@ -121,14 +121,7 @@ class App extends React.Component<any, any> {
       return false;
     }
 
-    return (
-      <Header
-        handleSignOut={this._handleSignOut}
-        handleSearchTermChange={this._handleSearchTermChange}
-        searchTerm=""
-        {...this.props}
-      />
-    );
+    return <Header handleSignOut={this._handleSignOut} {...this.props} />;
   }
 }
 

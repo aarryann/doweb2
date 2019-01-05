@@ -1,0 +1,58 @@
+--- # document start
+
+# Comments in YAML look like this.
+
+# Views
+Views:
+  ListCases: &list_cases
+    entity: ListCases
+    category: Component
+    children:
+      '0000':
+        component: ExampleFunctionComponent
+        props:
+          title: My cases
+        dataSource:
+      '0100':
+        component: TextField
+        props:
+          title: My text
+        dataSource:
+  ListBoards: &list_boards
+    entity: ListBoards
+    category: Mgen
+    children:
+      '0000':
+        component: ListComponent
+        props:
+          title: My Boards
+          addNew: true
+        dataSource: Boards.useSubOwnBoard
+        actions:
+          createBoard: Boards.createBoard
+          viewBoard: Boards.viewBoard
+      '0100':
+        component: ListComponent
+        props:
+          title: Other Boards
+        dataSource: Boards.useSubOtherBoard
+        actions:
+          viewBoard: Boards.viewBoard
+  BoardDetails: &board_details
+    entity: BoardDetails
+    category: Mgen
+    children:
+      '0000':
+        component: ExampleFunctionComponent
+        props:
+          title: Board Details
+        dataSource: Boards.useSubOwnBoard
+        actions:
+          viewBoard: Boards.viewBoard
+
+# Landing
+Routes:
+  '/': *list_boards
+  '/cases': *list_cases
+  '/boards/:bid': *board_details
+... # document end

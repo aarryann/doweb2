@@ -1,15 +1,13 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-import labels from "../../config/labels.en";
-import { routePaths } from "../../config/paths";
+import labels from '../config/labels.en';
+import { routePaths } from '../config/paths';
 
-import "./Header.css";
+import './Header.scss';
 
 interface IHeaderProps {
-  searchTerm: string;
   handleSignOut(): void;
-  handleSearchTermChange(event: any): void;
 }
 
 export default function Header(props: IHeaderProps) {
@@ -71,9 +69,7 @@ export default function Header(props: IHeaderProps) {
                 type="text"
                 placeholder={labels.header.searchPlaceholder}
                 aria-label={labels.header.searchLabel}
-                value={props.searchTerm}
                 id="search"
-                onChange={props.handleSearchTermChange}
               />
             </div>
           </form>
