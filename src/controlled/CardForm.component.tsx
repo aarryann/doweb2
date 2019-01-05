@@ -1,7 +1,7 @@
 import React from 'react';
 import PageClick from 'react-page-click';
 import { IBoard } from '../pipes/boards/interfaces.board';
-import { renderErrorsFor } from '../services/utils/component.helpers';
+import { renderErrorsFor } from '../services/component.helpers';
 
 interface IBoardFormProps {
   errors: any;

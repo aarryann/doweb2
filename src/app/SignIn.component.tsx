@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { setDocumentTitle } from '../../services/utils/component.helpers';
+import { setDocumentTitle } from '../services/component.helpers';
 
 interface ISignInComponentProps {
   title: string;

@@ -2,8 +2,8 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import { Redirect } from 'react-router-dom';
 
-import labels from '../../config/labels.en';
-import Actions from '../../pipes/sessions/actions.session';
+import labels from '../config/labels.en';
+import Actions from '../data/actions.session';
 import SignIn from './SignIn.component';
 
 interface ISignInManagerProps {

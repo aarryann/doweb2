@@ -10,8 +10,8 @@ declare const process: IProcess;
 
 const Loading = <div>...loading</div>;
 const AsyncContainer = lazy(() => import('./ViewLoader'));
-const AsyncRegister = lazy(() => import('../scenes/session/SignIn.manager'));
-const AsyncLogin = lazy(() => import('../scenes/session/SignIn.manager'));
+const AsyncRegister = lazy(() => import('./SignIn.manager'));
+const AsyncLogin = lazy(() => import('./SignIn.manager'));
 
 class App extends React.Component<any, any> {
   constructor(props: any) {
