@@ -12,14 +12,11 @@ interface IHeaderProps {
 
 export default function Header(props: IHeaderProps) {
   return (
-    <nav className="navbar navbar-expand-md navbar-dark bg-dark">
-      <div className="container-fluid">
-        <Link to={routePaths.home} className="navbar-brand app-label">
+    <nav className="navbar navbar-expand-md navbar-light bg-light header">
+      <div className="container-fluid zeropad">
+        <Link to={routePaths.home} className="navbar-brand logo">
           {labels.header.appLabel}
         </Link>
-        <a className="nav-link hide-menu text-white mr-auto">
-          <i className="fa fa-bars" />
-        </a>
         <button
           className="navbar-toggler"
           type="button"
@@ -31,7 +28,7 @@ export default function Header(props: IHeaderProps) {
         >
           <i className="fa fa-chevron-down" />
         </button>
-        <div className="collapse navbar-collapse" id="mobile-menu">
+        <div className="collapse navbar-collapse top-menu">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
               <Link className="nav-link" to="/">

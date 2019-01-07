@@ -1,3 +1,22 @@
-.app-label{
+.header{
+  border-bottom: 1px solid #eaeaea;
+  padding: 0px !important;
+
+  .logo{
+    height: 50px;
     font-variant: small-caps;
+    border-right: 1px solid #eaeaea;
+    padding: 10px 30px 10px 30px !important;
+    margin: 0px !important;
+  }
+  
+  .top-menu{
+    background-color: white;
+    padding: 5px 5px 5px 15px  !important;
+  }
+
+}
+
+.zeropad{
+  padding: 0px !important;
 }
