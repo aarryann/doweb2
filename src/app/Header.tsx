@@ -18,12 +18,12 @@ export default function Header(props: IHeaderProps) {
           {labels.header.appLabel}
         </Link>
         <button
-          className="navbar-toggler"
+          className="navbar-toggler mobile-menu-toggle"
           type="button"
           data-toggle="collapse"
-          data-target="#mobile-menu"
+          data-target="#mobile-collapse"
           aria-controls="mobile-menu"
-          aria-expanded="false"
+          aria-expanded="true"
           aria-label="Toggle navigation"
         >
           <i className="fa fa-chevron-down" />
