@@ -16,9 +16,11 @@ import { BrowserRouter } from 'react-router-dom';
 
 import * as serviceWorker from './serviceWorker';
 
+import './include/bootstrap'
+import './assets/css/index.scss';
+
 import App from './app/App';
 
-import './assets/css/index.scss';
 declare const process: IProcess;
 
 if (process.env.NODE_ENV !== 'production') {

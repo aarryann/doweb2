@@ -21,14 +21,14 @@ export default function Header(props: IHeaderProps) {
           className="navbar-toggler mobile-menu-toggle"
           type="button"
           data-toggle="collapse"
-          data-target="#mobile-collapse"
+          data-target="#mobile-menu"
           aria-controls="mobile-menu"
           aria-expanded="true"
           aria-label="Toggle navigation"
         >
           <i className="fa fa-chevron-down" />
         </button>
-        <div className="collapse navbar-collapse top-menu">
+        <div className="collapse navbar-collapse top-menu" id="mobile-menu">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
               <Link className="nav-link" to="/">

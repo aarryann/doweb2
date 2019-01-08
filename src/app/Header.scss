@@ -27,3 +27,9 @@
 .zeropad {
   padding: 0px !important;
 }
+
+@media (max-width: 768px){
+  .navbar-form-custom, .navbar-right, #logo {
+    display: none;
+  }
+}
