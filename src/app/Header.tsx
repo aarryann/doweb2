@@ -17,40 +17,42 @@ export default function Header(props: IHeaderProps) {
         <Link to={routePaths.home} className="navbar-brand logo">
           {labels.header.appLabel}
         </Link>
-        <button
-          className="navbar-toggler mobile-menu-toggle"
-          type="button"
-          data-toggle="collapse"
-          data-target="#mobile-menu"
-          aria-controls="mobile-menu"
-          aria-expanded="true"
-          aria-label="Toggle navigation"
-        >
-          <i className="fa fa-chevron-down" />
-        </button>
-        <div className="collapse navbar-collapse top-menu" id="mobile-menu">
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <Link className="nav-link" to="/">
-                Home <span className="sr-only">(current)</span>
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/settings">
-                Settings
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/profile">
-                Profile
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/help">
-                Help
-              </Link>
-            </li>
-          </ul>
+        <div id="menu">
+          <button
+            className="navbar-toggler mobile-menu-toggle"
+            type="button"
+            data-toggle="collapse"
+            data-target="#mobile-menu"
+            aria-controls="mobile-menu"
+            aria-expanded="true"
+            aria-label="Toggle navigation"
+          >
+            <i className="fa fa-chevron-down" />
+          </button>
+          <div className="collapse navbar-collapse top-menu" id="mobile-menu">
+            <ul className="navbar-nav mr-auto">
+              <li className="nav-item">
+                <Link className="nav-link" to="/">
+                  Home <span className="sr-only">(current)</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/settings">
+                  Settings
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/profile">
+                  Profile
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/help">
+                  Help
+                </Link>
+              </li>
+            </ul>
+          </div>
           <form className="form-inline d-none d-md-flex">
             <label className="sr-only" htmlFor="search">
               {labels.header.searchLabel}
