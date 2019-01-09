@@ -9,23 +9,35 @@
     font-size: 1.25rem;
     font-variant: small-caps;
     font-weight: 600;
-    height: 50px;
+    height: 35px;
     margin: 0px !important;
-    padding: 10px 30px 10px 30px !important;
+    padding: 0px 30px 0px 30px !important;
   }
 
   .top-menu {
-    background-color: white;
-    padding: 5px 5px 5px 15px !important;
+    //background-color: white;
+    border-right: 1px solid #eaeaea;
+    padding: 0 5px 0 5px !important;
+
+  }
+  .show{
+    border-top: 1px solid #eaeaea;
+  }
+
+  #search{
+    border: medium none;
+    font-size: 0.8125rem;
+    height: 35px;
+    margin: 0;
+
+  }
+  #search:focus{
+    box-shadow: none;
   }
 
   .navbar-nav .nav-link {
     color: #333 !important;
   }
-}
-
-.zeropad {
-  padding: 0px !important;
 }
 
 @media (max-width: 768px){

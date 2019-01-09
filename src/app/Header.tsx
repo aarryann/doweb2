@@ -12,70 +12,215 @@ interface IHeaderProps {
 
 export default function Header(props: IHeaderProps) {
   return (
-    <nav className="navbar navbar-expand-md navbar-light bg-light header">
-      <div className="container-fluid zeropad">
-        <Link to={routePaths.home} className="navbar-brand logo">
-          {labels.header.appLabel}
-        </Link>
-        <div id="menu">
-          <button
-            className="navbar-toggler mobile-menu-toggle"
-            type="button"
-            data-toggle="collapse"
-            data-target="#mobile-menu"
-            aria-controls="mobile-menu"
-            aria-expanded="true"
-            aria-label="Toggle navigation"
+    <nav className="navbar navbar-expand-md navbar-light fixed-top bg-light header">
+      <Link to={routePaths.home} className="navbar-brand logo">
+        {labels.header.appLabel}
+      </Link>
+      <ul className="navbar-nav">
+        <li className="nav-item dropdown">
+          <a
+            className="nav-link dropdown-toggle"
+            href="#"
+            id="dropdown01"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
           >
-            <i className="fa fa-chevron-down" />
-          </button>
-          <div className="collapse navbar-collapse top-menu" id="mobile-menu">
-            <ul className="navbar-nav mr-auto">
-              <li className="nav-item">
-                <Link className="nav-link" to="/">
-                  Home <span className="sr-only">(current)</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/settings">
-                  Settings
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/profile">
-                  Profile
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/help">
-                  Help
-                </Link>
-              </li>
-            </ul>
+            Cases
+          </a>
+          <div className="dropdown-menu" aria-labelledby="dropdown01">
+            <a className="dropdown-item" href="#">
+              Action
+            </a>
+            <a className="dropdown-item" href="#">
+              Another action
+            </a>
+            <a className="dropdown-item" href="#">
+              Something else here
+            </a>
           </div>
-          <form className="form-inline d-none d-md-flex">
-            <label className="sr-only" htmlFor="search">
-              {labels.header.searchLabel}
-            </label>
-            <div className="input-group mb-2 mb-sm-0">
-              <div className="input-group-prepend">
-                <span className="input-group-text">
-                  <span className="fa fa-search" aria-hidden="true" />
-                </span>
+        </li>
+      </ul>
+      <button
+        className="navbar-toggler mobile-menu-toggle"
+        type="button"
+        data-toggle="collapse"
+        data-target="#mobile-menu"
+        aria-controls="mobile-menu"
+        aria-expanded="true"
+        aria-label="Toggle navigation"
+      >
+        <i className="fa fa-chevron-down" />
+      </button>
+      <div className="collapse navbar-collapse top-menu" id="mobile-menu">
+        <ul className="navbar-nav mr-auto">
+          <li className="nav-item">
+            <Link className="nav-link" to="/">
+              Home <span className="sr-only">(current)</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/settings">
+              Settings
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/profile">
+              Profile
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/help">
+              Help
+            </Link>
+          </li>
+        </ul>
+        <form
+          className="form-inline d-none d-md-flex search-form"
+          method="post"
+          action="#"
+        >
+          <label className="sr-only" htmlFor="search">
+            {labels.header.searchLabel}
+          </label>
+          <input
+            className="form-control mr-sm-2"
+            type="text"
+            placeholder={labels.header.searchPlaceholder}
+            aria-label={labels.header.searchLabel}
+            id="search"
+          />
+        </form>
+        <div className="navbar-right">
+          <ul className="nav navbar-nav no-borders">
+            <li className="dropdown">
+              <a
+                className="nav-link dropdown-toggle"
+                href="#"
+                data-toggle="dropdown"
+              >
+                <i className="fa fa-bell" />
+              </a>
+              <ul className="dropdown-menu hdropdown notification animated flipInX">
+                <li>
+                  <a>
+                    <span className="label label-success">NEW</span> It is a
+                    long established.
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <span className="label label-warning">WAR</span> There are
+                    many variations.
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <span className="label label-danger">ERR</span> Contrary to
+                    popular belief.
+                  </a>
+                </li>
+                <li className="summary">
+                  <a href="#">See all notifications</a>
+                </li>
+              </ul>
+            </li>
+            <li className="dropdown">
+              <a
+                className="nav-link dropdown-toggle"
+                href="#"
+                data-toggle="dropdown"
+              >
+                <i className="fa fa-keyboard-o" />
+              </a>
+
+              <div className="dropdown-menu hdropdown bigmenu animated flipInX">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <a href="projects.html">
+                          <i className="fa fa-tasks text-info" />
+                          <h5>Projects</h5>
+                        </a>
+                      </td>
+                      <td>
+                        <a href="mailbox.html">
+                          <i className="fa fa-envelope text-warning" />
+                          <h5>Email</h5>
+                        </a>
+                      </td>
+                      <td>
+                        <a href="contacts.html">
+                          <i className="fa fa-address-book-o text-success" />
+                          <h5>Contacts</h5>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <a href="forum.html">
+                          <i className="fa fa-comment text-info" />
+                          <h5>Forum</h5>
+                        </a>
+                      </td>
+                      <td>
+                        <a href="analytics.html">
+                          <i className="fa fa-bar-chart text-danger" />
+                          <h5>Analytics</h5>
+                        </a>
+                      </td>
+                      <td>
+                        <a href="file_manager.html">
+                          <i className="fa fa-files-o text-success" />
+                          <h5>Files</h5>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-              <input
-                className="form-control mr-sm-2"
-                type="text"
-                placeholder={labels.header.searchPlaceholder}
-                aria-label={labels.header.searchLabel}
-                id="search"
-              />
-            </div>
-          </form>
-          <ul className="navbar-nav ml-none">
-            <li className="nav-item">
+            </li>
+            <li className="dropdown">
+              <a
+                className="nav-link dropdown-toggle label-menu-corner"
+                href="#"
+                data-toggle="dropdown"
+              >
+                <i className="fa fa-envelope" />
+                <span className="label label-success">4</span>
+              </a>
+              <ul className="dropdown-menu hdropdown animated flipInX">
+                <div className="title">You have 4 new messages</div>
+                <li>
+                  <a>It is a long established.</a>
+                </li>
+                <li>
+                  <a>There are many variations.</a>
+                </li>
+                <li>
+                  <a>Lorem Ipsum is simply dummy.</a>
+                </li>
+                <li>
+                  <a>Contrary to popular belief.</a>
+                </li>
+                <li className="summary">
+                  <a href="#">See All Messages</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a
+                href="#"
+                id="sidebar"
+                className=" nav-link right-sidebar-toggle"
+              >
+                <i className="fa fa-newspaper-o" />
+              </a>
+            </li>
+            <li className="dropdown">
               <a href="#" onClick={props.handleSignOut} className="nav-link">
-                {labels.header.signOut}
+                <i className="fa fa-sign-out" />
               </a>
             </li>
           </ul>
