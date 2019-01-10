@@ -94,11 +94,7 @@ export default function Header(props: IHeaderProps) {
         <div className="navbar-right">
           <ul className="nav navbar-nav no-borders">
             <li className="dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                data-toggle="dropdown"
-              >
+              <a className="nav-button-flat" href="#" data-toggle="dropdown">
                 <i className="fa fa-bell" />
               </a>
               <ul className="dropdown-menu hdropdown notification animated flipInX">
@@ -126,11 +122,7 @@ export default function Header(props: IHeaderProps) {
               </ul>
             </li>
             <li className="dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                data-toggle="dropdown"
-              >
+              <a className="nav-button-flat" href="#" data-toggle="dropdown">
                 <i className="fa fa-keyboard-o" />
               </a>
 
@@ -183,7 +175,7 @@ export default function Header(props: IHeaderProps) {
             </li>
             <li className="dropdown">
               <a
-                className="nav-link dropdown-toggle label-menu-corner"
+                className="nav-button-flat label-menu-corner"
                 href="#"
                 data-toggle="dropdown"
               >
@@ -213,13 +205,17 @@ export default function Header(props: IHeaderProps) {
               <a
                 href="#"
                 id="sidebar"
-                className=" nav-link right-sidebar-toggle"
+                className=" nav-button-flat right-sidebar-toggle"
               >
                 <i className="fa fa-newspaper-o" />
               </a>
             </li>
             <li className="dropdown">
-              <a href="#" onClick={props.handleSignOut} className="nav-link">
+              <a
+                href="#"
+                onClick={props.handleSignOut}
+                className="nav-button-flat"
+              >
                 <i className="fa fa-sign-out" />
               </a>
             </li>
