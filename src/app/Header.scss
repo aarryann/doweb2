@@ -20,13 +20,13 @@
     padding: 0 5px 0 5px !important;
 
   }
-  .show{
+  #mobile-menu.show{
     border-top: 1px solid #eaeaea;
   }
 
   #search{
     border: medium none;
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
     height: 35px;
     margin: 0;
 
@@ -40,8 +40,9 @@
   }
 
   .nav-button-flat {
-    padding: 0px 40px;
-    font-size: 25px;
+    color: #333;
+    font-size: 20px;
+    padding: 0px 20px;
   }
 }
 
@@ -49,4 +50,11 @@
   .navbar-form-custom, .navbar-right, #logo {
     display: none;
   }
+}
+
+
+a:focus {
+    outline: thin dotted;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -1px;
 }
