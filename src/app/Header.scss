@@ -39,22 +39,41 @@
     color: #333 !important;
   }
 
-  .nav-button-flat {
+  .znav-button-flat {
     color: #333;
     font-size: 20px;
     padding: 0px 20px;
   }
+
+  .list-group.dropdown-menu {
+      border: 0;
+      padding: 0;
+      display: none;
+      left: auto;
+      right: 0;
+  }
+  .list-group.dropdown-menu.show {
+      display: flex;
+  }
+
+  .zlist-group-options {
+    li {
+      background: #fafbfc;
+      a {
+        white-space: nowrap;
+        font-size: 0.8125rem;
+      }
+    }
+    li.summary{
+      text-align: center;
+      background: #fff;
+    }
+  }
+
 }
 
 @media (max-width: 768px){
   .navbar-form-custom, .navbar-right, #logo {
     display: none;
   }
-}
-
-
-a:focus {
-    outline: thin dotted;
-    outline: 5px auto -webkit-focus-ring-color;
-    outline-offset: -1px;
 }

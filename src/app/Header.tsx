@@ -94,35 +94,35 @@ export default function Header(props: IHeaderProps) {
         <div className="navbar-right">
           <ul className="nav navbar-nav no-borders">
             <li className="dropdown">
-              <a className="nav-button-flat" href="#" data-toggle="dropdown">
+              <a className="znav-button-flat" href="#" data-toggle="dropdown">
                 <i className="fa fa-bell" />
               </a>
-              <ul className="dropdown-menu hdropdown notification animated flipInX">
-                <li>
+              <ul className="list-group dropdown-menu zlist-group-options animated flipInX">
+                <li className="list-group-item">
                   <a>
-                    <span className="label label-success">NEW</span> It is a
+                    <span className="badge badge-success">NEW</span> It is a
                     long established.
                   </a>
                 </li>
-                <li>
+                <li className="list-group-item">
                   <a>
-                    <span className="label label-warning">WAR</span> There are
+                    <span className="badge badge-warning">WAR</span> There are
                     many variations.
                   </a>
                 </li>
-                <li>
+                <li className="list-group-item">
                   <a>
-                    <span className="label label-danger">ERR</span> Contrary to
+                    <span className="badge badge-danger">ERR</span> Contrary to
                     popular belief.
                   </a>
                 </li>
-                <li className="summary">
+                <li className="list-group-item summary">
                   <a href="#">See all notifications</a>
                 </li>
               </ul>
             </li>
             <li className="dropdown">
-              <a className="nav-button-flat" href="#" data-toggle="dropdown">
+              <a className="znav-button-flat" href="#" data-toggle="dropdown">
                 <i className="fa fa-keyboard-o" />
               </a>
 
@@ -175,7 +175,7 @@ export default function Header(props: IHeaderProps) {
             </li>
             <li className="dropdown">
               <a
-                className="nav-button-flat label-menu-corner"
+                className="znav-button-flat label-menu-corner"
                 href="#"
                 data-toggle="dropdown"
               >
@@ -205,7 +205,7 @@ export default function Header(props: IHeaderProps) {
               <a
                 href="#"
                 id="sidebar"
-                className=" nav-button-flat right-sidebar-toggle"
+                className="znav-button-flat right-sidebar-toggle"
               >
                 <i className="fa fa-newspaper-o" />
               </a>
@@ -214,7 +214,7 @@ export default function Header(props: IHeaderProps) {
               <a
                 href="#"
                 onClick={props.handleSignOut}
-                className="nav-button-flat"
+                className="znav-button-flat"
               >
                 <i className="fa fa-sign-out" />
               </a>
