@@ -95,7 +95,7 @@ export default function Header(props: IHeaderProps) {
           <ul className="nav navbar-nav no-borders">
             <li className="dropdown">
               <a className="z-flat-button" href="#" data-toggle="dropdown">
-                <i className="fa fa-bell" />
+                <i className="fa fa-bullhorn" />
               </a>
               <ul className="list-group dropdown-menu z-drop-list animated flipInX">
                 <li className="list-group-item">
@@ -123,22 +123,22 @@ export default function Header(props: IHeaderProps) {
             </li>
             <li className="dropdown">
               <a className="z-flat-button" href="#" data-toggle="dropdown">
-                <i className="fa fa-keyboard-o" />
+                <i className="fa fa-th" />
               </a>
 
-              <div className="dropdown-menu hdropdown bigmenu animated flipInX">
+              <div className="dropdown-menu z-dash-list animated flipInX">
                 <table>
                   <tbody>
                     <tr>
                       <td>
                         <a href="projects.html">
-                          <i className="fa fa-tasks text-info" />
+                          <i className="fa fa-briefcase text-primary" />
                           <h5>Projects</h5>
                         </a>
                       </td>
                       <td>
                         <a href="mailbox.html">
-                          <i className="fa fa-envelope text-warning" />
+                          <i className="fa fa-envelope-o text-warning" />
                           <h5>Email</h5>
                         </a>
                       </td>
@@ -152,13 +152,13 @@ export default function Header(props: IHeaderProps) {
                     <tr>
                       <td>
                         <a href="forum.html">
-                          <i className="fa fa-comment text-info" />
+                          <i className="fa fa-comments-o text-forum" />
                           <h5>Forum</h5>
                         </a>
                       </td>
                       <td>
                         <a href="analytics.html">
-                          <i className="fa fa-bar-chart text-danger" />
+                          <i className="fa fa-line-chart text-danger" />
                           <h5>Analytics</h5>
                         </a>
                       </td>

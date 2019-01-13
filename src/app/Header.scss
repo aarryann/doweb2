@@ -56,9 +56,9 @@
 .list-group.dropdown-menu {
   border: 0;
   padding: 0;
-    display: none;
-    left: auto;
-    right: 0;
+  display: none;
+  left: auto;
+  right: 0;
 }
 
 .list-group.dropdown-menu.show {
@@ -88,4 +88,24 @@
     right: 10px;
     top: 1px;
   }
+}
+
+.z-dash-list.dropdown-menu {
+  padding: 30px 30px 0 30px;
+  left: auto;
+  right: 0;
+  a {
+    display: block;
+    text-align: center;
+    margin: 0 10px 30px 0;
+    min-width: 100px;
+
+    .fa {
+      font-size: 46px;
+    }
+  }
+  h5 {
+    font-size: 13px;
+    margin-top: 10px;
+}
 }
