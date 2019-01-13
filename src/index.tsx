@@ -16,6 +16,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import * as serviceWorker from './serviceWorker';
 
+import 'sanitize.css';
 import './include/bootstrap'
 import './assets/css/index.scss';
 

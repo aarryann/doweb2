@@ -94,10 +94,10 @@ export default function Header(props: IHeaderProps) {
         <div className="navbar-right">
           <ul className="nav navbar-nav no-borders">
             <li className="dropdown">
-              <a className="znav-button-flat" href="#" data-toggle="dropdown">
+              <a className="z-flat-button" href="#" data-toggle="dropdown">
                 <i className="fa fa-bell" />
               </a>
-              <ul className="list-group dropdown-menu zlist-group-options animated flipInX">
+              <ul className="list-group dropdown-menu z-drop-list animated flipInX">
                 <li className="list-group-item">
                   <a>
                     <span className="badge badge-success">NEW</span> It is a
@@ -122,7 +122,7 @@ export default function Header(props: IHeaderProps) {
               </ul>
             </li>
             <li className="dropdown">
-              <a className="znav-button-flat" href="#" data-toggle="dropdown">
+              <a className="z-flat-button" href="#" data-toggle="dropdown">
                 <i className="fa fa-keyboard-o" />
               </a>
 
@@ -175,28 +175,30 @@ export default function Header(props: IHeaderProps) {
             </li>
             <li className="dropdown">
               <a
-                className="znav-button-flat label-menu-corner"
+                className="z-flat-button badge-superscript"
                 href="#"
                 data-toggle="dropdown"
               >
                 <i className="fa fa-envelope" />
-                <span className="label label-success">4</span>
+                <span className="badge badge-success">4</span>
               </a>
-              <ul className="dropdown-menu hdropdown animated flipInX">
-                <div className="title">You have 4 new messages</div>
-                <li>
+              <ul className="dropdown-menu list-group z-drop-list animated flipInX">
+                <li className="list-group-item summary">
+                  <a>You have 5 new messages.</a>
+                </li>
+                <li className="list-group-item">
                   <a>It is a long established.</a>
                 </li>
-                <li>
+                <li className="list-group-item">
                   <a>There are many variations.</a>
                 </li>
-                <li>
+                <li className="list-group-item">
                   <a>Lorem Ipsum is simply dummy.</a>
                 </li>
-                <li>
+                <li className="list-group-item">
                   <a>Contrary to popular belief.</a>
                 </li>
-                <li className="summary">
+                <li className="list-group-item summary">
                   <a href="#">See All Messages</a>
                 </li>
               </ul>
@@ -205,7 +207,7 @@ export default function Header(props: IHeaderProps) {
               <a
                 href="#"
                 id="sidebar"
-                className="znav-button-flat right-sidebar-toggle"
+                className="z-flat-button right-sidebar-toggle"
               >
                 <i className="fa fa-newspaper-o" />
               </a>
@@ -214,7 +216,7 @@ export default function Header(props: IHeaderProps) {
               <a
                 href="#"
                 onClick={props.handleSignOut}
-                className="znav-button-flat"
+                className="z-flat-button"
               >
                 <i className="fa fa-sign-out" />
               </a>
