@@ -33,7 +33,9 @@
     "react-page-click": "^4.0.2",
     "react-router-dom": "^4.3.1",
     "sanitize.css": "^8.0.0",
-    "subscriptions-transport-ws": "^0.9.14"
+    "subscriptions-transport-ws": "^0.9.14",
+    "typeface-open-sans": "^0.0.54",
+    "typeface-source-sans-pro": "^0.0.54"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.1",

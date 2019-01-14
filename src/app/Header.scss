@@ -1,4 +1,7 @@
+@import '../assets/css/global/settings';
+
 .header {
+  font-family: $heading-font-family;
   border-bottom: 1px solid #eaeaea;
   padding: 0px !important;
 
