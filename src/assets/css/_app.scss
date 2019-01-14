@@ -1,27 +1,20 @@
 body {
+  background-image: linear-gradient(to right, #f6f6f6 1px, transparent 1px), linear-gradient(to bottom, #f6f6f6 1px, transparent 1px);
+  background-size: 10px 10px;
+  background-repeat: initial;
+  //background-image: url(../img/gridbg.jpg);
+  //background-size: cover;
   color: #333;
   font-family: sans-serif;
   font-size: 0.875rem;
   margin: 0;
+  opacity: 0.9;
   padding: 0;
 }
 
 .main-container{
   background: #f1f3f6;
+  opacity: 0.9;
   position: relative;
   top: 51px;
-}
-
-.dropdown-menu.hdropdown {
-  left: auto;
-  padding: 0;
-  right: 0;
-
-  li {
-    background: #fafbfc;
-    border-bottom: 1px solid #eaeaea;
-    padding: 6px 12px;
-    text-align: left;
-  }
- 
 }
