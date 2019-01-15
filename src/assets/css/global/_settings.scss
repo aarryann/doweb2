@@ -46,6 +46,8 @@ $gray: #bdc3c7;
 $asphalt: #34495e;
 $pink: #ff5aec;
 
+$gray1: #fafafa;
+
 $dark-blue: shade($blue, 15);
 $dark-purple: shade($purple, 15);
 $light-gray: tint($gray, 50);
@@ -61,6 +63,11 @@ $light-blue: tint($blue, 20);
 $dark-orange: shade($orange, 15);
 $dark-red: shade($red, 15);
 $light-pink: tint($pink, 31);
+
+$primary: #ffffff;
+$contrast: $gray1;
+$accent: $red;
+
 
 $base-font-color: $dark-gray;
 $action-color: $blue;
