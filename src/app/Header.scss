@@ -1,26 +1,26 @@
 @import '../assets/css/global/settings';
 
 .header {
+  background-color: $contrast-shade-1 !important;
   font-family: $heading-font-family;
   border-bottom: 1px solid #eaeaea;
   padding: 0px !important;
 
   .logo {
-    background-color: #f1f3f6;
     border-right: 1px solid #eaeaea;
     color: #34495e;
     font-size: 1.25rem;
     font-variant: small-caps;
     font-weight: 600;
-    height: 35px;
+    height: 39px;
     margin: 0px !important;
-    padding: 0px 30px 0px 30px !important;
+    padding: 3px 30px 3px 30px !important;
   }
 
   .top-menu {
     //background-color: white;
     border-right: 1px solid #eaeaea;
-    padding: 0 5px 0 5px !important;
+    padding: 1px 5px 1px 5px !important;
 
   }
   #mobile-menu.show{

@@ -45,8 +45,11 @@ $purple: #89609E;
 $gray: #bdc3c7;
 $asphalt: #34495e;
 $pink: #ff5aec;
+$white: #ffffff;
 
-$gray1: #fafafa;
+$gray1: #f1f3f6;
+$red1: #ae5b64;
+$red2: #ce4639;
 
 $dark-blue: shade($blue, 15);
 $dark-purple: shade($purple, 15);
@@ -64,9 +67,21 @@ $dark-orange: shade($orange, 15);
 $dark-red: shade($red, 15);
 $light-pink: tint($pink, 31);
 
-$primary: #ffffff;
+$primary: $white;
+$primary-tint-1: $primary;
+$primary-tint-2: $primary;
+$primary-shade-1: $primary;
+$primary-shade-2: $primary;
 $contrast: $gray1;
-$accent: $red;
+$contrast-tint-1: tint($contrast, 10);
+$contrast-tint-2: tint($contrast, 20);
+$contrast-shade-1: shade($contrast, 3);
+$contrast-shade-2: shade($contrast, 20);
+$accent: $red2;
+$accent-tint-1: tint($accent, 15);
+$accent-tint-2: tint($accent, 20);
+$accent-shade-1: shade($accent, 15);
+$accent-shade-2: shade($accent, 20);
 
 
 $base-font-color: $dark-gray;
@@ -91,8 +106,8 @@ $base-duration: 150ms;
 $base-timing: ease;
 
 // - - typography
-$base-font-family: "Source Sans Pro", sans-serif;
-$heading-font-family: 'Open Sans', sans-serif;
+$base-font-family: Roboto, sans-serif;
+$heading-font-family: Roboto, "Open Sans", sans-serif;
 $base-font-size: 1em;
 
 $tags-colors: (green: #61bd4f, yellow: #f2d600, orange: #ffab4a, red: #eb5a46, purple: #c377e0, blue: #0079bf);

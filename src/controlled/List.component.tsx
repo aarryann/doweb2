@@ -31,8 +31,8 @@ export default function ListComponent(props: IListComponentProps) {
   if (!fetching) {
     content = (
       <div className="boards-wrapper">
-        {renderBoards(data)}
         {renderAddNewBoard(props.addNew)}
+        {renderBoards(data)}
       </div>
     );
   }
@@ -40,7 +40,7 @@ export default function ListComponent(props: IListComponentProps) {
   return (
     <div className="view-container boards index">
       <section id="myBoards">
-        <header className="view-header">
+        <header className="view-header text-accent">
           <h3>
             <i className={iconClasses} /> {props.title}
           </h3>
@@ -80,7 +80,11 @@ export default function ListComponent(props: IListComponentProps) {
     return (
       <div className="card board add-new" onClick={handleShowForm}>
         <div className="card-body inner">
-          <a id="add_new_board">Add new board...</a>
+          <h4>
+            <i className="fa fa-plus-square-o" />
+            &nbsp;&nbsp;&nbsp;
+            <a id="add_new_board">Add new board...</a>
+          </h4>
         </div>
       </div>
     );

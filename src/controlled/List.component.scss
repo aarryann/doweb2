@@ -19,7 +19,8 @@
     color: #212529;
 
     .inner {
-      background: rgba($light-gray, 0.9);
+      //background: rgba($light-gray, 0.9);
+      background: $contrast;
       animation-duration: 0.3s;
       animation-name: fadeIn;
     }
@@ -27,13 +28,17 @@
 
   .add-new {
     .inner {
-      background: rgba(#000, 0.1);
+      // background: rgba(#000, 0.1);
       cursor: pointer;
-      color: $gray;
-
-      :hover {
-        background: rgba(#000, 0.2);
+      color: $accent;
+      text-align: center;
+      i {
+        font-size: 1.1rem;
+        font-weight: 500;
       }
+    }
+    :hover {
+      background: $contrast-shade-1;
     }
   }
 }
