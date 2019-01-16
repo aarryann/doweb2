@@ -1,9 +1,10 @@
 @import "./global/settings";
 
 body {
-  background-image: linear-gradient(to right, #f5f5f5 1px, transparent 1px), linear-gradient(to bottom, #f9f9f9 1px, transparent 1px);
+  background-image: linear-gradient(to right, $faint-gray 1px, transparent 1px), linear-gradient(to bottom, $faint-gray 1px, transparent 1px);
   background-size: 15px 15px;
   background-repeat: initial;
+  background-color: $background;
   color: #333;
   font-family: $base-font-family;
   font-size: 0.875rem;
@@ -13,12 +14,16 @@ body {
 }
 
 .main-container{
-  //background: $contrast-custom-2;
   opacity: 0.8;
   position: relative;
-  top: 41px;
+  top: 52px;
 }
 
 .text-accent{
   color: $accent !important;
+}
+
+.badge-accent {
+    color: $on-accent;
+    background-color: $accent;
 }

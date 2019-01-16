@@ -16,31 +16,6 @@ export default function Header(props: IHeaderProps) {
       <Link to={routePaths.home} className="navbar-brand logo">
         {labels.header.appLabel}
       </Link>
-      <ul className="navbar-nav">
-        <li className="nav-item dropdown">
-          <a
-            className="nav-link dropdown-toggle"
-            href="#"
-            id="dropdown01"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            Cases
-          </a>
-          <div className="dropdown-menu" aria-labelledby="dropdown01">
-            <a className="dropdown-item" href="#">
-              Action
-            </a>
-            <a className="dropdown-item" href="#">
-              Another action
-            </a>
-            <a className="dropdown-item" href="#">
-              Something else here
-            </a>
-          </div>
-        </li>
-      </ul>
       <button
         className="navbar-toggler mobile-menu-toggle"
         type="button"
@@ -54,22 +29,48 @@ export default function Header(props: IHeaderProps) {
       </button>
       <div className="collapse navbar-collapse top-menu" id="mobile-menu">
         <ul className="navbar-nav mr-auto">
-          <li className="nav-item">
+          <li className="nav-item dropdown menu-item">
+            <a
+              className="nav-link dropdown-toggle"
+              href="#"
+              id="dropdown01"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Cases
+            </a>
+            <div
+              className="dropdown-menu sub-menu-item"
+              aria-labelledby="dropdown01"
+            >
+              <a className="dropdown-item" href="#">
+                Action
+              </a>
+              <a className="dropdown-item" href="#">
+                Another action
+              </a>
+              <a className="dropdown-item" href="#">
+                Something else here
+              </a>
+            </div>
+          </li>
+          <li className="nav-item menu-item">
             <Link className="nav-link" to="/">
               Home <span className="sr-only">(current)</span>
             </Link>
           </li>
-          <li className="nav-item">
+          <li className="nav-item menu-item">
             <Link className="nav-link" to="/settings">
               Settings
             </Link>
           </li>
-          <li className="nav-item">
+          <li className="nav-item menu-item">
             <Link className="nav-link" to="/profile">
               Profile
             </Link>
           </li>
-          <li className="nav-item">
+          <li className="nav-item menu-item">
             <Link className="nav-link" to="/help">
               Help
             </Link>
@@ -126,25 +127,25 @@ export default function Header(props: IHeaderProps) {
                 <i className="fa fa-th" />
               </a>
 
-              <div className="dropdown-menu z-dash-list animated flipInX">
+              <div className="dropdown-menu z-dashlist animated flipInX">
                 <table>
                   <tbody>
                     <tr>
                       <td>
                         <a href="projects.html">
-                          <i className="fa fa-briefcase text-primary" />
+                          <i className="fa fa-briefcase text-accent" />
                           <h5>Projects</h5>
                         </a>
                       </td>
                       <td>
                         <a href="mailbox.html">
-                          <i className="fa fa-envelope-o text-warning" />
+                          <i className="fa fa-envelope-o text-accent" />
                           <h5>Email</h5>
                         </a>
                       </td>
                       <td>
                         <a href="contacts.html">
-                          <i className="fa fa-address-book-o text-success" />
+                          <i className="fa fa-address-book-o text-accent" />
                           <h5>Contacts</h5>
                         </a>
                       </td>
@@ -152,19 +153,19 @@ export default function Header(props: IHeaderProps) {
                     <tr>
                       <td>
                         <a href="forum.html">
-                          <i className="fa fa-comments-o text-forum" />
+                          <i className="fa fa-comments-o text-accent" />
                           <h5>Forum</h5>
                         </a>
                       </td>
                       <td>
                         <a href="analytics.html">
-                          <i className="fa fa-line-chart text-danger" />
+                          <i className="fa fa-line-chart text-accent" />
                           <h5>Analytics</h5>
                         </a>
                       </td>
                       <td>
                         <a href="file_manager.html">
-                          <i className="fa fa-files-o text-success" />
+                          <i className="fa fa-files-o text-accent" />
                           <h5>Files</h5>
                         </a>
                       </td>
@@ -180,7 +181,7 @@ export default function Header(props: IHeaderProps) {
                 data-toggle="dropdown"
               >
                 <i className="fa fa-envelope" />
-                <span className="badge badge-success">4</span>
+                <span className="badge badge-accent">4</span>
               </a>
               <ul className="dropdown-menu list-group z-drop-list animated flipInX">
                 <li className="list-group-item summary">

@@ -41,19 +41,24 @@ $green: #2ecc71;
 $red: #e74c3c;
 $yellow: #f1c40f;
 $orange: #e67e22;
-$purple: #89609E;
 $gray: #bdc3c7;
 $asphalt: #34495e;
 $pink: #ff5aec;
-$white: #ffffff;
 
-$gray1: #f1f1f1;
+$white: #ffffff;
+$black: #252E39;
+$blue-gray: #32325d;
+$pale-blue: #f4f6f9;
+$faint-gray: #f1f2f3;
+$purple: #8789cd;
+
+$gray1: #608074;
 $red1: #ae5b64;
 $red2: #ce4639;
 
 $dark-blue: shade($blue, 15);
 $dark-purple: shade($purple, 15);
-$light-gray: tint($gray, 50);
+$light-gray: tint($gray, 80);
 $lighter-gray: tint($gray, 20);
 $medium-gray: shade($gray, 10);
 $dark-gray: shade($gray, 60);
@@ -67,17 +72,24 @@ $dark-orange: shade($orange, 15);
 $dark-red: shade($red, 15);
 $light-pink: tint($pink, 31);
 
-$primary: $white;
+$primary: $blue-gray;
+$background: $pale-blue;
+$contrast: $white;
+$accent: $red2;
+$error: $yellow;
+$on-primary: $purple;
+$on-accent: $white;
+$on-contrast: $black;
+$on-error: $white;
+
 $primary-tint-1: $primary;
 $primary-tint-2: $primary;
 $primary-shade-1: $primary;
 $primary-shade-2: $primary;
-$contrast: $gray1;
 $contrast-tint-1: tint($contrast, 10);
 $contrast-tint-2: tint($contrast, 20);
 $contrast-shade-1: shade($contrast, 3);
 $contrast-shade-2: shade($contrast, 20);
-$accent: $red2;
 $accent-tint-1: tint($accent, 15);
 $accent-tint-2: tint($accent, 20);
 $accent-shade-1: shade($accent, 15);
