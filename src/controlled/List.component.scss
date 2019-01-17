@@ -7,38 +7,38 @@
   @include flexbox;
   @include flex-flow(row wrap);
   margin: 0 $margin/2.5 $margin $margin/2.5;
+}
 
+.card.card-tile {
+  $margin: 1em;
+  @include flex(0 0 24.4%);
+  margin: 0 $margin/5 $margin/2.5 $margin/5;
+  cursor: pointer;
+  color: #212529;
 
-  .card.card-tile {
-    @include flex(0 0 24.4%);
-    margin: 0 $margin/5 $margin/2.5 $margin/5;
+  .card-body {
+    background: $contrast;
+    animation-duration: 0.3s;
+    animation-name: fadeIn;
+    h4{
+      text-transform: capitalize;
+    }
+  }
+  :hover {
+    background: $contrast-shade-1;
+  }
+}
+
+.card.card-tile:hover {
+  text-decoration: none;
+}
+
+.card.card-tile.add-new {
+  .card-body {
     cursor: pointer;
-    color: #212529;
-
-    .card-body {
-      background: $contrast;
-      animation-duration: 0.3s;
-      animation-name: fadeIn;
-      h4{
-        text-transform: capitalize;
-      }
-    }
-    :hover {
-      background: $contrast-shade-1;
-    }
-  }
-
-  .card.card-tile:hover {
-      text-decoration: none;
-  }
-
-  .card.card-tile.add-new {
-    .card-body {
-      cursor: pointer;
-      text-align: center;
-      i {
-        font-size: 2rem;
-      }
+    text-align: center;
+    i {
+      font-size: 2rem;
     }
   }
 }
