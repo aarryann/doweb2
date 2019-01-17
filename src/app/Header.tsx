@@ -133,19 +133,19 @@ export default function Header(props: IHeaderProps) {
                     <tr>
                       <td>
                         <a href="projects.html">
-                          <i className="fa fa-briefcase text-accent" />
+                          <i className="pe pe-7s-portfolio text-accent" />
                           <h5>Projects</h5>
                         </a>
                       </td>
                       <td>
                         <a href="mailbox.html">
-                          <i className="fa fa-envelope-o text-accent" />
+                          <i className="pe pe-7s-mail text-accent" />
                           <h5>Email</h5>
                         </a>
                       </td>
                       <td>
                         <a href="contacts.html">
-                          <i className="fa fa-address-book-o text-accent" />
+                          <i className="pe pe-7s-users text-accent" />
                           <h5>Contacts</h5>
                         </a>
                       </td>
@@ -153,19 +153,19 @@ export default function Header(props: IHeaderProps) {
                     <tr>
                       <td>
                         <a href="forum.html">
-                          <i className="fa fa-comments-o text-accent" />
+                          <i className="pe pe-7s-comment text-accent" />
                           <h5>Forum</h5>
                         </a>
                       </td>
                       <td>
                         <a href="analytics.html">
-                          <i className="fa fa-line-chart text-accent" />
+                          <i className="pe pe-7s-graph1 text-accent" />
                           <h5>Analytics</h5>
                         </a>
                       </td>
                       <td>
                         <a href="file_manager.html">
-                          <i className="fa fa-files-o text-accent" />
+                          <i className="pe pe-7s-box1 text-accent" />
                           <h5>Files</h5>
                         </a>
                       </td>

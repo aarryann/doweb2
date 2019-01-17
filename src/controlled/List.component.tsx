@@ -78,11 +78,14 @@ export default function ListComponent(props: IListComponentProps) {
 
   function renderAddButton() {
     return (
-      <div className="card board add-new" onClick={handleShowForm}>
+      <div className="card card-tile add-new" onClick={handleShowForm}>
         <div className="card-body inner">
           <h4>
-            <i className="fa fa-plus-square-o" />
-            &nbsp;&nbsp;&nbsp;
+            <button className="btn btn-circle btn-accent">
+              <i className="fa fa-plus text-on-accent" />
+            </button>
+            <br />
+            <br />
             <a id="add_new_board">Add new board...</a>
           </h4>
         </div>

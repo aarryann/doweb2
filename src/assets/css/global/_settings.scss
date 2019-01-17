@@ -44,15 +44,12 @@ $orange: #e67e22;
 $gray: #bdc3c7;
 $asphalt: #34495e;
 $pink: #ff5aec;
+$purple: #cdcfe6;
 
 $white: #ffffff;
 $black: #252E39;
-$blue-gray: #32325d;
-$pale-blue: #f4f6f9;
+$pale-blue: #f8f8f9;
 $faint-gray: #f1f2f3;
-$purple: #8789cd;
-
-$gray1: #608074;
 $red1: #ae5b64;
 $red2: #ce4639;
 
@@ -72,12 +69,12 @@ $dark-orange: shade($orange, 15);
 $dark-red: shade($red, 15);
 $light-pink: tint($pink, 31);
 
-$primary: $blue-gray;
+$primary: $black;
+$on-primary: $white;
 $background: $pale-blue;
 $contrast: $white;
 $accent: $red2;
 $error: $yellow;
-$on-primary: $purple;
 $on-accent: $white;
 $on-contrast: $black;
 $on-error: $white;

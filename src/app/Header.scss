@@ -61,6 +61,7 @@
 }
 
 .z-drop-list.list-group {
+  border: 1px solid $accent;
   li.list-group-item {
     background: #f1f3fc;
     a {
@@ -96,7 +97,7 @@
     margin: 0 10px 30px 0;
     min-width: 100px;
 
-    .fa {
+    i {
       font-size: 46px;
     }
   }

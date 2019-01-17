@@ -17,7 +17,7 @@ export default class BoardCard extends React.Component<IBoardCardProps, any> {
       <Link
         id={`${this.props.id}`}
         to={`/boards/${this.props.id}`}
-        className="card board"
+        className="card card-tile"
       >
         <div className="card-body inner">
           <h4>{this.props.name}</h4>

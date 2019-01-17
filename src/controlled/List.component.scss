@@ -8,37 +8,37 @@
   @include flex-flow(row wrap);
   margin: 0 $margin/2.5 $margin $margin/2.5;
 
-  :hover {
-    text-decoration: none;
-  }
 
-  .board {
+  .card.card-tile {
     @include flex(0 0 24.4%);
     margin: 0 $margin/5 $margin/2.5 $margin/5;
     cursor: pointer;
     color: #212529;
 
-    .inner {
-      //background: rgba($light-gray, 0.9);
+    .card-body {
       background: $contrast;
       animation-duration: 0.3s;
       animation-name: fadeIn;
-    }
-  }
-
-  .add-new {
-    .inner {
-      // background: rgba(#000, 0.1);
-      cursor: pointer;
-      color: $accent;
-      text-align: center;
-      i {
-        font-size: 1.1rem;
-        font-weight: 500;
+      h4{
+        text-transform: capitalize;
       }
     }
     :hover {
       background: $contrast-shade-1;
+    }
+  }
+
+  .card.card-tile:hover {
+      text-decoration: none;
+  }
+
+  .card.card-tile.add-new {
+    .card-body {
+      cursor: pointer;
+      text-align: center;
+      i {
+        font-size: 2rem;
+      }
     }
   }
 }
