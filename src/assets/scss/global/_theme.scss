@@ -1,0 +1,27 @@
+.text-accent{
+  color: $accent !important;
+}
+
+.text-on-accent{
+  color: $on-accent !important;
+}
+
+.badge-accent {
+    color: $on-accent;
+    background-color: $accent;
+}
+
+.btn-accent {
+    color: $on-accent;
+    background-color: $accent;
+    border-color: $accent;
+}
+
+.btn-circle {
+  width: 50px;
+  height: 50px;
+  padding: 10px 0px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 25px;
+}

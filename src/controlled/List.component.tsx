@@ -80,13 +80,11 @@ export default function ListComponent(props: IListComponentProps) {
     return (
       <div className="card card-tile add-new" onClick={handleShowForm}>
         <div className="card-body inner">
+          <button className="btn btn-circle btn-accent">
+            <i className="fa fa-plus text-on-accent" />
+          </button>
           <h4>
-            <button className="btn btn-circle btn-accent">
-              <i className="fa fa-plus text-on-accent" />
-            </button>
-            <br />
-            <br />
-            <a id="add_new_board">Add new board...</a>
+            <span className="label-caption">Add new ...</span>
           </h4>
         </div>
       </div>

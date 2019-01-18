@@ -29,8 +29,8 @@ export default class BoardForm extends React.Component<IBoardFormProps, any> {
 
     return (
       <PageClick notify={this._handleFormCancel}>
-        <div className="board form">
-          <div className="inner">
+        <div className="board form card card-tile">
+          <div className="card-body inner">
             <h4>New board</h4>
             <form id="new_board_form" onSubmit={this._handleCreateBoard}>
               <input

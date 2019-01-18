@@ -2,15 +2,26 @@
 @import '../assets/css/global/settings';
 
 .boards-wrapper {
-  $margin: 1em;
+  $margin: 20px;
 
   @include flexbox;
   @include flex-flow(row wrap);
   margin: 0 $margin/2.5 $margin $margin/2.5;
+
+  .card.card-tile {
+    flex-basis: 19.5% !important;
+    height: 120px;
+    box-shadow: 5px 5px 0px #afafaf;
+
+    .label-caption {
+      display: inline-block;
+      padding-top: 7px;
+    }
+  }
 }
 
 .card.card-tile {
-  $margin: 1em;
+  $margin: 20px;
   @include flex(0 0 24.4%);
   margin: 0 $margin/5 $margin/2.5 $margin/5;
   cursor: pointer;
@@ -20,11 +31,12 @@
     background: $contrast;
     animation-duration: 0.3s;
     animation-name: fadeIn;
+    padding: 10px;
     h4{
       text-transform: capitalize;
     }
   }
-  :hover {
+  .card-body:not(.nohover):hover {
     background: $contrast-shade-1;
   }
 }

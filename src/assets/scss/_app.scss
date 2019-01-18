@@ -1,4 +1,5 @@
 @import "./global/settings";
+@import "./global/theme";
 
 body {
   background-image: linear-gradient(to right, $faint-gray 1px, transparent 1px), linear-gradient(to bottom, $faint-gray 1px, transparent 1px);
@@ -17,32 +18,4 @@ body {
   opacity: 0.8;
   position: relative;
   top: 52px;
-}
-
-.text-accent{
-  color: $accent !important;
-}
-
-.text-on-accent{
-  color: $on-accent !important;
-}
-
-.badge-accent {
-    color: $on-accent;
-    background-color: $accent;
-}
-
-.btn-accent {
-    color: $on-accent;
-    background-color: $accent;
-    border-color: $accent;
-}
-
-.btn-circle {
-  width: 50px;
-  height: 50px;
-  padding: 10px 0px;
-  font-size: 18px;
-  line-height: 1.33;
-  border-radius: 25px;
 }
