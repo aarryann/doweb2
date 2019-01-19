@@ -5,6 +5,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import { routePaths } from '../config/paths';
 import Header from './Header';
+import RSideBar from './RSideBar';
 
 declare const process: IProcess;
 
@@ -53,6 +54,7 @@ class App extends React.Component<any, any> {
     return (
       <>
         {this.renderHeader()}
+        {this.renderRightSideBar()}
         <div id="content-wrapper" className="main-container">
           <Suspense fallback={Loading}>
             <Switch>
@@ -82,6 +84,10 @@ class App extends React.Component<any, any> {
 
   public renderHeader() {
     return <Header handleSignOut={this.handleSignOut} {...this.props} />;
+  }
+
+  public renderRightSideBar() {
+    return <RSideBar handleSignOut={this.handleSignOut} {...this.props} />;
   }
 }
 
