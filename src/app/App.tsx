@@ -6,6 +6,8 @@ import { routePaths } from '../config/paths';
 import Header from './Header';
 import RSidebar from './RSidebar';
 
+import './App.scss';
+
 declare const process: IProcess;
 
 const Loading = <div>...loading</div>;

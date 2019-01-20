@@ -1,5 +1,4 @@
-@import './global/components';
-@import './global/settings';
+@import '../assets/scss/global/index';
 
 body {
   background-image: linear-gradient(to right, $gray-faint 1px, transparent 1px),
@@ -7,7 +6,7 @@ body {
   background-size: 15px 15px;
   background-repeat: initial;
   background-color: $background;
-  color: #333;
+  color: $on-background;
   font-family: $base-font-family;
   font-size: 0.875rem;
   margin: 0;

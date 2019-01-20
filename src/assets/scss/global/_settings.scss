@@ -1,9 +1,3 @@
-@import 'colors_1'; // COLOR SCHEME - BLACK WHITE RED
-// @import 'colors_2'; // COLOR SCHEME -
-// @import 'colors_3'; // COLOR SCHEME -
-
-@import 'mixin';
-
 // - - settings
 // @font-face declarations, variables
 
@@ -51,12 +45,3 @@ $form-box-shadow-focus: none;
 // - - animations
 $base-duration: 150ms;
 $base-timing: ease;
-
-@include keyframes(fadeIn) {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
