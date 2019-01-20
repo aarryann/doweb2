@@ -7,22 +7,16 @@ interface IBoardCardProps extends IBoard {
   dispatch(action: string, payload: any): void;
 }
 
-export default class BoardCard extends React.Component<IBoardCardProps, any> {
-  constructor(props: IBoardCardProps) {
-    super(props);
-  }
-
-  public render() {
-    return (
-      <Link
-        id={`${this.props.id}`}
-        to={`/boards/${this.props.id}`}
-        className="card card-tile"
-      >
-        <div className="card-body inner">
-          <h4>{this.props.name}</h4>
-        </div>
-      </Link>
-    );
-  }
+export default function BoardCard(props: IBoardCardProps) {
+  return (
+    <a
+      id={`${props.id}`}
+      href={`/boards/${props.id}`}
+      className="card card-tile"
+    >
+      <div className="card-body inner">
+        <h4>{props.name}</h4>
+      </div>
+    </a>
+  );
 }
