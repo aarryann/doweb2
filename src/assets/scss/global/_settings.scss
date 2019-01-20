@@ -1,5 +1,9 @@
-@import "mixin";
-// - - - - - - - - - - - - - - - - - - -
+@import 'colors_1'; // COLOR SCHEME - BLACK WHITE RED
+// @import 'colors_2'; // COLOR SCHEME -
+// @import 'colors_3'; // COLOR SCHEME -
+
+@import 'mixin';
+
 // - - settings
 // @font-face declarations, variables
 
@@ -25,9 +29,14 @@
 //     }
 //   }
 // }
-
 // - - - - - - - - - - - - - - - - - - -
-// - - variables
+
+// - - typography
+$base-font-family: Roboto, sans-serif;
+$heading-font-family: Roboto, 'Open Sans', sans-serif;
+$base-font-size: 1em;
+
+// - - layout
 $base-line-height: 1.5;
 $heading-line-height: 1.2em;
 $base-border-radius: 3px;
@@ -35,78 +44,7 @@ $base-spacing: $base-line-height * 1em;
 $small-spacing: $base-spacing / 2;
 $base-z-index: 0;
 
-// - - colors
-$blue: #3498db;
-$green: #2ecc71;
-$red: #e74c3c;
-$yellow: #f1c40f;
-$orange: #e67e22;
-$gray: #bdc3c7;
-$asphalt: #34495e;
-$pink: #ff5aec;
-$purple: #cdcfe6;
-
-$white: #ffffff;
-$black: #252E39;
-$pale-blue: #f8f8f9;
-$faint-gray: #f1f2f3;
-$red1: #ae5b64;
-$red2: #ce4639;
-
-$dark-blue: shade($blue, 15);
-$dark-purple: shade($purple, 15);
-$light-gray: tint($gray, 80);
-$lighter-gray: tint($gray, 20);
-$medium-gray: shade($gray, 10);
-$dark-gray: shade($gray, 60);
-$light-red: tint($red, 15);
-$light-yellow: tint($yellow, 15);
-$light-green: tint($green, 15);
-$dark-asphalt: shade($asphalt, 7);
-$light-asphalt: tint($asphalt, 30);
-$light-blue: tint($blue, 20);
-$dark-orange: shade($orange, 15);
-$dark-red: shade($red, 15);
-$light-pink: tint($pink, 31);
-
-$primary: $black;
-$on-primary: $white;
-$background: $pale-blue;
-$contrast: $white;
-$accent: $red2;
-$error: $yellow;
-$on-accent: $white;
-$on-contrast: $black;
-$on-error: $white;
-
-$primary-tint-1: $primary;
-$primary-tint-2: $primary;
-$primary-shade-1: $primary;
-$primary-shade-2: $primary;
-$contrast-tint-1: tint($contrast, 10);
-$contrast-tint-2: tint($contrast, 20);
-$contrast-shade-1: shade($contrast, 3);
-$contrast-shade-2: shade($contrast, 20);
-$accent-tint-1: tint($accent, 15);
-$accent-tint-2: tint($accent, 20);
-$accent-shade-1: shade($accent, 15);
-$accent-shade-2: shade($accent, 20);
-
-
-$base-font-color: $dark-gray;
-$action-color: $blue;
-
-$base-body-color: $light-gray;
-
-$base-link-color: $blue;
-$hover-link-color: shade($base-link-color, 15);
-
-$base-border-color: $light-gray;
-$base-border: 1px solid $base-border-color;
-
-$base-background-color: #fff;
-$secondary-background-color: tint($base-border-color, 75%);
-
+// - - effects
 $form-box-shadow: none;
 $form-box-shadow-focus: none;
 
@@ -114,16 +52,11 @@ $form-box-shadow-focus: none;
 $base-duration: 150ms;
 $base-timing: ease;
 
-// - - typography
-$base-font-family: Roboto, sans-serif;
-$heading-font-family: Roboto, "Open Sans", sans-serif;
-$base-font-size: 1em;
-
-$tags-colors: (green: #61bd4f, yellow: #f2d600, orange: #ffab4a, red: #eb5a46, purple: #c377e0, blue: #0079bf);
-
-// - - grid
-
-@include keyframes(fadeIn){
-  from { opacity: 0; }
-  to { opacity: 1; }
+@include keyframes(fadeIn) {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

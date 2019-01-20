@@ -19,19 +19,19 @@
     padding: 1px 5px 1px 5px !important;
   }
 
-  #search{
+  #search {
     border: medium none;
     font-size: 0.875rem;
     height: 35px;
     margin: 0;
   }
 
-  #search:focus{
+  #search:focus {
     box-shadow: none;
   }
 
-  .navbar-nav{
-    .menu-item{
+  .navbar-nav {
+    .menu-item {
       .nav-link {
         color: $on-primary !important;
         font-weight: 500;
@@ -39,76 +39,5 @@
         padding: 10px 20px 10px 20px;
       }
     }
-  }
-}
-
-.z-flat-button {
-  color: $on-primary;
-  font-size: 20px;
-  padding: 0px 20px;
-}
-
-.list-group.dropdown-menu {
-  border: 0;
-  padding: 0;
-  display: none;
-  left: auto;
-  right: 0;
-}
-
-.list-group.dropdown-menu.show {
-  display: flex;
-}
-
-.z-drop-list.list-group {
-  border: 1px solid $accent;
-  li.list-group-item {
-    background: #f1f3fc;
-    a {
-      white-space: nowrap;
-      font-size: 0.8125rem;
-    }
-  }
-  li.list-group-item.summary{
-    text-align: center;
-    background: #fff;
-  }
-}
-
-.badge-superscript {
-  .badge {
-    font-size: 10px;
-    line-height: 12px;
-    padding: 2px 5px;
-    position: absolute;
-    right: 10px;
-    top: 1px;
-  }
-}
-
-.z-dashlist.dropdown-menu {
-  padding: 30px 30px 0 30px;
-  left: auto;
-  right: 0;
-  border: 1px solid $accent;
-  a {
-    display: block;
-    text-align: center;
-    margin: 0 10px 30px 0;
-    min-width: 100px;
-
-    i {
-      font-size: 46px;
-    }
-  }
-  h5 {
-    font-size: 0.875rem;
-    margin-top: 10px;
-    color: $on-contrast;
-    font-weight: 400;
-
-  }
-  :hover{
-    text-decoration: none;
   }
 }

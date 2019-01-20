@@ -1,8 +1,9 @@
-@import "./global/settings";
-@import "./global/theme";
+@import './global/components';
+@import './global/settings';
 
 body {
-  background-image: linear-gradient(to right, $faint-gray 1px, transparent 1px), linear-gradient(to bottom, $faint-gray 1px, transparent 1px);
+  background-image: linear-gradient(to right, $gray-faint 1px, transparent 1px),
+    linear-gradient(to bottom, $gray-faint 1px, transparent 1px);
   background-size: 15px 15px;
   background-repeat: initial;
   background-color: $background;
@@ -14,7 +15,7 @@ body {
   padding: 0;
 }
 
-.main-container{
+.main-container {
   opacity: 0.8;
   position: relative;
   top: 52px;

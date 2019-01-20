@@ -1,4 +1,3 @@
-@import '../assets/scss/global/mixin';
 @import '../assets/scss/global/settings';
 
 .boards-wrapper {
@@ -16,41 +15,6 @@
     .label-caption {
       display: inline-block;
       padding-top: 7px;
-    }
-  }
-}
-
-.card.card-tile {
-  $margin: 20px;
-  @include flex(0 0 24.4%);
-  margin: 0 $margin/5 $margin/2.5 $margin/5;
-  cursor: pointer;
-  color: #212529;
-
-  .card-body {
-    background: $contrast;
-    animation-duration: 0.3s;
-    animation-name: fadeIn;
-    padding: 10px;
-    h4{
-      text-transform: capitalize;
-    }
-  }
-  .card-body:not(.nohover):hover {
-    background: $contrast-shade-1;
-  }
-}
-
-.card.card-tile:hover {
-  text-decoration: none;
-}
-
-.card.card-tile.add-new {
-  .card-body {
-    cursor: pointer;
-    text-align: center;
-    i {
-      font-size: 2rem;
     }
   }
 }
