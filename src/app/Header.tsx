@@ -1,4 +1,5 @@
-import React from 'react';
+// tslint:disable:jsx-no-lambda
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import labels from '../config/labels.en';
@@ -8,6 +9,7 @@ import './Header.scss';
 
 interface IHeaderProps {
   handleSignOut(): void;
+  showRSidebar(sb: any): void;
 }
 
 export default function Header(props: IHeaderProps) {
@@ -206,8 +208,9 @@ export default function Header(props: IHeaderProps) {
             </li>
             <li>
               <a
-                href="#"
+                href="javascript:;"
                 id="sidebar"
+                onClick={props.showRSidebar}
                 className="z-flat-button right-sidebar-toggle"
               >
                 <i className="fa fa-newspaper-o" />
@@ -215,7 +218,7 @@ export default function Header(props: IHeaderProps) {
             </li>
             <li className="dropdown">
               <a
-                href="#"
+                href="signin"
                 onClick={props.handleSignOut}
                 className="z-flat-button"
               >

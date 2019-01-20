@@ -1,4 +1,3 @@
-// tslint:disable
 import {
   ApolloClient,
   ApolloLink,
@@ -16,10 +15,10 @@ import { BrowserRouter } from 'react-router-dom';
 
 import * as serviceWorker from './serviceWorker';
 
-import 'typeface-roboto';
 import 'sanitize.css';
-import './include/bootstrap'
+import 'typeface-roboto';
 import './assets/scss/index.scss';
+import './include/bootstrap';
 
 import App from './app/App';
 

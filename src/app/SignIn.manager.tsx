@@ -6,18 +6,20 @@ import labels from '../config/labels.en';
 import Actions from '../data/actions.session';
 import SignIn from './SignIn.component';
 
+declare const process: IProcess;
 interface ISignInManagerProps {
   client: any;
 }
 
-class SignInManager extends React.Component<ISignInManagerProps, any> {
-  constructor(props: ISignInManagerProps) {
+class SignInManager extends React.Component<any, any> {
+  constructor(props: any) {
     super(props);
     this.state = {
       toHome: false,
       errors: null
     };
     this._handleSignIn = this._handleSignIn.bind(this);
+    localStorage.removeItem(process.env.REACT_APP_TOKEN_NAME);
   }
 
   public render() {

@@ -1,23 +1,28 @@
 // tslint:disable:jsx-no-lambda
 import decode from 'jwt-decode';
 import React, { lazy, Suspense } from 'react';
-import { Route, Switch } from 'react-router-dom';
 
 import { routePaths } from '../config/paths';
 import Header from './Header';
-import RSideBar from './RSideBar';
+import RSidebar from './RSidebar';
 
 declare const process: IProcess;
 
 const Loading = <div>...loading</div>;
-const AsyncContainer = lazy(() => import('./ViewLoader'));
+const ViewLoader = lazy(() => import('./ViewLoader'));
 const AsyncRegister = lazy(() => import('./SignIn.manager'));
 const AsyncLogin = lazy(() => import('./SignIn.manager'));
 
 class App extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
+
+    this.state = {
+      showForm: false
+    };
+
     this.handleSignOut = this.handleSignOut.bind(this);
+    this.showRSidebar = this.showRSidebar.bind(this);
   }
 
   public isAuthed(token: string | null) {
@@ -32,21 +37,34 @@ class App extends React.Component<any, any> {
       return false;
     }
   }
+
+  public getComponent(pathname: string, authed: boolean) {
+    if (pathname === routePaths.register) {
+      return AsyncRegister;
+    } else {
+      return AsyncLogin;
+    }
+  }
+
   public render() {
     const token = localStorage.getItem(process.env.REACT_APP_TOKEN_NAME);
+    const authed = this.isAuthed(token);
+    const pathname = window.location.pathname;
 
-    if (!this.isAuthed(token)) {
+    const AsyncAuthContainer = this.getComponent(
+      window.location.pathname,
+      authed
+    );
+
+    if (
+      !authed ||
+      pathname === routePaths.register ||
+      pathname === routePaths.login
+    ) {
       return (
         <div id="content-wrapper" className="main-container">
           <Suspense fallback={Loading}>
-            <Switch>
-              <Route
-                exact={true}
-                path={routePaths.register}
-                component={(props: any) => <AsyncRegister {...props} />}
-              />
-              <Route component={(props: any) => <AsyncLogin {...props} />} />
-            </Switch>
+            <AsyncAuthContainer {...this.props} />
           </Suspense>
         </div>
       );
@@ -57,21 +75,7 @@ class App extends React.Component<any, any> {
         {this.renderRightSideBar()}
         <div id="content-wrapper" className="main-container">
           <Suspense fallback={Loading}>
-            <Switch>
-              <Route
-                exact={true}
-                path={routePaths.login}
-                component={(props: any) => <AsyncLogin {...props} />}
-              />
-              <Route
-                exact={true}
-                path={routePaths.register}
-                component={(props: any) => <AsyncRegister {...props} />}
-              />
-              <Route
-                component={(props: any) => <AsyncContainer {...props} />}
-              />
-            </Switch>
+            <ViewLoader pathname={pathname} {...this.props} />
           </Suspense>
         </div>
       </>
@@ -82,12 +86,30 @@ class App extends React.Component<any, any> {
     localStorage.removeItem(process.env.REACT_APP_TOKEN_NAME);
   }
 
+  public showRSidebar() {
+    this.setState({
+      showForm: !this.state.showForm
+    });
+  }
+
   public renderHeader() {
-    return <Header handleSignOut={this.handleSignOut} {...this.props} />;
+    return (
+      <Header
+        handleSignOut={this.handleSignOut}
+        showRSidebar={this.showRSidebar}
+        {...this.props}
+      />
+    );
   }
 
   public renderRightSideBar() {
-    return <RSideBar handleSignOut={this.handleSignOut} {...this.props} />;
+    return (
+      <RSidebar
+        showForm={this.state.showForm}
+        showSidebar={this.showRSidebar}
+        {...this.props}
+      />
+    );
   }
 }
 

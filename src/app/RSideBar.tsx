@@ -4,22 +4,27 @@ import { Link } from 'react-router-dom';
 import labels from '../config/labels.en';
 import { routePaths } from '../config/paths';
 
-import './RSideBar.scss';
+import './RSidebar.scss';
 
-interface IRSideBarProps {
-  handleSignOut(): void;
+interface IRSidebarProps {
+  showForm: boolean;
+  showSidebar(): void;
 }
 
-export default function RSideBar(props: IRSideBarProps) {
+export default function RSideBar(props: IRSidebarProps) {
   return (
-    <div className="right-sidebar show" id="right_side_bar">
+    <div
+      className={`right-sidebar ${props.showForm ? 'show' : ''}`}
+      id="right_side_bar"
+    >
       <div className="card border-0">
         <div className="card-body pb-0">
           <a
             href="javascript:;"
+            onClick={props.showSidebar}
             className="right_side_toggle float-right close-sidebar-icon"
           >
-            <i className=" ti-shift-right" />
+            <i className="fa fa-arrow-right" />
           </a>
         </div>
         <div className="card-body pt-2">

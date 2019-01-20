@@ -56,6 +56,9 @@ export default class BoardForm extends React.Component<IBoardFormProps, any> {
   }
 
   public _handleChange(e: any) {
+    // const target = e.target;
+    // const value = target.type === 'checkbox' ? target.checked : target.value;
+    // const name = target.name;
     const { name, value } = e.target;
     this.setState({
       [name]: value
