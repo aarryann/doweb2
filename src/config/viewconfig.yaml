@@ -52,6 +52,9 @@ Views:
         component: ListComponent
         props:
           title: List Cases
+          boardCard:
+            cUrl: /boards/{id}
+            cLayout: TitleOnly
         dataSource: Cases.useCases
         actions:
           viewBoard: Cases.viewCase

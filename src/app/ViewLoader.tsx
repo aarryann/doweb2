@@ -8,25 +8,23 @@ import appConfig from '../config/viewconfig.yaml';
 import { Components } from '../controlled';
 
 function ViewLoader(props: any) {
-  console.log(props);
+  // console.log(props);
   const path = props.pathname;
   const routeKeys: string[] = Object.keys(appConfig.Routes);
   let template = path;
   // prettier-ignore
   const re1 = new RegExp('/:[A-Za-z0-9]+');
-  let re2;
-  let reStr;
-  let test;
+  // Find the corresponding routepath for the window path
   for (let i = 0; i < routeKeys.length; i++) {
     template = routeKeys[i];
-    reStr = template.replace(re1, '/[A-Za-z0-9]');
-    re2 = new RegExp('^' + reStr + '$');
-    test = re2.test(path);
+    const reStr = template.replace(re1, '/[A-Za-z0-9]+');
+    const re2 = new RegExp('^' + reStr + '$');
+    const test = re2.test(path);
     if (test) {
       break;
     }
   }
-
+  // Extract params from window path
   const params: any = {};
   if (template.indexOf(':') >= 1) {
     const templateArr = template.split('/');
@@ -45,6 +43,7 @@ function ViewLoader(props: any) {
   const LoadedComponent = (Components as any)[
     matchedView.entity + matchedView.category
   ];
+  // console.log(LoadedComponent);
 
   return <LoadedComponent {...props} {...params} {...matchedView} />;
 }
