@@ -120,6 +120,9 @@ const generateIndex = (changeList, removeList) => {
       diffConfig.Views,
       oldConfig.Views
     );
+    console.log(JSON.stringify(diffConfig, null, 4));
+    console.log(JSON.stringify(oldConfig, null, 4));
+    console.log(removeList);
   }
 
   const viewKeys = Object.keys(diffConfig.Views);

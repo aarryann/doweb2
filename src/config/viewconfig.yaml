@@ -4,14 +4,14 @@
 
 # Views
 Views:
-  ListCases: &list_cases
-    entity: ListCases
+  ListProjects: &list_projects
+    entity: ListProjects
     category: Component
     children:
       '0000':
         component: ExampleFunctionComponent
         props:
-          title: My cases
+          title: My projects
         dataSource:
       '0100':
         component: TextField
@@ -29,7 +29,7 @@ Views:
           addNew: true
           boardCard:
             cUrl: /boards/{id}
-            cLayout: titleOnly
+            cLayout: TitleOnly
         dataSource: Boards.useSubOwnBoard
         actions:
           createBoard: Boards.createBoard
@@ -40,25 +40,25 @@ Views:
           title: Other Boards
           boardCard:
             cUrl: /boards/{id}
-            cLayout: titleOnly
+            cLayout: TitleOnly
         dataSource: Boards.useSubOtherBoard
         actions:
           viewBoard: Boards.viewBoard
-  BoardDetails: &board_details
-    entity: BoardDetails
+  ListCases: &list_cases
+    entity: ListCases
     category: Mgen
     children:
       '0000':
-        component: ExampleFunctionComponent
+        component: ListComponent
         props:
-          title: Board Details
-        dataSource: Boards.useSubOwnBoard
+          title: List Cases
+        dataSource: Cases.useCases
         actions:
-          viewBoard: Boards.viewBoard
+          viewBoard: Cases.viewCase
 
 # Landing
 Routes:
   '/': *list_boards
-  '/cases': *list_cases
-  '/boards/:bid': *board_details
+  '/cases': *list_projects
+  '/boards/:bid': *list_cases
 ... # document end
