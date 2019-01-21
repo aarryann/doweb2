@@ -8,9 +8,10 @@ import BoardForm from './CardForm.component';
 import './List.component.scss';
 
 interface IListComponentProps {
+  addNew: boolean;
+  boardCard: any;
   dataSource: any;
   title: string;
-  addNew: boolean;
   dispatch(action: string, payload: any): void;
 }
 
@@ -52,7 +53,14 @@ export default function ListComponent(props: IListComponentProps) {
 
   function renderBoards(boards: any[]) {
     return boards.map((board: any) => {
-      return <BoardCard key={board.id} dispatch={props.dispatch} {...board} />;
+      return (
+        <BoardCard
+          key={board.id}
+          dispatch={props.dispatch}
+          {...props.boardCard}
+          {...board}
+        />
+      );
     });
   }
 

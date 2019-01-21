@@ -27,6 +27,9 @@ Views:
         props:
           title: My Boards
           addNew: true
+          boardCard:
+            cUrl: /boards/{id}
+            cLayout: titleOnly
         dataSource: Boards.useSubOwnBoard
         actions:
           createBoard: Boards.createBoard
@@ -35,6 +38,9 @@ Views:
         component: ListComponent
         props:
           title: Other Boards
+          boardCard:
+            cUrl: /boards/{id}
+            cLayout: titleOnly
         dataSource: Boards.useSubOtherBoard
         actions:
           viewBoard: Boards.viewBoard
