@@ -11,7 +11,7 @@ interface IRSidebarProps {
   showSidebar(): void;
 }
 
-export default function RSideBar(props: IRSidebarProps) {
+export default function RSidebar(props: IRSidebarProps) {
   return (
     <div
       className={`right-sidebar ${props.showForm ? 'show' : ''}`}
