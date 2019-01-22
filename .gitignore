@@ -11,7 +11,8 @@
 
 # Generated Code files
 !/src/generated/*.tsx
-/src/generated/*.gen.*
+/src/generated/*.gen.stg
+/src/generated/*.gen.yaml
 
 # testing
 /coverage
