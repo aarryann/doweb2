@@ -145,7 +145,9 @@ const generateIndex = (changeList, removeList) => {
     }
     if (removeList.length > 0) {
       for (let key of removeList) {
-        fs.unlinkSync(`./src/generated/${key}.gen.tsx`);
+        if (fs.existsSync(`./src/generated/${key}.gen.tsx`)) {
+          fs.unlinkSync(`./src/generated/${key}.gen.tsx`);
+        }
       }
     }
 
