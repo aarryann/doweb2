@@ -11,6 +11,7 @@ interface IListComponentProps {
   addNew: boolean;
   boardCard: any;
   dataSource: any;
+  detailPane: boolean;
   title: string;
   dispatch(action: string, payload: any): void;
 }
@@ -21,8 +22,6 @@ export default function ListComponent(props: IListComponentProps) {
   const { fetching, data } = props.dataSource;
   useDocumentTitle(labels.boards.title);
 
-  let content = null;
-
   const iconClasses = classnames({
     fa: true,
     'fa-user': !fetching,
@@ -30,25 +29,36 @@ export default function ListComponent(props: IListComponentProps) {
     'fa-spin': fetching
   });
 
+  let content = null;
   if (!fetching) {
     content = (
-      <div className="boards-wrapper">
+      <div className="list-roll">
         {renderAddNewBoard(props.addNew)}
         {renderBoards(data)}
       </div>
     );
   }
 
+  let details = null;
+  if (props.detailPane) {
+    details = (
+      <section className="detail-section">
+        <h4>Detail Section</h4>
+      </section>
+    );
+  }
+
   return (
-    <div className="view-container boards index">
-      <section id="myBoards">
-        <header className="view-header text-accent">
+    <div className={`list-container ${showDetails ? 'show' : ''}`}>
+      <section className="content-section">
+        <header className="text-accent">
           <h3>
             <i className={iconClasses} /> {props.title}
           </h3>
         </header>
         {content}
       </section>
+      {details}
     </div>
   );
 
@@ -109,8 +119,10 @@ export default function ListComponent(props: IListComponentProps) {
     setShowForm(false);
   }
 
-  function handleDetailsPane(show: boolean) {
-    setShowDetails(show);
+  function handleDetailsPane() {
+    if (props.detailPane) {
+      setShowDetails(show => !show);
+    }
   }
 }
 

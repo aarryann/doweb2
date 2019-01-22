@@ -1,6 +1,6 @@
 @import '../assets/scss/global/index';
 
-.boards-wrapper {
+.list-roll {
   $margin: 20px;
 
   @include flexbox;
@@ -15,6 +15,51 @@
     .label-caption {
       display: inline-block;
       padding-top: 7px;
+    }
+  }
+}
+
+.list-fall {
+  border: 1px solid #afafaf;
+}
+
+.list-table {
+  border: 1px solid #afafaf;
+}
+
+.list-container {
+  &.show {
+    .content-section {
+      padding-right: 300px;
+    }
+    .detail-section {
+      right: 0;
+      -webkit-transition: all 0.3s ease;
+      transition: all 0.3s ease;
+    }
+  }
+  .content-section {
+    border: 1px solid #afafaf;
+    width: 100%;
+  }
+  .detail-section {
+    border: 1px solid #afafaf;
+    position: fixed;
+    z-index: 1200;
+    top: 50px;
+    right: -310px;
+    overflow-y: scroll;
+    width: 300px;
+    height: 100%;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    color: $on-primary;
+    background: $primary;
+    box-shadow: none;
+
+    .card {
+      background-color: $primary;
+      color: $on-primary;
     }
   }
 }
