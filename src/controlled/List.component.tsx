@@ -17,6 +17,7 @@ interface IListComponentProps {
 
 export default function ListComponent(props: IListComponentProps) {
   const [showForm, setShowForm] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
   const { fetching, data } = props.dataSource;
   useDocumentTitle(labels.boards.title);
 
@@ -57,6 +58,7 @@ export default function ListComponent(props: IListComponentProps) {
         <BoardCard
           key={board.id}
           dispatch={props.dispatch}
+          details={handleDetailsPane}
           {...props.boardCard}
           {...board}
         />
@@ -105,6 +107,10 @@ export default function ListComponent(props: IListComponentProps) {
 
   function handleFormCancel() {
     setShowForm(false);
+  }
+
+  function handleDetailsPane(show: boolean) {
+    setShowDetails(show);
   }
 }
 

@@ -53,7 +53,6 @@ Views:
         props:
           title: List Cases
           boardCard:
-            cUrl: /boards/{id}
             cLayout: TitleOnly
         dataSource: Cases.useCases
         actions:
