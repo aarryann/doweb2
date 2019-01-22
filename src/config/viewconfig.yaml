@@ -7,17 +7,6 @@ Views:
   ListProjects: &list_projects
     entity: ListProjects
     category: Component
-    children:
-      '0000':
-        component: ExampleFunctionComponent
-        props:
-          title: My projects
-        dataSource:
-      '0100':
-        component: TextField
-        props:
-          title: My text
-        dataSource:
   ListBoards: &list_boards
     entity: ListBoards
     category: Mgen
@@ -25,8 +14,9 @@ Views:
       '0000':
         component: ListComponent
         props:
-          title: My Boards
           addNew: true
+          detailPane: false
+          title: My Boards
           boardCard:
             cUrl: /boards/{id}
             cLayout: TitleOnly
@@ -37,6 +27,7 @@ Views:
       '0100':
         component: ListComponent
         props:
+          detailPane: false
           title: Other Boards
           boardCard:
             cUrl: /boards/{id}
@@ -51,16 +42,22 @@ Views:
       '0000':
         component: ListComponent
         props:
+          detailPane: true
           title: List Cases
           boardCard:
+            cUrl: /cases/{id}
             cLayout: TitleOnly
         dataSource: Cases.useCases
         actions:
           viewBoard: Cases.viewCase
+  NotFound: &not_found
+    entity: NotFound
+    category: Component
 
 # Landing
 Routes:
-  '/': *list_boards
   '/cases': *list_projects
   '/boards/:bid': *list_cases
+  '/': *list_boards 
+  '/notfound': *not_found # if all else fails
 ... # document end

@@ -1,3 +1,4 @@
+// tslint:disable
 import classnames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
@@ -12,6 +13,7 @@ interface IListComponentProps {
   boardCard: any;
   dataSource: any;
   detailPane: boolean;
+  match: any;
   title: string;
   dispatch(action: string, payload: any): void;
 }
@@ -47,6 +49,7 @@ export default function ListComponent(props: IListComponentProps) {
       </section>
     );
   }
+  console.log(props);
 
   return (
     <div className={`list-container ${showDetails ? 'show' : ''}`}>
@@ -69,6 +72,7 @@ export default function ListComponent(props: IListComponentProps) {
           key={board.id}
           dispatch={props.dispatch}
           details={handleDetailsPane}
+          match={props.match}
           {...props.boardCard}
           {...board}
         />

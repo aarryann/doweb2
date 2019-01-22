@@ -38,14 +38,18 @@ function ViewLoader(props: any) {
   }
 
   const matchedView = appConfig.Routes[template];
-  // console.log(matchedView);
+
+  const match: any = {};
+  match.location = props.pathname;
+  match.url = template;
+  match.params = params;
 
   const LoadedComponent = (Components as any)[
     matchedView.entity + matchedView.category
   ];
   // console.log(LoadedComponent);
 
-  return <LoadedComponent {...props} {...params} {...matchedView} />;
+  return <LoadedComponent {...props} match={match} view={matchedView} />;
 }
 
 function areEqual(prevProps: any, nextProps: any) {

@@ -1,6 +1,7 @@
 export interface IManagerProps {
   client: any;
-  children: any;
+  match: any;
+  view: any;
 }
 
 export interface IList {
