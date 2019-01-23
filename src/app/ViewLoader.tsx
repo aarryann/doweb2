@@ -1,14 +1,13 @@
 // tslint:disable:no-console
 // tslint:disable:prefer-for-of
 // tslint:disable:jsx-no-lambda
-import React from 'react';
+import React, { useMemo } from 'react';
 import { withApollo } from 'react-apollo';
 
 import appConfig from '../config/viewconfig.yaml';
 import { Components } from '../controlled';
 
-function ViewLoader(props: any) {
-  // console.log(props);
+const GetLoader = (props: any) => {
   const path = props.pathname;
   const routeKeys: string[] = Object.keys(appConfig.Routes);
   let template = path;
@@ -37,23 +36,32 @@ function ViewLoader(props: any) {
     }
   }
 
-  const matchedView = appConfig.Routes[template];
-
   const match: any = {};
   match.location = props.pathname;
   match.url = template;
   match.params = params;
+  match.fnURL = function(newUrl: string) {
+    return (this.location + newUrl).replace(/\/\//g, '/');
+  };
+
+  const newProps: any = Object.assign({}, props);
+  newProps.match = match;
+  newProps.view = appConfig.Routes[template];
+
+  return newProps;
+};
+
+function ViewLoader(props: any) {
+  const newProps: any = useMemo(() => GetLoader(props), [props.pathname]);
 
   const LoadedComponent = (Components as any)[
-    matchedView.entity + matchedView.category
+    newProps.view.entity + newProps.view.category
   ];
-  // console.log(LoadedComponent);
-
-  return <LoadedComponent {...props} match={match} view={matchedView} />;
+  return <LoadedComponent {...newProps} />;
 }
 
 function areEqual(prevProps: any, nextProps: any) {
   return prevProps.pathname === nextProps.pathname;
 }
 
-export default React.memo(withApollo(ViewLoader), areEqual);
+export default withApollo(React.memo(ViewLoader, areEqual));

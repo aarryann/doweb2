@@ -1,5 +1,5 @@
 // tslint:disable
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Link } from 'react-router-dom';
 import { IBoard } from '../pipes/boards/interfaces.board';
@@ -16,18 +16,14 @@ interface IBoardCardProps extends IBoard {
 }
 
 export default function BoardCard(props: IBoardCardProps) {
+  const [detailPane, setDetailPane] = useState(false);
   // prettier-ignore
-  const cUrl = props.cUrl?StringHelpers.replaceMatches(props.cUrl, '\{', '\}', props):"#";
-  console.log(`${props.match.location}`);
-  console.log(`${cUrl}`);
+  const cUrl = props.cUrl?props.match.fnURL(StringHelpers.replaceMatches(props.cUrl, '\{', '\}', props)):"{detailPane:true}";
   const CardContents = (CardTemplates as any)[props.cLayout];
-  const detailsPane = () => {
-    console.log('Details Pane clicked');
-  };
   return (
     <Link
       id={`${props.id}`}
-      to={cUrl}
+      to={props.match.fnURL(cUrl)}
       onClick={props.details}
       className="card card-tile"
     >

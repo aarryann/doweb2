@@ -45,7 +45,6 @@ Views:
           detailPane: true
           title: List Cases
           boardCard:
-            cUrl: /cases/{id}
             cLayout: TitleOnly
         dataSource: Cases.useCases
         actions:
