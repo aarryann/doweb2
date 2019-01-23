@@ -21,6 +21,7 @@ interface IListComponentProps {
 export default function ListComponent(props: IListComponentProps) {
   const [showForm, setShowForm] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+  const [selectedCard, setSelectedCard] = useState('');
   const { fetching, data } = props.dataSource;
   useDocumentTitle(labels.boards.title);
 
@@ -45,7 +46,7 @@ export default function ListComponent(props: IListComponentProps) {
   if (props.detailPane) {
     details = (
       <section className="detail-section">
-        <h4>Detail Section</h4>
+        <h4>Detail Section : {selectedCard}</h4>
       </section>
     );
   }
@@ -123,9 +124,15 @@ export default function ListComponent(props: IListComponentProps) {
     setShowForm(false);
   }
 
-  function handleDetailsPane() {
+  function handleDetailsPane(cardId: string) {
     if (props.detailPane) {
-      setShowDetails(show => !show);
+      if (selectedCard === cardId) {
+        setShowDetails(false);
+        setSelectedCard('');
+      } else {
+        setSelectedCard(cardId);
+        setShowDetails(true);
+      }
     }
   }
 }

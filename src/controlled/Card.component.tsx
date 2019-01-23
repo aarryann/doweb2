@@ -11,20 +11,21 @@ interface IBoardCardProps extends IBoard {
   cUrl: string;
   cLayout: string;
   match: any;
-  details(): void;
+  details(id: string): void;
   dispatch(action: string, payload: any): void;
 }
 
 export default function BoardCard(props: IBoardCardProps) {
   const [detailPane, setDetailPane] = useState(false);
   // prettier-ignore
-  const cUrl = props.cUrl?props.match.fnURL(StringHelpers.replaceMatches(props.cUrl, '\{', '\}', props)):"{detailPane:true}";
+  const cUrl = props.cUrl?props.match.fnURL(StringHelpers.replaceMatches(props.cUrl, '\{', '\}', props)):{state: {detailPane:true}};
+  console.log(cUrl);
   const CardContents = (CardTemplates as any)[props.cLayout];
   return (
     <Link
       id={`${props.id}`}
-      to={props.match.fnURL(cUrl)}
-      onClick={props.details}
+      to={cUrl}
+      onClick={props.details.bind('', `${props.id}`)}
       className="card card-tile"
     >
       <div className="card-body inner">
