@@ -20,8 +20,6 @@ import 'typeface-roboto';
 import './assets/scss/index.scss';
 import './include/bootstrap';
 
-import 'motion-ui';
-
 import App from './app/App';
 
 declare const process: IProcess;
