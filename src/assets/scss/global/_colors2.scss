@@ -1,0 +1,56 @@
+// COLOR SCHEME - WHITE GRAY
+// - - - - - - - - - - - - - - - - - - -
+// - - colors
+$black: #12131a;
+$black-s1: #6a6c6f;
+$blue: #3498db;
+$gray-s1: #f1f3f6;
+$gray-s2: #f1f2f3;
+$gray-s3: #f7f9fa;
+$gray-s4: #eaeaea;
+$gray-s5: #e7eaec;
+$gray-s6: #f9f9f9;
+$green: #2ecc71;
+$green-s1: #62cb31;
+$green-s2: #58b62c;
+$orange: #e67e22;
+$purple: #cdcfe6;
+$red: #ce4639;
+$white: #ffffff;
+$yellow: #f1c40f;
+
+$primary: $white;
+$on-primary: $black-s1;
+$background: $gray-s1;
+$on-background: $black-s1;
+$contrast: $gray-s3;
+$contrast-alt: $gray-s6;
+$on-contrast: $black-s1;
+$accent: $green-s1;
+$on-accent: $white;
+$error: $red;
+$on-error: $white;
+$border-main: $gray-s4;
+$border-alt: $gray-s5;
+
+$primary-t1: $primary;
+$primary-t2: $primary;
+$primary-s1: $primary;
+$primary-s2: $primary;
+$contrast-t1: tint($contrast, 10);
+$contrast-t2: tint($contrast, 20);
+$contrast-s1: shade($contrast, 3);
+$contrast-s2: shade($contrast, 20);
+$accent-t1: tint($accent, 15);
+$accent-t2: tint($accent, 20);
+$accent-s1: shade($accent, 15);
+$accent-s2: shade($accent, 20);
+
+$tags-colors: (
+  blue: $blue,
+  green: $green,
+  orange: $orange,
+  purple: $purple,
+  red: $red,
+  yellow: $yellow
+);

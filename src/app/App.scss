@@ -1,8 +1,8 @@
 @import '../assets/scss/global/index';
 
 body {
-  background-image: linear-gradient(to right, $gray-faint 1px, transparent 1px),
-    linear-gradient(to bottom, $gray-faint 1px, transparent 1px);
+  background-image: linear-gradient(to right, $gray-s2 1px, transparent 1px),
+    linear-gradient(to bottom, $gray-s2 1px, transparent 1px);
   background-size: 15px 15px;
   background-repeat: initial;
   background-color: $background;
@@ -10,12 +10,12 @@ body {
   font-family: $base-font-family;
   font-size: 0.875rem;
   margin: 0;
-  opacity: 0.9;
+  // opacity: 0.9;
   padding: 0;
 }
 
 .main-container {
-  opacity: 0.8;
+  // opacity: 0.8;
   position: relative;
   top: 52px;
 }

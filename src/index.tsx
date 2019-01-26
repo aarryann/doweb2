@@ -16,7 +16,7 @@ import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 
 import 'sanitize.css';
-import 'typeface-roboto';
+import 'typeface-open-sans';
 import './assets/scss/index.scss';
 import './include/bootstrap';
 

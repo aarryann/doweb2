@@ -112,10 +112,11 @@
   @include flex(0 0 24.4%);
   margin: 0 $margin/5 $margin/2.5 $margin/5;
   cursor: pointer;
-  color: #212529;
+  color: $on-primary;
+  border: 1px solid $border-main;
 
   .card-body {
-    background: $contrast;
+    background: $primary;
     animation-duration: 0.3s;
     animation-name: fadeIn;
     padding: 10px;
@@ -124,7 +125,7 @@
     }
   }
   .card-body:not(.nohover):hover {
-    background: $contrast-s1;
+    background: $contrast;
   }
 }
 
