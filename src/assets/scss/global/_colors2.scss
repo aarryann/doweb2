@@ -3,13 +3,15 @@
 // - - colors
 $black: #12131a;
 $black-s1: #6a6c6f;
+$black-s2: #999999;
 $blue: #3498db;
-$gray-s1: #f1f3f6;
+$gray-s1: #f8f8fa;
 $gray-s2: #f1f2f3;
 $gray-s3: #f7f9fa;
 $gray-s4: #eaeaea;
 $gray-s5: #e7eaec;
 $gray-s6: #f9f9f9;
+$gray-s7: #dfdfdf;
 $green: #2ecc71;
 $green-s1: #62cb31;
 $green-s2: #58b62c;
@@ -30,7 +32,7 @@ $accent: $green-s1;
 $on-accent: $white;
 $error: $red;
 $on-error: $white;
-$border-main: $gray-s4;
+$border-main: $black-s2;
 $border-alt: $gray-s5;
 
 $primary-t1: $primary;

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import labels from '../config/labels.en';
 import { routePaths } from '../config/paths';
 
+import logo from '../assets/img/logo.png';
 import './Header.scss';
 
 interface IHeaderProps {
@@ -15,9 +16,21 @@ interface IHeaderProps {
 export default function Header(props: IHeaderProps) {
   return (
     <nav className="navbar navbar-expand-md navbar-light fixed-top bg-light header">
-      <Link to={routePaths.home} className="navbar-brand logo">
-        {labels.header.appLabel}
-      </Link>
+      <div className="logoContainer">
+        <div className="logoCol">
+          <Link to={routePaths.home} className="navbar-brand logo">
+            <img src={logo} height="50px" />
+          </Link>
+        </div>
+        <div className="lblCol">
+          <span>{labels.header.appLabel}</span>
+        </div>
+        <div className="modCol">
+          <Link className="nav-link" to="/settings">
+            Cases
+          </Link>
+        </div>
+      </div>
       <button
         className="navbar-toggler mobile-menu-toggle"
         type="button"
@@ -30,7 +43,7 @@ export default function Header(props: IHeaderProps) {
         <i className="fa fa-chevron-down" />
       </button>
       <div className="collapse navbar-collapse top-menu" id="mobile-menu">
-        <ul className="navbar-nav mr-auto">
+        <ul className="navbar-nav ml-auto">
           <li className="nav-item dropdown menu-item">
             <a
               className="nav-link dropdown-toggle"
@@ -59,22 +72,53 @@ export default function Header(props: IHeaderProps) {
           </li>
           <li className="nav-item menu-item">
             <Link className="nav-link" to="/">
-              Home <span className="sr-only">(current)</span>
+              Dashboard <span className="sr-only">(current)</span>
             </Link>
           </li>
           <li className="nav-item menu-item">
             <Link className="nav-link" to="/settings">
-              Settings
+              {' '}
+              Payroll{' '}
             </Link>
           </li>
           <li className="nav-item menu-item">
-            <Link className="nav-link" to="/profile">
-              Profile
+            <Link className="nav-link" to="/settings">
+              Employee
             </Link>
           </li>
           <li className="nav-item menu-item">
-            <Link className="nav-link" to="/help">
-              Help
+            <Link className="nav-link" to="/settings">
+              Benefits
+            </Link>
+          </li>
+          <li className="nav-item menu-item">
+            <Link className="nav-link" to="/settings">
+              HR
+            </Link>
+          </li>
+          <li className="nav-item menu-item">
+            <Link className="nav-link" to="/settings">
+              Setup
+            </Link>
+          </li>
+          <li className="nav-item menu-item">
+            <Link className="nav-link" to="/settings">
+              Workers' Comp
+            </Link>
+          </li>
+          <li className="nav-item menu-item">
+            <Link className="nav-link" to="/settings">
+              Projects
+            </Link>
+          </li>
+          <li className="nav-item menu-item">
+            <Link className="nav-link" to="/settings">
+              Reports
+            </Link>
+          </li>
+          <li className="nav-item menu-item">
+            <Link className="nav-link" to="/settings">
+              Marketplace
             </Link>
           </li>
         </ul>
@@ -87,7 +131,7 @@ export default function Header(props: IHeaderProps) {
             {labels.header.searchLabel}
           </label>
           <input
-            className="form-control mr-sm-2"
+            className="form-control mr-sm-2 search"
             type="text"
             placeholder={labels.header.searchPlaceholder}
             aria-label={labels.header.searchLabel}

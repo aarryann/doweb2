@@ -5,29 +5,67 @@
   font-family: $heading-font-family;
   padding: 0px !important;
 
+  .logoContainer {
+    height: 50px;
+    width: 200px;
+    display: flex;
+    flex-flow: column wrap;
+    .logoCol {
+      flex-basis: auto;
+      height: 100%;
+      margin: 0;
+      width: 50px;
+    }
+    .lblCol {
+      flex-basis: auto;
+      height: 60%;
+      span {
+        color: $on-primary !important;
+        font-weight: 600;
+        font-size: 1.5rem;
+      }
+    }
+    .modCol {
+      flex-basis: auto;
+      height: 40%;
+      .nav-link {
+        color: $on-primary !important;
+        font-weight: 500;
+        font-size: 0.875rem;
+        padding: 0px !important;
+      }
+    }
+  }
+
   .logo {
-    color: #ffffff;
+    color: $on-primary !important;
     font-size: 1.25rem;
     font-variant: small-caps;
     font-weight: 600;
-    height: 50;
-    margin: 0px !important;
-    padding: 10px 50px 10px 40px !important;
+    height: 50px;
+    padding: 0 !important;
+    img {
+      margin: 0px !important;
+    }
+    span {
+      padding: 0px 70px 0px 20px !important;
+      margin: 0px !important;
+    }
   }
 
-  .top-menu {
-    padding: 1px 5px 1px 5px !important;
-  }
-
-  #search {
-    border: medium none;
+  .search {
     font-size: 0.875rem;
     height: 35px;
+    width: 200px;
     margin: 0;
-  }
+    border: 0px solid $accent;
+    border-bottom-width: 1px;
+    border-radius: 0;
+    background-color: transparent;
 
-  #search:focus {
-    box-shadow: none;
+    &:focus {
+      box-shadow: none;
+    }
   }
 
   .navbar-nav {
@@ -36,7 +74,7 @@
         color: $on-primary !important;
         font-weight: 500;
         font-size: 0.875rem;
-        padding: 10px 20px 10px 20px;
+        padding: 10px;
       }
     }
   }

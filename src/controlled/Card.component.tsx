@@ -28,7 +28,13 @@ export default function BoardCard(props: IBoardCardProps) {
       onClick={props.details.bind('', `${props.id}`)}
       className="card card-tile"
     >
-      <div className="card-body inner">
+      <div className="card-body inner box">
+        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+          <line className="top" x1="0" y1="0" x2="900" y2="0" />
+          <line className="left" x1="0" y1="178" x2="0" y2="-920" />
+          <line className="bottom" x1="298" y1="178" x2="-600" y2="178" />
+          <line className="right" x1="298" y1="0" x2="298" y2="1380" />
+        </svg>
         <CardContents {...props} />
       </div>
     </Link>
