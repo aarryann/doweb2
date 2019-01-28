@@ -1,9 +1,9 @@
 @import '../assets/scss/global/index';
 
 body {
-  background-image: linear-gradient(to right, $gray-s2 1px, transparent 1px),
-    linear-gradient(to bottom, $gray-s2 1px, transparent 1px);
-  background-size: 15px 15px;
+  background-image: linear-gradient(to right, $white 1px, transparent 1px),
+    linear-gradient(to bottom, $white 1px, transparent 1px);
+  background-size: 50px 50px;
   background-repeat: initial;
   background-color: $background;
   color: $on-background;

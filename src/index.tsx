@@ -24,11 +24,6 @@ import App from './app/App';
 
 declare const process: IProcess;
 
-if (process.env.NODE_ENV !== 'production') {
-  // const {whyDidYouUpdate} = require('why-did-you-update');
-  // whyDidYouUpdate(React);
-}
-
 const httpLink = new HttpLink({ uri: process.env.REACT_APP_API_URL });
 
 const wsLink = new WebSocketLink({

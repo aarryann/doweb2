@@ -108,9 +108,9 @@
 }
 
 .card.card-tile {
-  $margin: 20px;
+  $margin: 25px;
   @include flex(0 0 24.4%);
-  margin: 0 $margin/5 $margin/2.5 $margin/5;
+  margin: 0 $margin/2 $margin $margin/2;
   cursor: pointer;
   color: $on-primary;
   border: 1px solid $border-main;

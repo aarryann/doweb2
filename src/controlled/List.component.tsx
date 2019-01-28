@@ -45,18 +45,14 @@ export default function ListComponent(props: IListComponentProps) {
   let details = null;
   if (props.detailPane) {
     details = (
-      <section
-        className={`detail-section animated ${
-          showDetails ? 'bounceInRight' : 'bounceOutRight'
-        }`}
-      >
+      <section className={`detail-section animated ${showDetails ? '' : ''}`}>
         <h4>Detail Section : {selectedCard}</h4>
       </section>
     );
   }
 
   return (
-    <div className={`list-container ${showDetails ? 'show' : ''}`}>
+    <div className={`list-container animated ${showDetails ? 'show' : ''}`}>
       <section className="content-section">
         <header className="text-accent">
           <h3>

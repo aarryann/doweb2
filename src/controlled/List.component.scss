@@ -1,5 +1,35 @@
 @import '../assets/scss/global/index';
 
+@keyframes rubberBall {
+  from {
+    width: 300px;
+  }
+
+  30% {
+    width: 225px;
+  }
+
+  40% {
+    width: 250px;
+  }
+
+  50% {
+    width: 285px;
+  }
+
+  65% {
+    width: 290px;
+  }
+
+  75% {
+    width: 305px;
+  }
+
+  to {
+    width: 300px;
+  }
+}
+
 .list-roll {
   $margin: 20px;
 
@@ -7,13 +37,16 @@
   @include flex-flow(row wrap);
   margin: 0 $margin/2.5 $margin $margin/2.5;
 
-  .card.card-tile {
-    flex-basis: 19% !important;
-    height: 120px;
+  .card {
+    &.card-tile {
+      flex-basis: auto !important;
+      width: 300px;
+      height: 180px;
 
-    .label-caption {
-      display: inline-block;
-      padding-top: 7px;
+      .label-caption {
+        display: inline-block;
+        padding-top: 7px;
+      }
     }
   }
 }
@@ -29,19 +62,22 @@
 .list-container {
   &.show {
     .content-section {
-      padding-right: 300px;
-      transform: scale(
-        1
-      ); /* you need a scale here to allow it to transition in both directions */
-      transition: 0.95s all ease;
+      width: calc(100% - 300px);
+      transition-duration: 2s;
+
+      .card-tile {
+        animation-name: rubberBall;
+        animation-duration: 3s;
+      }
     }
     .detail-section {
-      right: 0; // -webkit-transition: all 0.3s ease; // transition: all 0.34 ease;
+      right: 0;
+      animation-name: bounceInRight;
     }
   }
   .content-section {
     width: 100%;
-    transition: 0.95s all ease;
+    border: 1px solid #afafaf;
   }
   .detail-section {
     position: fixed;
@@ -51,8 +87,6 @@
     overflow-y: scroll;
     width: 300px;
     height: 100%;
-    // -webkit-transition: all 0.3s ease;
-    // transition: all 0.3s ease;
     color: $on-primary;
     background: $primary;
     box-shadow: none;
