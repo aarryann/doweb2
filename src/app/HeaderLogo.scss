@@ -1,0 +1,41 @@
+@import '../assets/scss/global/index';
+
+.logoContainer {
+  height: 55px;
+  width: 200px;
+  display: flex;
+  flex-flow: column wrap;
+  .logoCol {
+    flex-basis: auto;
+    height: 100%;
+    margin: 0;
+    width: 55px;
+  }
+  .lblCol {
+    flex-basis: auto;
+    height: 55%;
+    .logo {
+      color: $on-primary !important;
+      font-size: 1.5rem;
+      font-variant: small-caps;
+      font-weight: 600;
+      padding: 0 0 0 10px !important;
+    }
+  }
+  .modCol {
+    flex-basis: auto;
+    height: 45%;
+    .nav-link,
+    .sub-menu-item {
+      color: $on-primary !important;
+      font-weight: 500;
+      font-size: 0.875rem;
+      padding: 0px !important;
+    }
+
+    .z-dashlist {
+      left: 0;
+      right: auto;
+    }
+  }
+}

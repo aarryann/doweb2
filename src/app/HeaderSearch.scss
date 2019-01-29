@@ -1,0 +1,18 @@
+@import '../assets/scss/global/index';
+
+.header {
+  .search {
+    font-size: 0.875rem;
+    height: 35px;
+    width: 200px;
+    margin: 0;
+    border: 0px solid $accent;
+    border-bottom-width: 1px;
+    border-radius: 0;
+    background-color: transparent;
+
+    &:focus {
+      box-shadow: 0px 1px 0px;
+    }
+  }
+}
