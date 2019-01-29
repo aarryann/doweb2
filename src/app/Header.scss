@@ -4,6 +4,7 @@
   background-color: $primary !important;
   font-family: $heading-font-family;
   padding: 0px !important;
+  box-shadow: 5px 0 5px;
 
   .logoContainer {
     height: 50px;
@@ -28,7 +29,8 @@
     .modCol {
       flex-basis: auto;
       height: 40%;
-      .nav-link {
+      .nav-link,
+      .sub-menu-item {
         color: $on-primary !important;
         font-weight: 500;
         font-size: 0.875rem;
@@ -64,7 +66,7 @@
     background-color: transparent;
 
     &:focus {
-      box-shadow: none;
+      box-shadow: 0px 2px 0px;
     }
   }
 

@@ -26,9 +26,34 @@ export default function Header(props: IHeaderProps) {
           <span>{labels.header.appLabel}</span>
         </div>
         <div className="modCol">
-          <Link className="nav-link" to="/settings">
-            Cases
-          </Link>
+          <ul className="navbar-nav">
+            <li className="nav-item dropdown menu-item">
+              <a
+                className="nav-link dropdown-toggle"
+                href="#"
+                id="dropdown01"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Cases
+              </a>
+              <div
+                className="dropdown-menu sub-menu-item"
+                aria-labelledby="dropdown01"
+              >
+                <a className="dropdown-item" href="#">
+                  Action
+                </a>
+                <a className="dropdown-item" href="#">
+                  Another action
+                </a>
+                <a className="dropdown-item" href="#">
+                  Something else here
+                </a>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
       <button
@@ -44,32 +69,6 @@ export default function Header(props: IHeaderProps) {
       </button>
       <div className="collapse navbar-collapse top-menu" id="mobile-menu">
         <ul className="navbar-nav ml-auto">
-          <li className="nav-item dropdown menu-item">
-            <a
-              className="nav-link dropdown-toggle"
-              href="#"
-              id="dropdown01"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Cases
-            </a>
-            <div
-              className="dropdown-menu sub-menu-item"
-              aria-labelledby="dropdown01"
-            >
-              <a className="dropdown-item" href="#">
-                Action
-              </a>
-              <a className="dropdown-item" href="#">
-                Another action
-              </a>
-              <a className="dropdown-item" href="#">
-                Something else here
-              </a>
-            </div>
-          </li>
           <li className="nav-item menu-item">
             <Link className="nav-link" to="/">
               Dashboard <span className="sr-only">(current)</span>
@@ -77,8 +76,7 @@ export default function Header(props: IHeaderProps) {
           </li>
           <li className="nav-item menu-item">
             <Link className="nav-link" to="/settings">
-              {' '}
-              Payroll{' '}
+              Payroll
             </Link>
           </li>
           <li className="nav-item menu-item">
