@@ -16,7 +16,7 @@ Views:
         props:
           addNew: true
           detailPane: false
-          title: My Boards
+          title: Participants
           boardCard:
             cUrl: /boards/{id}
             cLayout: TitleOnly
@@ -57,6 +57,6 @@ Views:
 Routes:
   '/cases': *list_projects
   '/boards/:bid': *list_cases
-  '/': *list_boards 
+  '/': *list_boards
   '/notfound': *not_found # if all else fails
 ... # document end

@@ -36,6 +36,11 @@
         font-size: 0.875rem;
         padding: 0px !important;
       }
+
+      .z-dashlist {
+        left: 0;
+        right: auto;
+      }
     }
   }
 
@@ -66,7 +71,7 @@
     background-color: transparent;
 
     &:focus {
-      box-shadow: 0px 2px 0px;
+      box-shadow: 0px 1px 0px;
     }
   }
 

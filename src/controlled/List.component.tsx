@@ -54,7 +54,7 @@ export default function ListComponent(props: IListComponentProps) {
   return (
     <div className={`list-container animated ${showDetails ? 'show' : 'hide'}`}>
       <section className="content-section">
-        <header className="text-accent">
+        <header className="text-accent p-2">
           <h3>
             <i className={iconClasses} /> {props.title}
           </h3>
