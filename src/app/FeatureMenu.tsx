@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-export default function HeaderFeatureMenu(props: any) {
+import './Header.scss';
+
+export default function FeatureMenu(props: any) {
   return (
     <ul className="navbar-nav ml-auto">
       <li className="nav-item menu-item">

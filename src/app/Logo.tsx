@@ -6,9 +6,9 @@ import labels from '../config/labels.en';
 import { routePaths } from '../config/paths';
 
 import logo from '../assets/img/logo.png';
-import './HeaderLogo.scss';
+import './Logo.scss';
 
-export default function HeaderLogo(props: any) {
+export default function Logo(props: any) {
   return (
     <div className="logoContainer">
       <div className="logoCol">

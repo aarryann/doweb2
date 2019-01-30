@@ -5,10 +5,13 @@ import { Link } from 'react-router-dom';
 import labels from '../config/labels.en';
 
 import './Header.scss';
-import FeatureMenu from './HeaderFeatureMenu';
-import Logo from './HeaderLogo';
-import Search from './HeaderSearch';
-import Toolbar from './HeaderToolbar';
+
+import FeatureMenu from './FeatureMenu';
+import Logo from './Logo';
+import Messages from './Messages';
+import Notifications from './Notifications';
+import Search from './Search';
+import Toolbox from './Toolbox';
 
 interface IHeaderProps {
   handleSignOut(): void;
@@ -33,7 +36,38 @@ export default function Header(props: IHeaderProps) {
       <div className="collapse navbar-collapse top-menu" id="mobile-menu">
         <FeatureMenu />
         <Search />
-        <Toolbar {...props} />
+        <div className="navbar-right">
+          <ul className="nav navbar-nav no-borders">
+            <li className="dropdown">
+              <Notifications />
+            </li>
+            <li className="dropdown">
+              <Toolbox />
+            </li>
+            <li className="dropdown">
+              <Messages />
+            </li>
+            <li>
+              <a
+                href="javascript:;"
+                id="sidebar"
+                onClick={props.showRSidebar}
+                className="z-flat-button right-sidebar-toggle"
+              >
+                <i className="fa fa-newspaper-o" />
+              </a>
+            </li>
+            <li className="dropdown">
+              <Link
+                to="signin"
+                onClick={props.handleSignOut}
+                className="z-flat-button"
+              >
+                <i className="fa fa-sign-out" />
+              </Link>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
   );

@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react';
 
 import labels from '../config/labels.en';
 
-import './HeaderSearch.scss';
+import './Search.scss';
 
-export default function HeaderSearch(props: any) {
+export default function Search(props: any) {
   return (
     <form
       className="form-inline d-none d-md-flex search-form"
