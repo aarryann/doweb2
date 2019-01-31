@@ -1,24 +1,26 @@
 @import '../assets/scss/global/index';
 
 .right-sidebar.show {
+  animation-name: fadeInRight;
   right: 0;
-  -webkit-transition: all 0.3s ease;
-  transition: all 0.3s ease;
+  // -webkit-transition: all 0.3s ease;
+  // transition: all 0.3s ease;
 }
 
 .right-sidebar {
+  background: $primary;
+  border-left: 1px solid $border-main;
+  bottom: 0;
+  color: $on-primary;
+  overflow: auto;
   position: fixed;
-  z-index: 1200;
+  right: -270px;
   top: 0;
-  right: -310px;
-  overflow-y: scroll;
-  width: 300px;
-  height: 100%;
-  -webkit-transition: all 0.3s ease;
-  transition: all 0.3s ease;
-  color: #6c757d;
-  background: #12131a;
-  box-shadow: none;
+  width: 260px;
+  // height: 100%;
+  // -webkit-transition: all 0.3s ease;
+  // transition: all 0.3s ease;
+  z-index: 1200;
 
   .card {
     background-color: $primary;

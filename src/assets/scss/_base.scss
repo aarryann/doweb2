@@ -63,11 +63,18 @@
       &.list-group-item {
         &.summary {
           text-align: center;
-          background: #fff;
         }
-        background: #f1f3fc;
+        &.unread {
+          background: #f1f3fc;
+        }
         font-size: 0.8125rem;
         white-space: nowrap;
+      }
+      a {
+        &:hover {
+          text-decoration: none;
+        }
+        color: $on-primary;
       }
     }
   }

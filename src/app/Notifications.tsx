@@ -11,7 +11,7 @@ export default function Notifications(props: any) {
         <i className="fa fa-bullhorn" />
       </a>
       <ul className="list-group dropdown-menu z-drop-list animated flipInX">
-        <li className="list-group-item">
+        <li className="list-group-item unread">
           <a>
             <span className="badge badge-success">NEW</span> It is a long
             established.

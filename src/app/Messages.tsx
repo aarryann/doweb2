@@ -17,8 +17,8 @@ export default function Messages(props: any) {
       </a>
       <ul className="dropdown-menu list-group z-drop-list animated flipInX">
         <li className="list-group-item summary">You have 5 new messages.</li>
-        <li className="list-group-item">It is a long established.</li>
-        <li className="list-group-item">There are many variations.</li>
+        <li className="list-group-item unread">It is a long established.</li>
+        <li className="list-group-item unread">There are many variations.</li>
         <li className="list-group-item">Lorem Ipsum is simply dummy.</li>
         <li className="list-group-item">Contrary to popular belief.</li>
         <li className="list-group-item summary">

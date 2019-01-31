@@ -14,9 +14,18 @@ interface IRSidebarProps {
 export default function RSidebar(props: IRSidebarProps) {
   return (
     <div
-      className={`right-sidebar ${props.showForm ? 'show' : ''}`}
+      className={`right-sidebar animated ${props.showForm ? 'show' : ''}`}
       id="right_side_bar"
     >
+      <div className="p-3">
+        <a
+          href="javascript:;"
+          onClick={props.showSidebar}
+          className="right_side_toggle float-right close-sidebar-icon"
+        >
+          <i className="fa fa-arrow-right" />
+        </a>
+      </div>
       <div className="card border-0">
         <div className="card-body pb-0">
           <a

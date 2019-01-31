@@ -6,6 +6,7 @@ import labels from '../config/labels.en';
 
 import './Header.scss';
 
+import Account from './Account';
 import FeatureMenu from './FeatureMenu';
 import Logo from './Logo';
 import Messages from './Messages';
@@ -39,13 +40,16 @@ export default function Header(props: IHeaderProps) {
         <div className="navbar-right">
           <ul className="nav navbar-nav no-borders">
             <li className="dropdown">
-              <Notifications />
-            </li>
-            <li className="dropdown">
               <Toolbox />
             </li>
             <li className="dropdown">
+              <Notifications />
+            </li>
+            <li className="dropdown">
               <Messages />
+            </li>
+            <li className="dropdown">
+              <Account handleSignOut={props.handleSignOut} />
             </li>
             <li>
               <a
@@ -56,15 +60,6 @@ export default function Header(props: IHeaderProps) {
               >
                 <i className="fa fa-newspaper-o" />
               </a>
-            </li>
-            <li className="dropdown">
-              <Link
-                to="signin"
-                onClick={props.handleSignOut}
-                className="z-flat-button"
-              >
-                <i className="fa fa-sign-out" />
-              </Link>
             </li>
           </ul>
         </div>
