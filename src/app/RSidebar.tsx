@@ -26,50 +26,41 @@ export default function RSidebar(props: IRSidebarProps) {
           <i className="fa fa-arrow-right" />
         </a>
       </div>
-      <div className="card border-0">
-        <div className="card-body pb-0">
-          <a
-            href="javascript:;"
-            onClick={props.showSidebar}
-            className="right_side_toggle float-right close-sidebar-icon"
-          >
-            <i className="fa fa-arrow-right" />
-          </a>
+      <div className="p-3">
+        <div className="custom-title-wrap bar-primary mb-4">
+          <div className="custom-title">Today's Activity</div>
         </div>
-        <div className="card-body pt-2">
-          <div className="right-widget">
-            <div className="custom-title-wrap bar-primary mb-4">
-              <div className="custom-title">Today's Activity</div>
+        <ul className="list-unstyled base-timeline">
+          <li className="time-dot-primary">
+            <div className="base-timeline-info">
+              <a href="#">John123</a> Successfully purchased item#26
             </div>
-
-            <ul className="list-unstyled base-timeline">
-              <li className="time-dot-primary">
-                <div className="base-timeline-info">
-                  <a href="#">John123</a> Successfully purchased item#26
-                </div>
-                <small className="text-muted">28 mins ago</small>
-              </li>
-              <li className="time-dot-danger">
-                <div className="base-timeline-info">
-                  <a href="#" className="text-danger">
-                    Farnandez
-                  </a>{' '}
-                  placed the order for accessories
-                </div>
-                <small className="text-muted">2 days ago</small>
-              </li>
-              <li className="time-dot-purple">
-                <div className="base-timeline-info">
-                  User{' '}
-                  <a href="#" className="text-purple">
-                    Lisa Maria
-                  </a>{' '}
-                  checked out from the market
-                </div>
-                <small className="text-muted">12 mins ago</small>
-              </li>
-            </ul>
-          </div>
+            <small className="text-muted">28 mins ago</small>
+          </li>
+          <li className="time-dot-danger">
+            <div className="base-timeline-info">
+              <a href="#" className="text-danger">
+                Farnandez
+              </a>{' '}
+              placed the order for accessories
+            </div>
+            <small className="text-muted">2 days ago</small>
+          </li>
+          <li className="time-dot-purple">
+            <div className="base-timeline-info">
+              User{' '}
+              <a href="#" className="text-purple">
+                Lisa Maria
+              </a>{' '}
+              checked out from the market
+            </div>
+            <small className="text-muted">12 mins ago</small>
+          </li>
+        </ul>
+      </div>
+      <div className="card border-0">
+        <div className="card-body pt-2">
+          <div className="right-widget" />
 
           <div className="right-widget">
             <div className="custom-title-wrap bar-danger mb-4">
