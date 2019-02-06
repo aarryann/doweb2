@@ -34,7 +34,7 @@ export default function RSidebar(props: IRSidebarProps) {
               <a
                 href="javascript:;"
                 onClick={props.showSidebar}
-                className="right_side_toggle float-right pt-2 close-sidebar-icon"
+                className="right_side_toggle float-right pt-1 close-sidebar-icon"
               >
                 <i className="fa fa-arrow-right" />
               </a>
@@ -47,7 +47,7 @@ export default function RSidebar(props: IRSidebarProps) {
             aria-labelledby="headingOne"
             data-parent="#accordionExample"
           >
-            <div className="right-widget">
+            <div className="pl-3 pr-3">
               <div>
                 <a className="nav-link border-bottom px-0 py-3" href="#">
                   <span className="text-primary">
