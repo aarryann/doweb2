@@ -10,6 +10,13 @@ export const queries = {
         }
       }
     }
+  `,
+  tenantByUrl: gql`
+    query TenantByUrl($url: String!) {
+      tenantByUrl(url: $url) {
+        id
+      }
+    }
   `
 };
 

@@ -36,14 +36,23 @@ class SignInManager extends React.Component<any, any> {
     );
   }
 
-  public _handleSignIn(email: string, password: string) {
-    Actions.signIn(this.props.client, email, password).then(({ error }) => {
-      if (error) {
-        this.setState(() => ({ errors: error }));
-      } else {
-        this.setState(() => ({ toHome: true }));
-      }
-    });
+  public async _handleSignIn(email: string, password: string) {
+    let result = await Actions.getTenantByUrl(
+      this.props.client,
+      'http://localhost:3000'
+    );
+
+    if (result.error) {
+      this.setState(() => ({ errors: result.error }));
+      return;
+    }
+    result = await Actions.signIn(this.props.client, email, password);
+
+    if (result.error) {
+      this.setState(() => ({ errors: result.error }));
+    } else {
+      this.setState(() => ({ toHome: true }));
+    }
   }
 }
 

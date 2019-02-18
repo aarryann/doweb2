@@ -1,13 +1,41 @@
+// tslint:disable
 import { mutations, queries } from './queries.session';
 
 declare const process: IProcess;
 
 const Actions = {
+  // Get tenant
+  getTenantByUrl: async (client: any, url: string) => {
+    try {
+      // client.clearStore();
+      const payload = {
+        query: queries.tenantByUrl,
+        variables: {
+          url
+        }
+      };
+      const results = await client.query({
+        query: payload.query,
+        variables: payload.variables
+      });
+      if (results.error) {
+        console.log(results.error);
+        return { error: results.error.message };
+      }
+      const tenant = results.data.tenantByUrl;
+      // tslint:disable-next-line:no-console
+      console.log(JSON.stringify(results, null, ' '));
+      return { data: tenant.id };
+    } catch (e) {
+      // tslint:disable-next-line:no-console
+      console.log(e);
+      return { error: e.message };
+    }
+  },
   // On signin click
   signIn: async (client: any, email: string, password: string) => {
     try {
-      // await client.resetStore();
-      client.clearStore();
+      // client.clearStore();
       const payload = {
         mutation: mutations.login,
         variables: {
