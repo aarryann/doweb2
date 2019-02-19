@@ -31,14 +31,24 @@ export default class BoardForm extends React.Component<IBoardFormProps, any> {
       <PageClick notify={this._handleFormCancel}>
         <div className="board form card card-tile">
           <div className="card-body inner">
-            <h4>New board</h4>
+            <h4>Register</h4>
             <form id="new_board_form" onSubmit={this._handleCreateBoard}>
               <input
                 autoFocus={true}
-                name="boardName"
-                id="board_name"
+                name="firstName"
+                id="first_name"
                 type="text"
-                placeholder="Board name"
+                placeholder="First name"
+                required={true}
+                value={boardName}
+                onChange={this._handleChange}
+              />
+              <input
+                autoFocus={true}
+                name="lastName"
+                id="last_name"
+                type="text"
+                placeholder="Last name"
                 required={true}
                 value={boardName}
                 onChange={this._handleChange}

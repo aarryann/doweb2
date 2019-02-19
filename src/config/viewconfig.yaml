@@ -15,8 +15,13 @@ Views:
         component: ListComponent
         props:
           addNew: true
+          addNewViewDetail: self
+          addNewFormData:
+          cardViewFormData:
+          cardViewDetail: drillDownToNewPage
+          cardViewDetailUrl: /boards/{id}
           detailPane: false
-          title: Participants
+          title: Subjects
           boardCard:
             cUrl: /boards/{id}
             cLayout: TitleOnly
@@ -27,6 +32,11 @@ Views:
       '0100':
         component: ListComponent
         props:
+          addNew: true
+          addNewViewDetail: detailPane
+          addNewFormData:
+          cardViewFormData:
+          cardViewDetail: drillDownToNewPage
           detailPane: false
           title: Other Boards
           boardCard:
@@ -42,8 +52,10 @@ Views:
       '0000':
         component: ListComponent
         props:
+          cardViewDetail: detailPane
           detailPane: true
           title: List Cases
+          cardViewDetailFormData:
           boardCard:
             cLayout: TitleOnly
         dataSource: Cases.useCases
