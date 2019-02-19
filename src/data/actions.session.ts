@@ -33,14 +33,15 @@ const Actions = {
     }
   },
   // On signin click
-  signIn: async (client: any, email: string, password: string) => {
+  signIn: async (client: any, email: string, password: string, url: string) => {
     try {
       // client.clearStore();
       const payload = {
         mutation: mutations.login,
         variables: {
           email,
-          password
+          password,
+          url
         }
       };
       const results = await client.mutate({

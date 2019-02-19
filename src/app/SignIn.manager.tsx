@@ -46,7 +46,12 @@ class SignInManager extends React.Component<any, any> {
       this.setState(() => ({ errors: result.error }));
       return;
     }
-    result = await Actions.signIn(this.props.client, email, password);
+    result = await Actions.signIn(
+      this.props.client,
+      email,
+      password,
+      'http://localhost:3000'
+    );
 
     if (result.error) {
       this.setState(() => ({ errors: result.error }));
