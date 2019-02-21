@@ -4,12 +4,14 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IBoard } from '../pipes/boards/interfaces.board';
 import * as CardTemplates from './Card.template';
+import { CardComponent } from '../config/constants';
 
 import * as StringHelpers from '../services/string.helpers';
 
 interface IBoardCardProps extends IBoard {
-  cUrl: string;
-  cLayout: string;
+  altData: string;
+  altAction: string;
+  data: string;
   match: any;
   details(id: string): void;
   dispatch(action: string, payload: any): void;
@@ -18,9 +20,17 @@ interface IBoardCardProps extends IBoard {
 export default function BoardCard(props: IBoardCardProps) {
   const [detailPane, setDetailPane] = useState(false);
   // prettier-ignore
-  const cUrl = props.cUrl?props.match.fnURL(StringHelpers.replaceMatches(props.cUrl, '\{', '\}', props)):{state: {detailPane:true}};
+  const cUrl = props.url?props.match.fnURL(StringHelpers.replaceMatches(props.url, '\{', '\}', props)):{state: {detailPane:true}};
+  const cUrl = props.url
+    ? props.match.fnURL(
+        StringHelpers.replaceMatches(props.url, '{', '}', props)
+      )
+    : { state: { detailPane: true } };
+  let cURL;
+  if (props.altAction === CardComponent.DRILLDOWN_URL) {
+  }
   console.log(cUrl);
-  const CardContents = (CardTemplates as any)[props.cLayout];
+  const CardContents = (CardTemplates as any)[props.layout];
   return (
     <Link
       id={`${props.id}`}

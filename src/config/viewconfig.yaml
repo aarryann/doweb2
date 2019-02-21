@@ -14,12 +14,12 @@ Views:
       '0000':
         component: ListComponent
         props:
-          addNew: true
-          addNewViewDetail: self
-          addNewFormData:
-          cardViewFormData:
-          cardViewDetail: drillDownToNewPage
-          cardViewDetailUrl: /boards/{id}
+          add: true
+          addAlt: showInline
+          addAltData:
+          cardData: TitleOnly
+          cardAltAction: drilldownUrl
+          cardAltUrl: /boards/{id}
           detailPane: false
           title: Subjects
           boardCard:
@@ -33,7 +33,7 @@ Views:
         component: ListComponent
         props:
           addNew: true
-          addNewViewDetail: detailPane
+          addClick: showPane
           addNewFormData:
           cardViewFormData:
           cardViewDetail: drillDownToNewPage

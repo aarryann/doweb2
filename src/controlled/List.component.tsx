@@ -3,16 +3,18 @@ import classnames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
 import labels from '../config/labels.en';
-import BoardCard from './Card.component';
-import BoardForm from './CardForm.component';
+import Card from './Card.component';
+import CardForm from './CardForm.component';
 
 import './List.component.scss';
 
 interface IListComponentProps {
   addNew: boolean;
   boardCard: any;
+  cardData: string;
+  cardAltAction: string; // how to show detail: drilldownUrl, showPaneData, showPaneCall, showInlineData or showInlineCall
+  cardAltData: string; // for drilldown: component url
   dataSource: any;
-  detailPane: boolean;
   match: any;
   title: string;
   dispatch(action: string, payload: any): void;
@@ -43,7 +45,7 @@ export default function ListComponent(props: IListComponentProps) {
   }
 
   let details = null;
-  if (props.detailPane) {
+  if (props.cardAltAction === 'showPane') {
     details = (
       <section className={`detail-section`}>
         <h4>Detail Section : {selectedCard}</h4>
@@ -68,11 +70,14 @@ export default function ListComponent(props: IListComponentProps) {
   function renderBoards(boards: any[]) {
     return boards.map((board: any) => {
       return (
-        <BoardCard
+        <Card
           key={board.id}
           dispatch={props.dispatch}
           details={handleDetailsPane}
           match={props.match}
+          altData={props.cardAltData}
+          data={props.cardData}
+          altAction={props.cardAltAction}
           {...props.boardCard}
           {...board}
         />
@@ -92,7 +97,7 @@ export default function ListComponent(props: IListComponentProps) {
     }
 
     return (
-      <BoardForm
+      <CardForm
         dispatch={props.dispatch}
         errors={errors}
         handleFormCancel={handleFormCancel}
@@ -124,7 +129,7 @@ export default function ListComponent(props: IListComponentProps) {
   }
 
   function handleDetailsPane(cardId: string) {
-    if (props.detailPane) {
+    if (props.cardAltAction === 'showPane') {
       if (selectedCard === cardId) {
         setShowDetails(false);
         setSelectedCard('');
