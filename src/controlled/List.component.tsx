@@ -5,12 +5,12 @@ import React, { useEffect, useState } from 'react';
 import labels from '../config/labels.en';
 import Card from './Card.component';
 import CardForm from './CardForm.component';
+import { CardConstants } from '../config/constants';
 
 import './List.component.scss';
 
 interface IListComponentProps {
-  addNew: boolean;
-  boardCard: any;
+  add: boolean;
   cardData: string;
   cardAltAction: string; // how to show detail: drilldownUrl, showPaneData, showPaneCall, showInlineData or showInlineCall
   cardAltData: string; // for drilldown: component url
@@ -38,14 +38,17 @@ export default function ListComponent(props: IListComponentProps) {
   if (!fetching) {
     content = (
       <div className="list-roll">
-        {renderAddNewBoard(props.addNew)}
+        {renderAddNewBoard(props.add)}
         {renderBoards(data)}
       </div>
     );
   }
 
   let details = null;
-  if (props.cardAltAction === 'showPane') {
+  if (
+    props.cardAltAction === CardConstants.SHOW_PANE_DATA ||
+    props.cardAltAction === CardConstants.SHOW_PANE_CALL
+  ) {
     details = (
       <section className={`detail-section`}>
         <h4>Detail Section : {selectedCard}</h4>
@@ -78,7 +81,6 @@ export default function ListComponent(props: IListComponentProps) {
           altData={props.cardAltData}
           data={props.cardData}
           altAction={props.cardAltAction}
-          {...props.boardCard}
           {...board}
         />
       );
@@ -129,7 +131,10 @@ export default function ListComponent(props: IListComponentProps) {
   }
 
   function handleDetailsPane(cardId: string) {
-    if (props.cardAltAction === 'showPane') {
+    if (
+      props.cardAltAction === CardConstants.SHOW_PANE_DATA ||
+      props.cardAltAction === CardConstants.SHOW_PANE_CALL
+    ) {
       if (selectedCard === cardId) {
         setShowDetails(false);
         setSelectedCard('');

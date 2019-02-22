@@ -19,12 +19,8 @@ Views:
           addAltData:
           cardData: TitleOnly
           cardAltAction: drilldownUrl
-          cardAltUrl: /boards/{id}
-          detailPane: false
+          cardAltData: /boards/{id}
           title: Subjects
-          boardCard:
-            cUrl: /boards/{id}
-            cLayout: TitleOnly
         dataSource: Boards.useSubOwnBoard
         actions:
           createBoard: Boards.createBoard
@@ -32,16 +28,13 @@ Views:
       '0100':
         component: ListComponent
         props:
-          addNew: true
-          addClick: showPane
-          addNewFormData:
-          cardViewFormData:
-          cardViewDetail: drillDownToNewPage
-          detailPane: false
+          add: false
+          addAlt: showInline
+          addAltData:
+          cardData: TitleOnly
+          cardAltAction: showPaneData
+          cardAltData: /boards/{id}
           title: Other Boards
-          boardCard:
-            cUrl: /boards/{id}
-            cLayout: TitleOnly
         dataSource: Boards.useSubOtherBoard
         actions:
           viewBoard: Boards.viewBoard
@@ -52,12 +45,9 @@ Views:
       '0000':
         component: ListComponent
         props:
-          cardViewDetail: detailPane
-          detailPane: true
+          cardData: TitleOnly
+          cardAltAction: showPaneData
           title: List Cases
-          cardViewDetailFormData:
-          boardCard:
-            cLayout: TitleOnly
         dataSource: Cases.useCases
         actions:
           viewBoard: Cases.viewCase

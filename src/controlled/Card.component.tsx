@@ -20,6 +20,7 @@ interface IBoardCardProps extends IBoard {
 export default function BoardCard(props: IBoardCardProps) {
   const [detailPane, setDetailPane] = useState(false);
   let cUrl;
+  console.log(props);
   if (props.altAction === CardConstants.DRILLDOWN_URL) {
     // prettier-ignore
     cUrl = props.match.fnURL(SH.replaceMatches(props.altData, '\{', '\}', props));
