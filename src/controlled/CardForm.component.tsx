@@ -3,36 +3,39 @@ import PageClick from 'react-page-click';
 import { IBoard } from '../pipes/boards/interfaces.board';
 import { renderErrorsFor } from '../services/component.helpers';
 
-interface IBoardFormProps {
+interface IAddCardProps {
   errors: any;
   handleFormCancel(): void;
   dispatch(action: string, payload: any): void;
 }
 
-export default class BoardForm extends React.Component<IBoardFormProps, any> {
-  constructor(props: IBoardFormProps) {
+export default class BoardForm extends React.Component<IAddCardProps, any> {
+  constructor(props: IAddCardProps) {
     super(props);
 
     this.state = {
-      boardName: '',
+      firstName: '',
+      lastName: '',
+      currentGender: '',
+      dob: '',
       submitted: false
     };
 
     this._handleChange = this._handleChange.bind(this);
-    this._handleFormCancel = this._handleFormCancel.bind(this);
-    this._handleCreateBoard = this._handleCreateBoard.bind(this);
+    this._handleCancel = this._handleCancel.bind(this);
+    this._handleSubmit = this._handleSubmit.bind(this);
   }
 
   public render() {
     const { errors } = this.props;
-    const { boardName } = this.state;
+    const { firstName, lastName, currentGender, dob } = this.state;
 
     return (
-      <PageClick notify={this._handleFormCancel}>
+      <PageClick notify={this._handleCancel}>
         <div className="board form card card-tile">
           <div className="card-body inner">
             <h4>Register</h4>
-            <form id="new_board_form" onSubmit={this._handleCreateBoard}>
+            <form id="new_board_form" onSubmit={this._handleSubmit}>
               <input
                 autoFocus={true}
                 name="firstName"
@@ -40,22 +43,39 @@ export default class BoardForm extends React.Component<IBoardFormProps, any> {
                 type="text"
                 placeholder="First name"
                 required={true}
-                value={boardName}
+                value={firstName}
                 onChange={this._handleChange}
               />
               <input
-                autoFocus={true}
                 name="lastName"
                 id="last_name"
                 type="text"
                 placeholder="Last name"
                 required={true}
-                value={boardName}
+                value={lastName}
+                onChange={this._handleChange}
+              />
+              <input
+                name="gender"
+                id="gender"
+                type="text"
+                placeholder="Gender"
+                required={true}
+                value={currentGender}
+                onChange={this._handleChange}
+              />
+              <input
+                name="dob"
+                id="dob"
+                type="text"
+                placeholder="DOB"
+                required={true}
+                value={dob}
                 onChange={this._handleChange}
               />
               {renderErrorsFor(errors, 'name')}
               <button type="submit">Create board</button> or{' '}
-              <a href="#" onClick={this._handleFormCancel}>
+              <a href="#" onClick={this._handleCancel}>
                 cancel
               </a>
             </form>
@@ -75,19 +95,22 @@ export default class BoardForm extends React.Component<IBoardFormProps, any> {
     });
   }
 
-  public _handleCreateBoard(e: any) {
+  public _handleSubmit(e: any) {
     e.preventDefault();
 
-    const { boardName } = this.state;
+    const { firstName, lastName, currentGender, dob } = this.state;
 
-    const data: Partial<IBoard> = {
-      name: boardName
+    const data: any = {
+      firstName,
+      lastName,
+      currentGender,
+      dob
     };
 
-    this.props.dispatch('createBoard', data);
+    this.props.dispatch('registerSubject', data);
   }
 
-  public _handleFormCancel(e: any) {
+  public _handleCancel(e: any) {
     e.preventDefault();
 
     this.props.handleFormCancel();
