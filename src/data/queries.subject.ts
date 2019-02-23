@@ -2,14 +2,9 @@ import gql from 'graphql-tag';
 
 export const queries = {
   getOwnBoards: gql`
-    query AllSubjectsForStudySite($study: ID, $site: ID) {
-      allSubjectsForStudySite(study: $study, site: $site) {
-        user {
-          ownedBoards {
-            id
-            name
-          }
-        }
+    query AllSubjects($study: ID, $site: ID) {
+      allSubjects(study: $study, site: $site) {
+        firstName
       }
     }
   `,
