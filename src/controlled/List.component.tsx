@@ -14,6 +14,7 @@ interface IListComponentProps {
   cardData: string;
   cardAltAction: string; // how to show detail: drilldownUrl, showPaneData, showPaneCall, showInlineData or showInlineCall
   cardAltData: string; // for drilldown: component url
+  cardContent: string;
   dataSource: any;
   match: any;
   title: string;
@@ -71,6 +72,7 @@ export default function ListComponent(props: IListComponentProps) {
   );
 
   function renderBoards(boards: any[]) {
+    console.log(props);
     return boards.map((board: any) => {
       return (
         <Card
@@ -79,6 +81,7 @@ export default function ListComponent(props: IListComponentProps) {
           details={handleDetailsPane}
           match={props.match}
           altData={props.cardAltData}
+          altContent={props.cardContent}
           data={props.cardData}
           altAction={props.cardAltAction}
           {...board}

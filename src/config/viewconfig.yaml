@@ -7,6 +7,25 @@ Views:
   ListProjects: &list_projects
     entity: ListProjects
     category: Component
+  ListSubjects: &list_subjects
+    entity: ListSubjects
+    category: Mgen
+    children:
+      '0000':
+        component: ListComponent
+        props:
+          add: true
+          addAlt: showInline
+          addAltData:
+          cardData: TitleOnly
+          cardContent: '<h4>{props.firstName}</h4>'
+          cardAltAction: drilldownUrl
+          cardAltData: /subjects/{id}
+          title: Subjects
+        dataSource: Visit.useSubSubjects
+        actions:
+          addSubject: Visit.addSubject
+          viewSubject: Visit.viewSubject
   ListBoards: &list_boards
     entity: ListBoards
     category: Mgen
@@ -59,6 +78,7 @@ Views:
 Routes:
   '/cases': *list_projects
   '/boards/:bid': *list_cases
-  '/': *list_boards
+  '/subjects/:sid': *list_cases
+  '/': *list_subjects
   '/notfound': *not_found # if all else fails
 ... # document end
