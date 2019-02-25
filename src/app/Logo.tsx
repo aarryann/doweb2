@@ -33,7 +33,7 @@ export default function Logo(props: any) {
               aria-expanded="false"
             >
               <i className="fa fa-th pr-1" />
-              Participants
+              Subjects
             </a>
             <div
               className="dropdown-menu z-dashlist animated flipInX"

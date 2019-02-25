@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import { Link } from 'react-router-dom';
 import { IBoard } from '../pipes/boards/interfaces.board';
-import * as CardTemplates from './Card.template';
+import * as ConfigTemplates from '../config/viewconfig.template';
 import { CardConstants } from '../config/constants';
 
 import * as SH from '../services/string.helpers';
@@ -31,7 +31,7 @@ export default function BoardCard(props: IBoardCardProps) {
     cUrl = { state: { detailPane: true } };
   }
   console.log(cUrl);
-  const CardContents = (CardTemplates as any)[props.data];
+  const CardContents = (ConfigTemplates as any)[props.data];
   return (
     <Link
       id={`${props.id}`}

@@ -4,8 +4,8 @@
 
 # Views
 Views:
-  ListProjects: &list_projects
-    entity: ListProjects
+  Dashboard: &dashboard
+    entity: Dashboard
     category: Component
   ListSubjects: &list_subjects
     entity: ListSubjects
@@ -17,8 +17,7 @@ Views:
           add: true
           addAlt: showInline
           addAltData:
-          cardData: TitleOnly
-          cardContent: '<h4>{props.firstName}</h4>'
+          cardData: ListSubjectsCardData
           cardAltAction: drilldownUrl
           cardAltData: /subjects/{id}
           title: Subjects
@@ -76,9 +75,9 @@ Views:
 
 # Landing
 Routes:
-  '/cases': *list_projects
   '/boards/:bid': *list_cases
   '/subjects/:sid': *list_cases
-  '/': *list_subjects
+  '/subjects': *list_subjects
+  '/': *dashboard
   '/notfound': *not_found # if all else fails
 ... # document end

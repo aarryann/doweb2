@@ -26,7 +26,7 @@ export default function FeatureMenu(props: any) {
         </Link>
       </li>
       <li className="nav-item menu-item">
-        <Link className="nav-link active" to="/participants">
+        <Link className="nav-link active" to="/subjects">
           <i className="fa fa-list-alt pr-1" />
           eCRFs
         </Link>
