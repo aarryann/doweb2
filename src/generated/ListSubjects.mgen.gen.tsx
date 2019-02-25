@@ -32,6 +32,7 @@ export default function ListSubjectsMgen(props: IManagerProps) {
 
   return (
     <>
+      <Components.PageContextComponent markers={[]} />
       <Components.ListComponent
         dataSource={results0000}
         dispatch={dispatch0000}
