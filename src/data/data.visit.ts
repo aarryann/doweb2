@@ -5,7 +5,7 @@ import { queries, subscriptions } from './queries.visit';
 /*
  ** Subscribe to Subjects
  */
-export const useSubSubjects = (client: any) => {
+export const useSubscribeSubjects = (client: any) => {
   const [results, setResults]: [any, any] = useState({
     fetching: true,
     data: []

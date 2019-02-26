@@ -8,7 +8,7 @@ export default function ListSubjectsMgen(props: IManagerProps) {
   const props0000 = props.view.children['0000'].props;
 
   // Combine data and fetch into single state
-  const [results0000, setResults0000] = Datasources.Visit.useSubSubjects(
+  const [results0000, setResults0000] = Datasources.Visit.useSubscribeSubjects(
     props.client
   );
 
