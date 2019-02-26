@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react';
 import { queries, subscriptions } from './queries.visit';
 
+import { useCheckContext } from './data.app';
+
 /*
  ** Subscribe to Subjects
  */
@@ -11,53 +13,59 @@ export const useSubscribeSubjects = (client: any) => {
     data: []
   });
 
+  const [pending, isPending] = useCheckContext(client, ['studyId', 'siteId']);
+
   // Subscribe to new boards
   useEffect(() => {
-    const sub = client
-      .subscribe({
-        query: subscriptions.subjectAdded
-      })
-      .subscribe({
-        next(subjectData: any) {
-          const data = client.readQuery({
-            query: queries.getAllSubjects,
-            variables: { studyId: 1, siteId: 1 }
-          });
-          // Add subjects received from subscription to Apollo client cache
-          data.allSubjects.push(subjectData.data.subjectAdded);
-          client.writeQuery({
-            query: queries.getAllSubjects,
-            variables: { studyId: 1, siteId: 1 },
-            data
-          });
-        }
-      });
+    if (!isPending) {
+      const sub = client
+        .subscribe({
+          query: subscriptions.subjectAdded
+        })
+        .subscribe({
+          next(subjectData: any) {
+            const data = client.readQuery({
+              query: queries.getAllSubjects,
+              variables: { studyId: 1, siteId: 1 }
+            });
+            // Add subjects received from subscription to Apollo client cache
+            data.allSubjects.push(subjectData.data.subjectAdded);
+            client.writeQuery({
+              query: queries.getAllSubjects,
+              variables: { studyId: 1, siteId: 1 },
+              data
+            });
+          }
+        });
 
-    return () => {
-      sub.unsubscribe();
-    };
+      return () => {
+        sub.unsubscribe();
+      };
+    }
   }, []);
 
   // Watch for updates to Apollo client cache. Uses the default cache-first
   // client policy, to check Apollo client cache for any data followed by
   // network/database.
   useEffect(() => {
-    const sub = client
-      .watchQuery({
-        query: queries.getAllSubjects,
-        variables: { studyId: 1, siteId: 1 }
-      })
-      .subscribe({
-        next({ data }: { data: any }) {
-          // Set state data on updates to subject data
-          // Set fetching to false, for UI fetching icon at first time load
-          setResults({ data, fetching: false });
-        }
-      });
+    if (!isPending) {
+      const sub = client
+        .watchQuery({
+          query: queries.getAllSubjects,
+          variables: { studyId: 1, siteId: 1 }
+        })
+        .subscribe({
+          next({ data }: { data: any }) {
+            // Set state data on updates to subject data
+            // Set fetching to false, for UI fetching icon at first time load
+            setResults({ data, fetching: false });
+          }
+        });
 
-    return () => {
-      sub.unsubscribe();
-    };
+      return () => {
+        sub.unsubscribe();
+      };
+    }
   }, []);
 
   let filteredResults: any = results;

@@ -4,16 +4,17 @@ import { useEffect, useState } from 'react';
 /*
  ** Subscribe to Subjects
  */
-export const usePageContext = (client: any, elements: any) => {
-  const pending = elements.slice();
+export const useCheckContext = (client: any, elements: any) => {
+  let pending = null;
 
   useEffect(() => {
     for (let i = elements.length; i > 0; i--) {
       if (!sessionStorage.getItem(elements[i - 1])) {
-        delete pending[i - 1];
+        pending = elements[i];
+        break;
       }
     }
-  }, [elements]);
+  });
 
-  return [pending, []];
+  return [pending, pending === null];
 };
