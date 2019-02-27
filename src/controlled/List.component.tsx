@@ -25,7 +25,7 @@ export default function ListComponent(props: IListComponentProps) {
   const [showForm, setShowForm] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [selectedCard, setSelectedCard] = useState('');
-  const { fetching, data } = props.dataSource;
+  const { hide, fetching, data } = props.dataSource;
   useDocumentTitle(labels.boards.title);
 
   const iconClasses = classnames({
@@ -35,6 +35,9 @@ export default function ListComponent(props: IListComponentProps) {
     'fa-spin': fetching
   });
 
+  if (hide) {
+    return null;
+  }
   let content = null;
   if (!fetching) {
     content = (

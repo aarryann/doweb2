@@ -1,9 +1,11 @@
-import * as Boards from './data.boards';
-import * as Cases from './data.cases';
+import * as App from './data.app';
+import * as Board from './data.boards';
+import * as Case from './data.cases';
 import * as Visit from './data.visit';
 
 export const Datasources = {
-  Boards,
-  Cases,
+  App,
+  Board,
+  Case,
   Visit
 };

@@ -7,17 +7,16 @@ import { useCheckContext } from './data.app';
 /*
  ** Subscribe to Subjects
  */
-export const useSubscribeSubjects = (client: any) => {
+export const useSubscribeSubjects = (client: any, skipEffect: boolean) => {
   const [results, setResults]: [any, any] = useState({
+    hide: false,
     fetching: true,
     data: []
   });
 
-  const [pending, isPending] = useCheckContext(client, ['studyId', 'siteId']);
-
   // Subscribe to new boards
   useEffect(() => {
-    if (!isPending) {
+    if (!skipEffect) {
       const sub = client
         .subscribe({
           query: subscriptions.subjectAdded
@@ -48,7 +47,7 @@ export const useSubscribeSubjects = (client: any) => {
   // client policy, to check Apollo client cache for any data followed by
   // network/database.
   useEffect(() => {
-    if (!isPending) {
+    if (!skipEffect) {
       const sub = client
         .watchQuery({
           query: queries.getAllSubjects,
@@ -69,7 +68,8 @@ export const useSubscribeSubjects = (client: any) => {
   }, []);
 
   let filteredResults: any = results;
-  // Extract and pass only owned boards
+  filteredResults.hide = skipEffect;
+  // Extract and pass only subjects
   if (results.data.allSubjects) {
     filteredResults.data = results.data.allSubjects;
   }

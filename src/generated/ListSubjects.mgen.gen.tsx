@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Components } from '../controlled';
 import { IManagerProps } from '../controlled/interfaces';
@@ -8,8 +8,15 @@ export default function ListSubjectsMgen(props: IManagerProps) {
   const props0000 = props.view.children['0000'].props;
 
   // Combine data and fetch into single state
+  const [pending, isPending] = Datasources.App.useCheckContext(props.client, [
+    'studyId',
+    'siteId'
+  ]);
+  const [contextPending, setPending]: [any, any] = useState(isPending);
+  // Combine data and fetch into single state
   const [results0000, setResults0000] = Datasources.Visit.useSubscribeSubjects(
-    props.client
+    props.client,
+    contextPending
   );
 
   const dispatch0000 = (action: string, payload: any) => {
