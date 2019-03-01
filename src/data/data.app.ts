@@ -16,5 +16,5 @@ export const useCheckContext = (client: any, elements: any) => {
     }
   });
 
-  return [pending, pending === null];
+  return [pending, pending !== null];
 };
