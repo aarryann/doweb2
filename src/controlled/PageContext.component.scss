@@ -1,3 +1,6 @@
+.main-container:has(.small-header) {
+  padding: 20px 20px 0 20px;
+}
 .context-header {
   padding: 20px 20px 0 20px;
   transition: padding 0.5s;

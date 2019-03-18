@@ -12,6 +12,10 @@ Views:
     category: Mgen
     children:
       '0000':
+        component: PageContextComponent
+        actions:
+          setClipCss: Visit.addSubject
+      '0100':
         component: ListComponent
         props:
           add: true
@@ -21,7 +25,8 @@ Views:
           cardAltAction: drilldownUrl
           cardAltData: /subjects/{id}
           title: Subjects
-        dataSource: Visit.useSubSubjects
+        dataSource: Visit.useSubscribeSubjects
+        theme: App.useSubjectTheme
         actions:
           addSubject: Visit.addSubject
           viewSubject: Visit.viewSubject

@@ -3,13 +3,18 @@ import React, { useState } from 'react';
 declare const process: IProcess;
 import './PageContext.component.scss';
 
-export default function PageContextComponent(props: any) {
-  const [clipped, setClipped] = useState(false);
+interface IPageContextProps {
+  dispatch(action: string, payload: any): void;
+}
+
+export default function PageContextComponent(props: IPageContextProps) {
+  const [clipCss, setClipCss] = useState('');
   const handleClipHeader = () => {
-    setClipped(clip => !clip);
+    setClipCss(css => (css.length === 0 ? 'small-header' : ''));
+    props.dispatch('setClipCss', clipCss);
   };
   return (
-    <div className={`context-header ${clipped ? 'small-header' : ''}`}>
+    <div className={`context-header ${clipCss}`}>
       <div className="card">
         <div className="card-body">
           <a
