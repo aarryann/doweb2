@@ -1,7 +1,7 @@
 // tslint:disable
 import React, { useState } from 'react';
-declare const process: IProcess;
 import './PageContext.component.scss';
+declare const process: IProcess;
 
 interface IPageContextProps {
   dispatch(action: string, payload: any): void;
