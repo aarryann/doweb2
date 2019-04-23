@@ -42,6 +42,13 @@
   border: 1px solid #afafaf;
 }
 
+.main-container.fixed-header {
+  .content-body {
+    position: relative;
+    top: 80px;
+  }
+}
+
 .list-container {
   &.show {
     .content-section {

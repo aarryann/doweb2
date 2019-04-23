@@ -1,5 +1,22 @@
-.main-container:has(.small-header) {
-  padding: 20px 20px 0 20px;
+.main-container {
+  &:has(.small-header) {
+    padding: 20px 20px 0 20px;
+  }
+  &.fixed-header {
+    .context-header {
+      padding: 4px 0 0 0 !important;
+      position: fixed;
+      right: 0;
+      left: 0;
+      z-index: 1030;
+      .clip-header {
+        i {
+          -webkit-transform: rotate(225deg);
+          transform: rotate(225deg);
+        }
+      }
+    }
+  }
 }
 .context-header {
   padding: 20px 20px 0 20px;
