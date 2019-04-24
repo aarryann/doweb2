@@ -14,7 +14,11 @@
     "jest": true
   },
   "plugins": ["react", "react-hooks"],
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "rules": {
     "strict": [2, "never"],
     "react/jsx-uses-react": 2,
@@ -36,6 +40,7 @@
     "no-alert": "off",
     "comma-spacing": [2, { "before": false, "after": true }],
     "jsx-a11y/href-no-hash": "off",
+    "jsx-a11y/anchor-is-valid": 0,
     "react-hooks/rules-of-hooks": "error"
   },
   "settings": {

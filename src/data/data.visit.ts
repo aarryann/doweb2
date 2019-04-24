@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // tslint:disable
 import { useEffect, useState } from 'react';
 import { queries, subscriptions } from './queries.visit';

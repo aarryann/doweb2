@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import PageClick from 'react-page-click';
 import { IBoard } from '../pipes/boards/interfaces.board';

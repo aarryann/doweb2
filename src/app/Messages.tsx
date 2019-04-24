@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // tslint:disable:jsx-no-lambda
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
