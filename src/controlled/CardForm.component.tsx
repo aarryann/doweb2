@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import PageClick from 'react-page-click';
-import { IBoard } from '../pipes/boards/interfaces.board';
 import { renderErrorsFor } from '../services/component.helpers';
 
 interface IAddCardProps {

@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 // tslint:disable:jsx-no-lambda
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import labels from '../config/labels.en';
@@ -14,7 +14,7 @@ export default function Logo(props: any) {
     <div className="logoContainer">
       <div className="logoCol">
         <Link to={routePaths.home} className="navbar-brand p-0">
-          <img src={logo} height="55px" />
+          <img src={logo} height="55px" alt="Logo" />
         </Link>
       </div>
       <div className="lblCol">

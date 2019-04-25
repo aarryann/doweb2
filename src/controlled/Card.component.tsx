@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-useless-escape */
 // tslint:disable
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Link } from 'react-router-dom';
 import { IBoard } from '../pipes/boards/interfaces.board';
@@ -19,7 +19,6 @@ interface IBoardCardProps extends IBoard {
 }
 
 export default function BoardCard(props: IBoardCardProps) {
-  const [detailPane, setDetailPane] = useState(false);
   let cUrl;
   console.log(props);
   if (props.altAction === CardConstants.DRILLDOWN_URL) {

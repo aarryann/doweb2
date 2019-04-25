@@ -1,10 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-script-url */
 // tslint:disable:jsx-no-lambda
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-
-import labels from '../config/labels.en';
-
+import React from 'react';
 import './Header.scss';
 
 import Account from './Account';

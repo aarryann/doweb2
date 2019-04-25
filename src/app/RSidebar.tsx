@@ -1,10 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-script-url */
 import React from 'react';
-import { Link } from 'react-router-dom';
-
-import labels from '../config/labels.en';
-import { routePaths } from '../config/paths';
-
 import './RSidebar.scss';
 
 interface IRSidebarProps {

@@ -40,7 +40,7 @@
 .z-flat-button {
   color: $on-primary;
   font-size: 20px;
-  padding: 0px 20px;
+  padding: 0px 20px !important;
 }
 
 .list-group {
@@ -153,4 +153,18 @@
       }
     }
   }
+}
+
+.link-button {
+  background-color: transparent;
+  border: none;
+  display: inline;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+}
+
+.link-button:hover,
+.link-button:focus {
+  text-decoration: none;
 }

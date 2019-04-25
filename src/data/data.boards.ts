@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 // tslint:disable
 import { useEffect, useState } from 'react';
 import { queries, subscriptions } from './queries.board';

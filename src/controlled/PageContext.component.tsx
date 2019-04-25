@@ -1,7 +1,8 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-script-url */
 // tslint:disable
 import React, { useState } from 'react';
 import './PageContext.component.scss';
-declare const process: IProcess;
 
 interface IPageContextProps {
   dispatch(action: string, payload: any): void;
