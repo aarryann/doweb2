@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 // tslint:disable:jsx-no-lambda
 
 import React from 'react';
