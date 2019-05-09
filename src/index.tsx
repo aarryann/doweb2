@@ -10,8 +10,9 @@ import { getMainDefinition } from 'apollo-utilities';
 import { OperationDefinitionNode } from 'graphql';
 import React from 'react';
 import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import * as serviceWorker from './serviceWorker';
 
@@ -72,18 +73,20 @@ const clientOptions = () => {
   };
 };
 
+console.log('Index entered');
 const client = new ApolloClient(clientOptions());
-const startApp = () => {
-  ReactDOM.render(
-    <BrowserRouter>
-      <ApolloProvider client={client}>
+const Root = () => (
+  <Router>
+    <ApolloProvider client={client}>
+      <ApolloHooksProvider client={client}>
         <App />
-      </ApolloProvider>
-    </BrowserRouter>,
-    document.getElementById('root')
-  );
-};
+      </ApolloHooksProvider>
+    </ApolloProvider>
+  </Router>
+);
 
-startApp();
+const rootElement = document.getElementById('root');
+ReactDOM.render(<Root />, rootElement);
+
 // registerServiceWorker();
 serviceWorker.unregister();
