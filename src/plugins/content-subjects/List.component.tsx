@@ -2,10 +2,10 @@
 import classnames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
-import labels from '../config/labels.en';
+import labels from '../../config/labels.en';
 import Card from './Card.component';
 import CardForm from './CardForm.component';
-import { CardConstants } from '../config/constants';
+import { CardConstants } from '../../config/constants';
 
 import './List.component.scss';
 

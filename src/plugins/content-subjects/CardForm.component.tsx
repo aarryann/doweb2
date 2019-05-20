@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import PageClick from 'react-page-click';
-import { renderErrorsFor } from '../services/component.helpers';
+import { renderErrorsFor } from '../../services/component.helpers';
 
 interface IAddCardProps {
   errors: any;

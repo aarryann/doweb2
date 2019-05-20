@@ -2,9 +2,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
 
-import { Components } from '../controlled';
-import { IManagerProps } from '../controlled/interfaces';
-import { Datasources } from '../data';
+import { Components } from '../../plugins';
+import { IManagerProps } from '../../app/interfaces';
+import { Datasources } from '../../data';
 
 export default function ListSubjectsMgen(props: IManagerProps) {
   const props0100 = props.view.children['0100'].props;

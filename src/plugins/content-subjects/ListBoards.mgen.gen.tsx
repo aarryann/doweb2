@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Components } from '../controlled';
-import { IManagerProps } from '../controlled/interfaces';
-import { Datasources } from '../data';
+import { Components } from '../../plugins';
+import { IManagerProps } from '../../app/interfaces';
+import { Datasources } from '../../data';
 
 export default function ListBoardsMgen(props: IManagerProps) {
   const props0000 = props.view.children['0000'].props;

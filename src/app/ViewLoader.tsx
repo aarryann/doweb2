@@ -6,7 +6,7 @@ import React, { useMemo } from 'react';
 import { withApollo } from 'react-apollo';
 
 import appConfig from '../config/viewconfig.yaml';
-import { Components } from '../controlled';
+import { Components } from '../plugins';
 
 const GetLoader = (props: any) => {
   const path = props.pathname;
