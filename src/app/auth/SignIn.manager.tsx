@@ -3,7 +3,7 @@ import { withApollo } from 'react-apollo';
 import { Redirect } from 'react-router-dom';
 
 import labels from '../../config/labels.en';
-import Actions from '../../data/actions.session';
+import Actions from './actions.session';
 import SignIn from './SignIn.component';
 
 declare const process: IProcess;

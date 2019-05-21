@@ -2,21 +2,24 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
 
-import { Plugins } from '../../plugins';
+import { ComponentPlugins } from '../../plugins';
 import { IManagerProps } from '../../app/interfaces/interfaces';
-import { Datasources } from '../../data';
+import { DatasourcePlugins } from '../';
 
 export default function ListSubjectsMgen(props: IManagerProps) {
   const props0100 = props.view.children['0100'].props;
 
   // Combine data and fetch into single state
-  const [pending, isPending] = Datasources.App.useCheckContext(props.client, [
-    'studyId',
-    'siteId'
-  ]);
+  const [pending, isPending] = DatasourcePlugins.Context.useCheckContext(
+    props.client,
+    ['studyId', 'siteId']
+  );
   const [contextPending, setPending]: [any, any] = useState(isPending);
   // Combine data and fetch into single state
-  const [results0100, setResults0100] = Datasources.Visit.useSubscribeSubjects(
+  const [
+    results0100,
+    setResults0100
+  ] = DatasourcePlugins.Visit.useSubscribeSubjects(
     props.client,
     contextPending
   );
@@ -40,12 +43,20 @@ export default function ListSubjectsMgen(props: IManagerProps) {
   const dispatch0100 = (action: string, payload: any) => {
     switch (action) {
       case 'addSubject': {
-        Datasources.Visit.addSubject(payload, results0100, setResults0100);
+        DatasourcePlugins.Visit.addSubject(
+          payload,
+          results0100,
+          setResults0100
+        );
         break;
       }
 
       case 'viewSubject': {
-        Datasources.Visit.viewSubject(payload, results0100, setResults0100);
+        DatasourcePlugins.Visit.viewSubject(
+          payload,
+          results0100,
+          setResults0100
+        );
         break;
       }
 
@@ -57,8 +68,8 @@ export default function ListSubjectsMgen(props: IManagerProps) {
 
   return (
     <>
-      <Plugins.PageContextComponent dispatch={dispatch0000} />
-      <Plugins.ListComponent
+      <ComponentPlugins.PageContextComponent dispatch={dispatch0000} />
+      <ComponentPlugins.ListComponent
         dataSource={results0100}
         dispatch={dispatch0100}
         match={props.match}

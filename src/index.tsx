@@ -19,7 +19,7 @@ import * as serviceWorker from './serviceWorker';
 import 'sanitize.css';
 import 'typeface-roboto';
 import './assets/scss/index.scss';
-import './include/bootstrap';
+import './assets/include/bootstrap';
 
 import App from './app/App';
 

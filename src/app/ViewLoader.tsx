@@ -6,7 +6,7 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 
 import appConfig from '../config/viewconfig.yaml';
-import { Plugins } from '../plugins';
+import { ComponentPlugins } from '../plugins';
 
 const findMatchedRoute = (path: string) => {
   //const routeKeys: string[] = Object.keys(routes);
@@ -66,7 +66,7 @@ function ViewLoader(props: any) {
   const params: string = extractParams(props.pathname, matchedRoute);
   const newProps: any = appendProps(props, matchedRoute, params);
 
-  const LoadedComponent = (Plugins as any)[
+  const LoadedComponent = (ComponentPlugins as any)[
     newProps.view.entity + newProps.view.category
   ];
   return <LoadedComponent {...newProps} />;
