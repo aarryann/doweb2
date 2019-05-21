@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Components } from '../controlled';
-import { IManagerProps } from '../controlled/interfaces';
+import { Plugins } from '../../plugins';
+import { IManagerProps } from '../app/interfaces';
 import { Datasources } from '../data';
 
 export default function <=ROOT.entity><=ROOT.category>(props: IManagerProps) {
@@ -28,7 +28,7 @@ export default function <=ROOT.entity><=ROOT.category>(props: IManagerProps) {
   return (
     <>
       <$REPEAT=$1>
-        <Components.<=$1:CONTENTS.component>
+        <Plugins.<=$1:CONTENTS.component>
           dataSource={results<=$1:KEY>}
           dispatch={dispatch<=$1:KEY>}
           match={props.match}

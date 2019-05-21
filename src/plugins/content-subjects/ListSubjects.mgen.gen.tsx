@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
 
-import { Components } from '../../plugins';
-import { IManagerProps } from '../../app/interfaces';
+import { Plugins } from '../../plugins';
+import { IManagerProps } from '../../app/interfaces/interfaces';
 import { Datasources } from '../../data';
 
 export default function ListSubjectsMgen(props: IManagerProps) {
@@ -57,8 +57,8 @@ export default function ListSubjectsMgen(props: IManagerProps) {
 
   return (
     <>
-      <Components.PageContextComponent dispatch={dispatch0000} />
-      <Components.ListComponent
+      <Plugins.PageContextComponent dispatch={dispatch0000} />
+      <Plugins.ListComponent
         dataSource={results0100}
         dispatch={dispatch0100}
         match={props.match}

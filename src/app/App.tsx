@@ -3,8 +3,8 @@ import decode from 'jwt-decode';
 import React, { lazy, Suspense } from 'react';
 
 import { routePaths } from '../config/paths';
-import Header from './Header';
-import RSidebar from './RSidebar';
+import Header from './header/Header';
+import RSidebar from './rsidebar/RSidebar';
 
 import './App.scss';
 
@@ -12,8 +12,8 @@ declare const process: IProcess;
 
 const Loading = <div>...loading</div>;
 const ViewLoader = lazy(() => import('./ViewLoader'));
-const AsyncRegister = lazy(() => import('./SignIn.manager'));
-const AsyncLogin = lazy(() => import('./SignIn.manager'));
+const AsyncRegister = lazy(() => import('./auth/SignIn.manager'));
+const AsyncLogin = lazy(() => import('./auth/SignIn.manager'));
 
 class App extends React.Component<any, any> {
   constructor(props: any) {

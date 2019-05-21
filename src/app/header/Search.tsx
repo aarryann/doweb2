@@ -2,7 +2,7 @@
 // tslint:disable:jsx-no-lambda
 import React, { useEffect, useState } from 'react';
 
-import labels from '../config/labels.en';
+import labels from '../../config/labels.en';
 
 import './Search.scss';
 

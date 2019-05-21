@@ -1,5 +1,5 @@
 import React from 'react';
-import SignInComponent from '../../app/SignIn.component';
+import SignInComponent from '../../app/auth/SignIn.component';
 import { shallow } from 'enzyme';
 
 describe('A008-Signin to Application', () => {

@@ -3,10 +3,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import labels from '../config/labels.en';
-import { routePaths } from '../config/paths';
+import labels from '../../config/labels.en';
+import { routePaths } from '../../config/paths';
 
-import logo from '../assets/img/logo.png';
+import logo from '../../assets/img/logo.png';
 import './Logo.scss';
 
 export default function Logo(props: any) {

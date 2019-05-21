@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Components } from '../../plugins';
-import { IManagerProps } from '../../app/interfaces';
+import { Plugins } from '../../plugins';
+import { IManagerProps } from '../../app/interfaces/interfaces';
 import { Datasources } from '../../data';
 
 export default function ListCasesMgen(props: IManagerProps) {
@@ -25,7 +25,7 @@ export default function ListCasesMgen(props: IManagerProps) {
 
   return (
     <>
-      <Components.ListComponent
+      <Plugins.ListComponent
         dataSource={results0000}
         dispatch={dispatch0000}
         match={props.match}

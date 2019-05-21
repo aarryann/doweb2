@@ -23,7 +23,7 @@ Views:
           addAltData:
           cardData: ListSubjectsCardData
           cardAltAction: drilldownUrl
-          cardAltData: /subjects/{id}
+          cardAltData: /{id}
           title: Subjects
         dataSource: Visit.useSubscribeSubjects
         theme: App.useSubjectTheme

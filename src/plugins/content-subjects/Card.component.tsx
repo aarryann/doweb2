@@ -7,7 +7,7 @@ import { IBoard } from './interfaces.board';
 import * as ConfigTemplates from '../../config/viewconfig.template';
 import { CardConstants } from '../../config/constants';
 
-import * as SH from '../../services/string.helpers';
+import * as SH from '../../app/services/string.helpers';
 
 interface IBoardCardProps extends IBoard {
   altData: string;

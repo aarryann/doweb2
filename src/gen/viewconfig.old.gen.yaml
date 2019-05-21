@@ -1,0 +1,63 @@
+--- # document start
+
+# Comments in YAML look like this.
+
+# Views
+Views:
+  ListProjects: &list_projects
+    entity: ListProjects
+    category: Component
+  ListBoards: &list_boards
+    entity: ListBoards
+    category: Mgen
+    children:
+      '0000':
+        component: ListComponent
+        props:
+          addNew: true
+          detailPane: false
+          title: My Boards
+          boardCard:
+            cUrl: /boards/{id}
+            cLayout: TitleOnly
+        dataSource: Boards.useSubOwnBoard
+        actions:
+          createBoard: Boards.createBoard
+          viewBoard: Boards.viewBoard
+      '0100':
+        component: ListComponent
+        props:
+          detailPane: false
+          title: Other Boards
+          boardCard:
+            cUrl: /boards/{id}/
+            cLayout: TitleOnly
+        dataSource: Boards.useSubOtherBoard
+        actions:
+          viewBoard: Boards.viewBoard
+  ListCases: &list_cases
+    entity: ListCases
+    category: Mgen
+    children:
+      '0000':
+        component: ListComponent
+        props:
+          detailPane: true
+          title: List Cases
+          boardCard:
+            cUrl: boards/{id}/
+            cLayout: TitleOnly
+        dataSource: Cases.useCases
+        actions:
+          viewBoard: Cases.viewCase
+  NotFound: &not_found
+    entity: NotFound
+    category: Component
+
+# Landing
+Routes:
+  '/cases': *list_projects
+  '/boards/:bid': *list_cases
+  '/': *list_boards 
+  '/notfound': *not_found # if all else fails
+... # document end
