@@ -1,5 +1,5 @@
 // tslint:disable:no-console
-const extractFunctionTokens = (cat, fnBlock, lexDict) => {
+export const extractFunctionTokens = (cat, fnBlock, lexDict) => {
   // Checking for an enclosed fn block within this block
   if (fnBlock.indexOf('<$REPEAT', 1) >= 0) {
     // Skip the enclosing fn tags

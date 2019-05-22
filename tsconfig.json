@@ -6,7 +6,12 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "lib": ["es6", "dom", "esnext", "dom.iterable"],
+    "lib": [
+      "es6",
+      "dom",
+      "esnext",
+      "dom.iterable"
+    ],
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
@@ -15,5 +20,10 @@
     "strict": true,
     "target": "es5"
   },
-  "include": ["src", "custom.d.ts", ".env.development", ".env.production"]
+  "include": [
+    "src",
+    "custom.d.ts",
+    ".env.development",
+    ".env.production"
+  ]
 }

@@ -1,15 +1,14 @@
-// tslint:disable:no-console
-const fs = require('fs');
+export const fs = require('fs');
 const readline = require('readline');
 const yaml = require('js-yaml');
 const lib = require('./genlib');
 
 const stageTemplate = (cat, lexDict) => {
   const readStream = fs.createReadStream(
-    `./src/templates/${cat.toLowerCase()}.tpl`
+    `./templates/${cat.toLowerCase()}.tpl`
   );
   const writeStream = fs.createWriteStream(
-    `./src/generated/${cat.toLowerCase()}.gen.stg`,
+    `./working/${cat.toLowerCase()}.gen.stg`,
     {
       encoding: 'utf8'
     }
@@ -40,10 +39,10 @@ const stageTemplate = (cat, lexDict) => {
 
 const generateComponent = (viewConfig, lexDict) => {
   const readStream = fs.createReadStream(
-    `./src/generated/${viewConfig.category.toLowerCase()}.gen.stg`
+    `./working/${viewConfig.category.toLowerCase()}.gen.stg`
   );
   const writeStream = fs.createWriteStream(
-    `./src/generated/${
+    `./working/${
       viewConfig.entity
     }.${viewConfig.category.toLowerCase()}.gen.tsx`,
     {
@@ -75,12 +74,9 @@ const generateComponent = (viewConfig, lexDict) => {
 };
 
 const generateIndex = (changeList, removeList) => {
-  fs.copyFileSync(
-    './src/generated/index.tsx',
-    './src/generated/index.old.gen.tsx'
-  );
-  const readStream = fs.createReadStream(`./src/generated/index.old.gen.tsx`);
-  const writeStream = fs.createWriteStream(`./src/generated/index.tsx`, {
+  fs.copyFileSync('./index.tsx', './index.old.gen.tsx');
+  const readStream = fs.createReadStream(`./index.old.gen.tsx`);
+  const writeStream = fs.createWriteStream(`./index.tsx`, {
     encoding: 'utf8'
   });
 
@@ -103,7 +99,7 @@ const generateIndex = (changeList, removeList) => {
     let script = lib.getIndexScript(changeList.sort());
     writeStream.write(script + '\r\n');
   });
-  fs.unlinkSync(`./src/generated/index.old.gen.tsx`);
+  fs.unlinkSync(`./index.old.gen.tsx`);
 };
 
 (async function() {
@@ -112,9 +108,9 @@ const generateIndex = (changeList, removeList) => {
   let diffConfig = yaml.safeLoad(
     fs.readFileSync('./src/config/viewconfig.yaml', 'utf8')
   );
-  if (fs.existsSync('./src/generated/viewconfig.old.gen.yaml')) {
+  if (fs.existsSync('./working/viewconfig.old.gen.yaml')) {
     let oldConfig = yaml.safeLoad(
-      fs.readFileSync('./src/generated/viewconfig.old.gen.yaml', 'utf8')
+      fs.readFileSync('./working/viewconfig.old.gen.yaml', 'utf8')
     );
     [diffConfig['Views'], removeList] = lib.getDiffedConfig(
       diffConfig.Views,
@@ -145,15 +141,15 @@ const generateIndex = (changeList, removeList) => {
     }
     if (removeList.length > 0) {
       for (let key of removeList) {
-        if (fs.existsSync(`./src/generated/${key}.gen.tsx`)) {
-          fs.unlinkSync(`./src/generated/${key}.gen.tsx`);
+        if (fs.existsSync(`./${key}.gen.tsx`)) {
+          fs.unlinkSync(`./${key}.gen.tsx`);
         }
       }
     }
 
     fs.copyFileSync(
       './src/config/viewconfig.yaml',
-      './src/generated/viewconfig.old.gen.yaml'
+      './working/viewconfig.old.gen.yaml'
     );
   }
 })();
