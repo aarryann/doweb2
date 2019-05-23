@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import fetch from 'isomorphic-fetch';
+import isPlainObject from 'lodash/isPlainObject';
 
 declare const process: IProcess;
 
@@ -73,3 +74,16 @@ export const hash = (pass: string) => {
 export const compareHash = (pass: string, hashed: string) => {
   return bcrypt.compareSync(pass, hashed);
 };
+
+export function objToKey<T extends Record<string, any>>(obj: T): T | string {
+  if (!isPlainObject(obj)) {
+    return obj;
+  }
+  const sortedObj = Object.keys(obj)
+    .sort()
+    .reduce((result: Record<string, any>, key) => {
+      result[key] = objToKey(obj[key]);
+      return result;
+    }, {});
+  return JSON.stringify(sortedObj);
+}
