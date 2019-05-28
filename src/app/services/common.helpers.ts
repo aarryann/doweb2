@@ -19,6 +19,8 @@ const buildHeaders = () => {
   return { ...defaultHeaders, Authorization: authToken };
 };
 
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
 export const checkStatus = (response: any) => {
   if (response.status >= 200 && response.status < 300) {
     return response;
