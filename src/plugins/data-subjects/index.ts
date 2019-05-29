@@ -4,21 +4,19 @@ import { useEffect, useState } from 'react';
 import { queries, subscriptions } from './queries.visit';
 import {
   useSubscription,
-  SubscriptionHookOptions,
   SubscriptionHookResult
 } from '../../app/services/data.helpers';
-import ApolloClient, {
-  OperationVariables,
-  SubscriptionOptions
-} from 'apollo-client';
-import { DatasourcePlugins } from '../';
+import ApolloClient from 'apollo-client';
 /*
  ** Subscribe to Subjects
  */
-export const subscribeSubjects = <TCache = object>(
+export function useSubscribeSubject<TData = any, TCache = object>(
   client: ApolloClient<TCache>,
   skip: boolean = false
-): any => {
+): any {
+  const [results, setResults] = useState<SubscriptionHookResult<TData>>({
+    fetching: true
+  });
   const subscribedResult = useSubscription(
     { query: subscriptions.subjectAdded },
     {
@@ -35,16 +33,17 @@ export const subscribeSubjects = <TCache = object>(
       }
     }
   );
+  setResults(subscribedResult);
 
-  let filteredResults: any = subscribedResult;
-  filteredResults.hide = skip;
+  let filteredResults: any = results;
+  filteredResults.skip = skip;
   // Extract and pass only subjects
-  if (subscribedResult.data.allSubjects) {
-    filteredResults.data = subscribedResult.data.allSubjects;
+  if (filteredResults.data.allSubjects) {
+    filteredResults.data = filteredResults.data.allSubjects;
   }
 
-  return [filteredResults, null];
-};
+  return [filteredResults, setResults];
+}
 
 export const useSubscribeSubjects = (client: any, skip: boolean) => {
   const [results, setResults]: [any, any] = useState({

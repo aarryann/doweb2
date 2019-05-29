@@ -1,5 +1,4 @@
 import { useRef, useState, useEffect } from 'react';
-import { objToKey } from './common.helpers';
 import {
   ApolloClient,
   ApolloError,
@@ -40,14 +39,6 @@ export function useSubscription<
     fetching: true
   });
 
-  const sQuery = <SubscriptionOptions<TVariables>>{
-    query: subscriptionQuery,
-    ...sOptions
-  };
-  const cQuery = <SubscriptionOptions<TVariables>>{
-    query: cacheQuery,
-    ...cOptions
-  };
   const client = hOptions.client;
 
   onSubscriptionDataRef.current = onSubscriptionData;
@@ -58,12 +49,14 @@ export function useSubscription<
     }
     const sub = client
       .subscribe({
-        ...sQuery
+        query: subscriptionQuery,
+        ...sOptions
       })
       .subscribe(
         subscriptionResult => {
           let cacheResultData = client.readQuery({
-            ...cQuery
+            query: cacheQuery,
+            ...cOptions
           });
           if (onSubscriptionDataRef.current) {
             cacheResultData = onSubscriptionDataRef.current(
@@ -84,7 +77,14 @@ export function useSubscription<
     return () => {
       sub.unsubscribe();
     };
-  }, [subscriptionQuery, sOptions && objToKey(sOptions)]);
+  }, [
+    subscriptionQuery,
+    sOptions,
+    cacheQuery,
+    cOptions,
+    hOptions.skip,
+    client
+  ]);
 
   // Watch for updates to Apollo client cache. Uses the default cache-first
   // client policy, to check Apollo client cache for any data followed by
@@ -95,7 +95,8 @@ export function useSubscription<
     }
     const sub = client
       .watchQuery({
-        ...cQuery
+        query: cacheQuery,
+        ...cOptions
       })
       .subscribe(cacheResult => {
         // Set state data on updates to subject data
@@ -112,7 +113,7 @@ export function useSubscription<
       setResultBase({ fetching: true });
       sub.unsubscribe();
     };
-  }, [cacheQuery, cOptions && objToKey(cOptions)]);
+  }, [cacheQuery, cOptions, hOptions.skip, client]);
 
   return result;
 }
