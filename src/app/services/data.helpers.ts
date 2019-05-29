@@ -1,30 +1,21 @@
 import { useRef, useState, useEffect } from 'react';
-import { useApolloClient } from 'react-apollo-hooks';
-import { Omit, objToKey } from './common.helpers';
-import { DocumentNode } from 'graphql';
+import { objToKey } from './common.helpers';
 import {
   ApolloClient,
   ApolloError,
   OperationVariables,
   SubscriptionOptions
 } from 'apollo-client';
-import { Subscription } from 'react-apollo';
 
 export type OnSubscriptionData<TData> = (
-  options: OnSubscriptionDataOptions<TData>
+  subscriptionData: TData,
+  cacheData: TData
 ) => TData;
-
-export interface OnSubscriptionDataOptions<TData> {
-  client: ApolloClient<any>;
-  subscriptionData: SubscriptionHookResult<TData>;
-}
 
 export interface SubscriptionHookResult<TData> {
   data?: TData;
-  subscriptionData?: TData;
-  cacheData?: TData;
   error?: ApolloError;
-  loading: boolean;
+  fetching: boolean;
 }
 
 export interface SubscriptionHookOptions<TData, TCache = object> {
@@ -46,7 +37,7 @@ export function useSubscription<
     OnSubscriptionData<TData> | null | undefined
   >(null);
   const [result, setResultBase] = useState<SubscriptionHookResult<TData>>({
-    loading: true
+    fetching: true
   });
 
   const sQuery = <SubscriptionOptions<TVariables>>{
@@ -65,42 +56,33 @@ export function useSubscription<
     if (hOptions.skip === true) {
       return;
     }
-    const subscription = client
+    const sub = client
       .subscribe({
         ...sQuery
       })
       .subscribe(
         subscriptionResult => {
-          let cacheResult = client.readQuery({
-            query: cacheQuery,
-            ...cOptions
+          let cacheResultData = client.readQuery({
+            ...cQuery
           });
-          const newResult = {
-            subscriptionData: subscriptionResult.data,
-            cacheData: cacheResult,
-            error: undefined,
-            loading: false
-          };
-          // setResultBase(newResult);
           if (onSubscriptionDataRef.current) {
-            cacheResult = onSubscriptionDataRef.current({
-              client,
-              subscriptionData: newResult
-            });
+            cacheResultData = onSubscriptionDataRef.current(
+              subscriptionResult.data,
+              cacheResultData
+            );
             client.writeQuery({
               query: cacheQuery,
-              data: cacheResult,
+              data: cacheResultData,
               ...cOptions
             });
           }
         },
         error => {
-          setResultBase({ loading: false, data: result.data, error });
+          setResultBase({ fetching: false, error });
         }
       );
     return () => {
-      // setResultBase({ loading: true });
-      subscription.unsubscribe();
+      sub.unsubscribe();
     };
   }, [subscriptionQuery, sOptions && objToKey(sOptions)]);
 
@@ -113,26 +95,24 @@ export function useSubscription<
     }
     const sub = client
       .watchQuery({
-        query: cacheQuery,
-        ...cOptions
+        ...cQuery
       })
-      .subscribe({
-        next({ data }: { data: any }) {
-          // Set state data on updates to subject data
-          // Set fetching to false, for UI fetching icon at first time load
-          const newResult = {
-            data,
-            error: undefined,
-            loading: false
-          };
-          setResultBase(newResult);
-        }
+      .subscribe(cacheResult => {
+        // Set state data on updates to subject data
+        // Set fetching to false, for UI fetching icon at first time load
+        const newResult: SubscriptionHookResult<TData> = {
+          data: cacheResult.data,
+          error: undefined,
+          fetching: false
+        };
+        setResultBase(newResult);
       });
 
     return () => {
-      setResultBase({ loading: true });
+      setResultBase({ fetching: true });
       sub.unsubscribe();
     };
   }, [cacheQuery, cOptions && objToKey(cOptions)]);
+
   return result;
 }

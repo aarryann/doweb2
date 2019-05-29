@@ -19,10 +19,7 @@ export default function ListSubjectsMgen(props: IManagerProps) {
   const [
     results0100,
     setResults0100
-  ] = DatasourcePlugins.Visit.useSubscribeSubjects(
-    props.client,
-    contextPending
-  );
+  ] = DatasourcePlugins.Visit.subscribeSubjects(props.client, contextPending);
   const [theme, setTheme]: [any, any] = useState({});
 
   const dispatch0000 = (action: string, payload: any) => {

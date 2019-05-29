@@ -2,10 +2,50 @@
 // tslint:disable
 import { useEffect, useState } from 'react';
 import { queries, subscriptions } from './queries.visit';
-
+import {
+  useSubscription,
+  SubscriptionHookOptions,
+  SubscriptionHookResult
+} from '../../app/services/data.helpers';
+import ApolloClient, {
+  OperationVariables,
+  SubscriptionOptions
+} from 'apollo-client';
+import { DatasourcePlugins } from '../';
 /*
  ** Subscribe to Subjects
  */
+export const subscribeSubjects = <TCache = object>(
+  client: ApolloClient<TCache>,
+  skip: boolean = false
+): any => {
+  const subscribedResult = useSubscription(
+    { query: subscriptions.subjectAdded },
+    {
+      query: queries.getAllSubjects,
+      variables: { studyId: 1, siteId: 1 },
+      fetchPolicy: 'cache-first'
+    },
+    {
+      client,
+      skip,
+      onSubscriptionData: (subscriptionData, cacheData) => {
+        cacheData.allSubjects.push(subscriptionData.subjectAdded);
+        return cacheData;
+      }
+    }
+  );
+
+  let filteredResults: any = subscribedResult;
+  filteredResults.hide = skip;
+  // Extract and pass only subjects
+  if (subscribedResult.data.allSubjects) {
+    filteredResults.data = subscribedResult.data.allSubjects;
+  }
+
+  return [filteredResults, null];
+};
+
 export const useSubscribeSubjects = (client: any, skip: boolean) => {
   const [results, setResults]: [any, any] = useState({
     hide: false,
@@ -62,7 +102,6 @@ export const useSubscribeSubjects = (client: any, skip: boolean) => {
           setResults({ data, fetching: false });
         }
       });
-
     return () => {
       sub.unsubscribe();
     };
