@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // tslint:disable:no-console
 // tslint:disable:prefer-for-of
 // tslint:disable:jsx-no-lambda
@@ -5,37 +6,34 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 
 import appConfig from '../config/viewconfig.yaml';
-import { Components } from '../controlled';
+import { ComponentPlugins } from '../plugins';
 
-function ViewLoader(props: any) {
-  const path = props.location.pathname;
-  // console.log(path);
+const findMatchedRoute = (path: string) => {
+  //const routeKeys: string[] = Object.keys(routes);
   const routeKeys: string[] = Object.keys(appConfig.Routes);
-  let template = path;
+  let matchedRoute = path;
+  // Look for anything preceded by a colon - for param variable
   // prettier-ignore
   const re1 = new RegExp('/:[A-Za-z0-9]+');
-  let re2;
-  let reStr;
-  let test;
+  // match the corresponding routepath for the window path
   for (let i = 0; i < routeKeys.length; i++) {
-    template = routeKeys[i];
-    // console.log(template);
-    reStr = template.replace(re1, '/[A-Za-z0-9]');
-    re2 = new RegExp('^' + reStr + '$');
-    // console.log(re2);
-    test = re2.test(path);
-    // console.log(test);
+    matchedRoute = routeKeys[i];
+    const reStr = matchedRoute.replace(re1, '/[A-Za-z0-9]+');
+    const re2 = new RegExp('^' + reStr + '$');
+    const test = re2.test(path);
     if (test) {
       break;
     }
   }
+  return matchedRoute;
+};
 
+const extractParams = (path: string, matchedRoute: string) => {
+  // Extract params from window path
   const params: any = {};
-  if (template.indexOf(':') >= 1) {
-    const templateArr = template.split('/');
+  if (matchedRoute.indexOf(':') >= 1) {
+    const templateArr = matchedRoute.split('/');
     const pathArr = path.split('/');
-    // console.log(templateArr);
-    // console.log(pathArr);
     for (let i = 0; i < templateArr.length; i++) {
       if (templateArr[i].indexOf(':') !== 0) {
         continue;
@@ -43,18 +41,39 @@ function ViewLoader(props: any) {
       params[templateArr[i]] = pathArr[i];
     }
   }
-  // console.log(params);
 
-  const matchedView = appConfig.Routes[template];
-  console.log(matchedView);
+  return params;
+};
 
-  const LoadedComponent = (Components as any)[
-    matchedView.entity + matchedView.category
+const appendProps = (props: any, matchedRoute: string, params: any) => {
+  const match: any = {};
+  match.location = props.pathname;
+  match.url = matchedRoute;
+  match.params = params;
+  match.fnURL = function(newUrl: string) {
+    return (this.location + newUrl).replace(/\/\//g, '/');
+  };
+
+  const newProps: any = Object.assign({}, props);
+  newProps.match = match;
+  newProps.view = appConfig.Routes[matchedRoute];
+
+  return newProps;
+};
+
+function ViewLoader(props: any) {
+  const matchedRoute: string = findMatchedRoute(props.pathname);
+  const params: string = extractParams(props.pathname, matchedRoute);
+  const newProps: any = appendProps(props, matchedRoute, params);
+
+  const LoadedComponent = (ComponentPlugins as any)[
+    newProps.view.entity + newProps.view.category
   ];
-
-  // console.log(props);
-  // console.log(matchedView);
-  return <LoadedComponent {...props} {...params} {...matchedView} />;
+  return <LoadedComponent {...newProps} />;
 }
 
-export default withApollo(ViewLoader);
+function areEqual(prevProps: any, nextProps: any) {
+  return prevProps.pathname === nextProps.pathname;
+}
+
+export default withApollo(React.memo(ViewLoader, areEqual));

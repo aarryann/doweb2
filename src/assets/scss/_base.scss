@@ -1,0 +1,170 @@
+@import './global/index';
+
+@include keyframes(fadeIn) {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.text-accent {
+  color: $accent !important;
+}
+
+.text-on-accent {
+  color: $on-accent !important;
+}
+
+.badge-accent {
+  color: $on-accent;
+  background-color: $accent;
+}
+
+.btn-accent {
+  color: $on-accent;
+  background-color: $accent;
+  border-color: $accent;
+}
+
+.btn-circle {
+  width: 50px;
+  height: 50px;
+  padding: 10px 0px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 25px;
+}
+
+.z-flat-button {
+  color: $on-primary;
+  font-size: 20px;
+  padding: 0px 20px !important;
+}
+
+.list-group {
+  &.dropdown-menu {
+    &.show {
+      display: flex;
+    }
+    border: 0;
+    padding: 0;
+    display: none;
+    left: auto;
+    right: 0;
+  }
+}
+
+.z-drop-list {
+  &.list-group {
+    border: 1px solid $accent;
+    li {
+      &.list-group-item {
+        &.summary {
+          text-align: center;
+        }
+        &.unread {
+          background: #f1f3fc;
+        }
+        font-size: 0.8125rem;
+        white-space: nowrap;
+      }
+      a {
+        &:hover {
+          text-decoration: none;
+        }
+        color: $on-primary;
+      }
+    }
+  }
+}
+
+.badge-superscript {
+  .badge {
+    font-size: 10px;
+    line-height: 12px;
+    padding: 2px 5px;
+    position: absolute;
+    right: 10px;
+    top: 1px;
+  }
+}
+
+.z-dashlist {
+  &.dropdown-menu {
+    padding: 30px 30px 0 30px;
+    left: auto;
+    right: 0;
+    border: 1px solid $accent;
+    a {
+      &:hover {
+        text-decoration: none;
+      }
+      display: block;
+      text-align: center;
+      margin: 0 10px 30px 0;
+      min-width: 100px;
+
+      i {
+        font-size: 46px;
+      }
+    }
+    h5 {
+      font-size: 0.875rem;
+      margin-top: 10px;
+      color: $on-contrast;
+      font-weight: 400;
+    }
+  }
+}
+
+.card {
+  &.card-tile {
+    &:hover {
+      text-decoration: none;
+    }
+    &.add-new {
+      .card-body {
+        cursor: pointer;
+        text-align: center;
+        i {
+          font-size: 2rem;
+        }
+      }
+    }
+    $margin: 25px;
+    @include flex(0 0 24.4%);
+    margin: 0 $margin/2 $margin $margin/2;
+    cursor: pointer;
+    color: $on-primary;
+    border: 1px solid $border-main;
+
+    .card-body {
+      &:not(.nohover):hover {
+        background: $contrast;
+      }
+      background: $primary;
+      animation-duration: 0.3s;
+      animation-name: fadeIn;
+      padding: 10px;
+      h4 {
+        text-transform: capitalize;
+      }
+    }
+  }
+}
+
+.link-button {
+  background-color: transparent;
+  border: none;
+  display: inline;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+}
+
+.link-button:hover,
+.link-button:focus {
+  text-decoration: none;
+}

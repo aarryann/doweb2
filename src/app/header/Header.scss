@@ -1,0 +1,26 @@
+@import '../../assets/scss/global/index';
+
+.header {
+  background-color: $primary !important;
+  font-family: $heading-font-family;
+  padding: 0px !important;
+  box-shadow: 5px 0 5px;
+
+  .navbar-nav {
+    .menu-item {
+      padding: 0 8px 0 10px;
+      .nav-link {
+        color: $on-primary !important;
+        font-weight: 500;
+        font-size: 0.875rem;
+        padding: 14px 2px 14px 0;
+        border-bottom: 3px solid $primary;
+
+        &:hover,
+        &.active {
+          border-bottom: 3px solid $accent;
+        }
+      }
+    }
+  }
+}

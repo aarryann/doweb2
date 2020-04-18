@@ -1,4 +1,3 @@
-// tslint:disable
 import {
   ApolloClient,
   ApolloLink,
@@ -11,20 +10,20 @@ import { getMainDefinition } from 'apollo-utilities';
 import { OperationDefinitionNode } from 'graphql';
 import React from 'react';
 import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import * as serviceWorker from './serviceWorker';
 
+import 'sanitize.css';
+import 'typeface-roboto';
+import './assets/scss/index.scss';
+import './assets/include/bootstrap';
+
 import App from './app/App';
 
-import './assets/css/index.scss';
 declare const process: IProcess;
-
-if (process.env.NODE_ENV !== 'production') {
-  // const {whyDidYouUpdate} = require('why-did-you-update');
-  // whyDidYouUpdate(React);
-}
 
 const httpLink = new HttpLink({ uri: process.env.REACT_APP_API_URL });
 
@@ -74,18 +73,20 @@ const clientOptions = () => {
   };
 };
 
+console.log('Index entered');
 const client = new ApolloClient(clientOptions());
-const startApp = () => {
-  ReactDOM.render(
-    <BrowserRouter>
-      <ApolloProvider client={client}>
+const Root = () => (
+  <Router>
+    <ApolloProvider client={client}>
+      <ApolloHooksProvider client={client}>
         <App />
-      </ApolloProvider>
-    </BrowserRouter>,
-    document.getElementById('root')
-  );
-};
+      </ApolloHooksProvider>
+    </ApolloProvider>
+  </Router>
+);
 
-startApp();
+const rootElement = document.getElementById('root');
+ReactDOM.render(<Root />, rootElement);
+
 // registerServiceWorker();
 serviceWorker.unregister();

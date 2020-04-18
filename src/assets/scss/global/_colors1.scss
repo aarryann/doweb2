@@ -1,0 +1,46 @@
+// COLOR SCHEME - BLACK WHITE RED
+// - - - - - - - - - - - - - - - - - - -
+// - - colors
+$black: #12131a;
+$blue: #3498db;
+$blue-pale: #f8f8f9;
+$gray-faint: #f1f2f3;
+$green: #2ecc71;
+$orange: #e67e22;
+$purple: #cdcfe6;
+$red: #ce4639;
+$white: #ffffff;
+$yellow: #f1c40f;
+
+$primary: $black;
+$on-primary: $white;
+$background: $blue-pale;
+$on-background: $black;
+$contrast: $white;
+$accent: $red;
+$error: $orange;
+$on-accent: $white;
+$on-contrast: $black;
+$on-error: $white;
+
+$primary-t1: $primary;
+$primary-t2: $primary;
+$primary-s1: $primary;
+$primary-s2: $primary;
+$contrast-t1: tint($contrast, 10);
+$contrast-t2: tint($contrast, 20);
+$contrast-s1: shade($contrast, 3);
+$contrast-s2: shade($contrast, 20);
+$accent-t1: tint($accent, 15);
+$accent-t2: tint($accent, 20);
+$accent-s1: shade($accent, 15);
+$accent-s2: shade($accent, 20);
+
+$tags-colors: (
+  blue: $blue,
+  green: $green,
+  orange: $orange,
+  purple: $purple,
+  red: $red,
+  yellow: $yellow
+);

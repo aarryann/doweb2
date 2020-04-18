@@ -1,0 +1,9 @@
+/* This file is for your main application css. */
+$fa-font-path: '~font-awesome/fonts';
+$pe-7s-font-path: '~pe7-icon/dist/fonts';
+@import '~bootstrap/scss/bootstrap';
+@import '~font-awesome/scss/font-awesome';
+@import '~pe7-icon/dist/scss/pe-icon-7-stroke';
+@import '~animate.css/animate.css';
+
+@import './base';

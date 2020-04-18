@@ -17,6 +17,9 @@ This is a sample project to practice react concepts. This project was bootstrapp
 
 - Start the app server and database server
 - Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- yarn start doserver
+- yarn start doweb2
+- yarn gen prettierrc
 
 ### `yarn test`
 

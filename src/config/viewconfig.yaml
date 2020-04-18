@@ -4,20 +4,32 @@
 
 # Views
 Views:
-  ListCases: &list_cases
-    entity: ListCases
+  Dashboard: &dashboard
+    entity: Dashboard
     category: Component
+  ListSubjects: &list_subjects
+    entity: ListSubjects
+    category: Mgen
     children:
       '0000':
-        component: ExampleFunctionComponent
-        props:
-          title: My cases
-        dataSource:
+        component: PageContextComponent
+        actions:
+          setClipCss: Visit.addSubject
       '0100':
-        component: TextField
+        component: ListComponent
         props:
-          title: My text
-        dataSource:
+          add: true
+          addAlt: showInline
+          addAltData:
+          cardData: ListSubjectsCardData
+          cardAltAction: drilldownUrl
+          cardAltData: /{id}
+          title: Subjects
+        dataSource: Visit.useSubscribeSubjects
+        theme: App.useSubjectTheme
+        actions:
+          addSubject: Visit.addSubject
+          viewSubject: Visit.viewSubject
   ListBoards: &list_boards
     entity: ListBoards
     category: Mgen
@@ -25,8 +37,13 @@ Views:
       '0000':
         component: ListComponent
         props:
-          title: My Boards
-          addNew: true
+          add: true
+          addAlt: showInline
+          addAltData:
+          cardData: TitleOnly
+          cardAltAction: drilldownUrl
+          cardAltData: /boards/{id}
+          title: Subjects
         dataSource: Boards.useSubOwnBoard
         actions:
           createBoard: Boards.createBoard
@@ -34,25 +51,38 @@ Views:
       '0100':
         component: ListComponent
         props:
+          add: false
+          addAlt: showInline
+          addAltData:
+          cardData: TitleOnly
+          cardAltAction: showPaneData
+          cardAltData: /boards/{id}
           title: Other Boards
         dataSource: Boards.useSubOtherBoard
         actions:
           viewBoard: Boards.viewBoard
-  BoardDetails: &board_details
-    entity: BoardDetails
+  ListCases: &list_cases
+    entity: ListCases
     category: Mgen
     children:
       '0000':
-        component: ExampleFunctionComponent
+        component: ListComponent
         props:
-          title: Board Details
-        dataSource: Boards.useSubOwnBoard
+          cardData: TitleOnly
+          cardAltAction: showPaneData
+          title: List Cases
+        dataSource: Cases.useCases
         actions:
-          viewBoard: Boards.viewBoard
+          viewBoard: Cases.viewCase
+  NotFound: &not_found
+    entity: NotFound
+    category: Component
 
 # Landing
 Routes:
-  '/': *list_boards
-  '/cases': *list_cases
-  '/boards/:bid': *board_details
+  '/boards/:bid': *list_cases
+  '/subjects/:sid': *list_cases
+  '/subjects': *list_subjects
+  '/': *dashboard
+  '/notfound': *not_found # if all else fails
 ... # document end
